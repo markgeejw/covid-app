@@ -13,7 +13,7 @@ Note: Not needed right now, so you can skip this step.
 3. Run `npm start` to start the app
 4. Navigate to http://localhost:3000/.
 
-To do:
+## To do:
 - [x] Create client
 - [x] Create backend
 - [x] Show placeholder chart
