@@ -1,0 +1,9 @@
+﻿State,Confirmed Cases,Potential Cases,Hospitalised,ICU,Deaths,Population,Public Hospital Beds,Private Hospital Beds,ICU Beds,,Ventilators,Hospitalisations/Week
+NSW,382,634,Unclear,6,6,"8,118,000","21,253","8,491",874,,438,"58,921"
+VIC,229,297,7,0,0,"6,629,900","14,820","8,367",476,,358,"46,000"
+QLD,184,306,Unclear,Unclear,0,"5,115,500","12,271","7,018",413,,276,
+WA,64,107,3,1,1,"2,630,600","5,947","4,002",162,,142,
+SA,50,83,8,Unclear,0,"1,756,500","4,608","1,941",188,,95,
+TAS,10,17,Unclear,Unclear,0,"535,500","1,340","1,210",50,,29,
+ACT,9,15,2,Unclear,0,"428,100","1,078","1,210",44,,23,
+NT,0,0,0,0,0,"245,600",358,"1,210",22,,13,

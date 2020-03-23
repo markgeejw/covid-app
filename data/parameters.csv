@@ -1,0 +1,7 @@
+﻿Parameter,Value
+Modelling Interval (days),4
+Recovery Period (days),12
+Death Period (days),8
+Hospital LOS (days),8
+ICU LOS (days),8
+Ventilator Period (days),8
