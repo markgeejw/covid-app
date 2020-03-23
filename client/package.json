@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@highcharts/highcharts-react-native": "^2.1.2",
     "bootstrap": "^4.4.1",
     "highcharts": "^8.0.4",
     "highcharts-react-official": "^3.0.0",
