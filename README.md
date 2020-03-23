@@ -17,7 +17,7 @@ Note: Not needed right now, so you can skip this step.
 - [x] Create client
 - [x] Create backend
 - [x] Show placeholder chart
-- [ ] Implement proper UI controls for model input
+- [x] Implement proper UI controls for model input
 - [ ] Implement model data
 - [ ] Optional: Use backend for handling, depending on complexity
 - [ ] Deploy
