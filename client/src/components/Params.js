@@ -3,52 +3,19 @@ import { Row, Col, Container, Form } from 'react-bootstrap';
 import NumericInput from 'react-numeric-input';
 
 export default class Params extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            // Model Parameters
-            hospAdmitRate:              0.0666,
-            ICUAdmitRate:               0.02,
-            ICUNeedVentPercent:         0.5,
-            ventRate:                   0.01,
-            caseFatalityRateN:          0.0097,
-            caseFatalityRateO:          0.0166,
-            mortalityRateICUBlocked:    1,
-            mortalityRateVentBlocked:   1,
-
-            // Intervention Parameters
-            doNothingR0:                2.67,
-            socDistR0:                  1.68,
-            relaxedLDR0:                1.40,
-            sigLDR0:                    1.05,
-            critLDR0:                   0.32,
-
-            // Resource Availability
-            // Hospital Beds
-            numHospBeds:                23187,
-            bedUtilisation:             0.4,
-            bedUtilSurge:               0.8,
-            // ICU Beds
-            numICUBeds:                 476,
-            ICUbedUtilisation:          0.4,
-            ICUbedUtilSurge:            0.8,
-            // Ventilators
-            ventNumbers:                5.4,        // per 100,000
-            numVents:                   358,
-            ventUtilisation:            0.4,
-            surgeVentUtilisation:       0.8,
-            surgeVentCap:               3
-        };
-    }
-
     formatAsPercent = (num) => {
         return num + '%';
     }
 
     render() {
-        const { hospAdmitRate, ICUAdmitRate, ICUNeedVentPercent, ventRate, caseFatalityRateN, caseFatalityRateO, mortalityRateICUBlocked, mortalityRateVentBlocked, 
-            doNothingR0, socDistR0, relaxedLDR0, sigLDR0, critLDR0, 
-            numHospBeds, bedUtilisation, bedUtilSurge, numICUBeds, ICUbedUtilisation, ICUbedUtilSurge, ventNumbers, numVents, ventUtilisation, surgeVentUtilisation, surgeVentCap } = this.state;
+        const { modelParams, r0_params, hospBeds, ICUBeds, ventilators } = this.props.params;
+        const [ hospAdmitRate, ICUAdmitRate, ICUNeedVentPercent, ventRate, caseFatalityRateN, 
+            caseFatalityRateO, mortalityRateICUBlocked, mortalityRateVentBlocked ] = modelParams;
+        const [ doNothingR0, socDistR0, relaxedLDR0, sigLDR0, critLDR0 ] = r0_params;
+        const [ numHospBeds, bedUtilisation, bedUtilSurge ] = hospBeds;
+        const [ numICUBeds, ICUbedUtilisation, ICUbedUtilSurge ] = ICUBeds;
+        const [ ventNumbers, numVents, ventUtilisation, surgeVentUtilisation, surgeVentCap ] = ventilators
+        const { updateModelParams, updateR0Params, updateHospBeds, updateICUBeds, updateVentilators } = this.props.eventHandlers;
         return(
             <div>
                 <Container fluid style={{ padding: 20, paddingTop: 80 }}>
@@ -70,7 +37,10 @@ export default class Params extends Component {
                                     value={hospAdmitRate * 100} 
                                     format={this.formatAsPercent} 
                                     style={{ input: { height: 40, width: 100 } }} 
-                                    onChange={valueAsNumber => this.setState({ hospAdmitRate: valueAsNumber / 100 })} />
+                                    onChange={valueAsNumber => {
+                                        modelParams[0] = valueAsNumber / 100;
+                                        updateModelParams(modelParams);
+                                    }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} className="align-items-center" >
@@ -84,7 +54,10 @@ export default class Params extends Component {
                                     value={ICUAdmitRate * 100} 
                                     format={this.formatAsPercent} 
                                     style={{ input: { height: 40, width: 100 } }} 
-                                    onChange={valueAsNumber => this.setState({ ICUAdmitRate: valueAsNumber / 100 })} />
+                                    onChange={valueAsNumber => {
+                                        modelParams[1] = valueAsNumber / 100;
+                                        updateModelParams(modelParams);
+                                    }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} className="align-items-center" >
@@ -98,63 +71,10 @@ export default class Params extends Component {
                                     value={ICUNeedVentPercent * 100} 
                                     format={this.formatAsPercent} 
                                     style={{ input: { height: 40, width: 100 } }} 
-                                    onChange={valueAsNumber => this.setState({ ICUNeedVentPercent: valueAsNumber / 100 })} />
-                            </Col>
-                        </Form.Group>
-                        <Form.Group as={Row} className="align-items-center" >
-                            <Col xs={7} style={{ textAlign: "left"}}>
-                                <Form.Label>Case Fatality Rate (Normal) </Form.Label>
-                            </Col>
-                            <Col className="mr-auto">
-                                <NumericInput 
-                                    step={0.01} 
-                                    precision={2} 
-                                    value={caseFatalityRateN * 100} 
-                                    format={this.formatAsPercent} 
-                                    style={{ input: { height: 40, width: 100 } }} 
-                                    onChange={valueAsNumber => this.setState({ caseFatalityRateN: valueAsNumber / 100 })} />
-                            </Col>
-                        </Form.Group>
-                        <Form.Group as={Row} className="align-items-center" >
-                            <Col xs={7} style={{ textAlign: "left"}}>
-                                <Form.Label>Case Fatality Rate (Overload) </Form.Label>
-                            </Col>
-                            <Col className="mr-auto">
-                                <NumericInput 
-                                    step={0.01} 
-                                    precision={2} 
-                                    value={caseFatalityRateO * 100} 
-                                    format={this.formatAsPercent} 
-                                    style={{ input: { height: 40, width: 100 } }} 
-                                    onChange={valueAsNumber => this.setState({ caseFatalityRateO: valueAsNumber / 100 })} />
-                            </Col>
-                        </Form.Group>
-                        <Form.Group as={Row} className="align-items-center" >
-                            <Col xs={7} style={{ textAlign: "left"}}>
-                                <Form.Label>Mortality Rate of ICU Blocked Patients </Form.Label>
-                            </Col>
-                            <Col className="mr-auto">
-                                <NumericInput 
-                                    step={0.01} 
-                                    precision={2} 
-                                    value={mortalityRateICUBlocked * 100} 
-                                    format={this.formatAsPercent} 
-                                    style={{ input: { height: 40, width: 100 } }} 
-                                    onChange={valueAsNumber => this.setState({ mortalityRateICUBlocked: valueAsNumber / 100 })} />
-                            </Col>
-                        </Form.Group>
-                        <Form.Group as={Row} className="align-items-center" >
-                            <Col xs={7} style={{ textAlign: "left"}}>
-                                <Form.Label>Mortality Rate of Ventilator Blocked Patients </Form.Label>
-                            </Col>
-                            <Col className="mr-auto">
-                                <NumericInput 
-                                    step={0.01} 
-                                    precision={2} 
-                                    value={mortalityRateVentBlocked * 100} 
-                                    format={this.formatAsPercent} 
-                                    style={{ input: { height: 40, width: 100 } }} 
-                                    onChange={valueAsNumber => this.setState({ mortalityRateVentBlocked: valueAsNumber / 100 })} />
+                                    onChange={valueAsNumber => {
+                                        modelParams[2] = valueAsNumber / 100;
+                                        updateModelParams(modelParams);
+                                    }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} className="align-items-center" >
@@ -168,7 +88,78 @@ export default class Params extends Component {
                                     value={ventRate * 100} 
                                     format={this.formatAsPercent} 
                                     style={{ input: { height: 40, width: 100 } }} 
-                                    onChange={valueAsNumber => this.setState({ ventRate: valueAsNumber / 100 })} />
+                                    onChange={valueAsNumber => {
+                                        modelParams[3] = valueAsNumber / 100;
+                                        updateModelParams(modelParams);
+                                    }}/>
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} className="align-items-center" >
+                            <Col xs={7} style={{ textAlign: "left"}}>
+                                <Form.Label>Case Fatality Rate (Normal) </Form.Label>
+                            </Col>
+                            <Col className="mr-auto">
+                                <NumericInput 
+                                    step={0.01} 
+                                    precision={2} 
+                                    value={caseFatalityRateN * 100} 
+                                    format={this.formatAsPercent} 
+                                    style={{ input: { height: 40, width: 100 } }} 
+                                    onChange={valueAsNumber => {
+                                        modelParams[4] = valueAsNumber / 100;
+                                        updateModelParams(modelParams);
+                                    }}/>
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} className="align-items-center" >
+                            <Col xs={7} style={{ textAlign: "left"}}>
+                                <Form.Label>Case Fatality Rate (Overload) </Form.Label>
+                            </Col>
+                            <Col className="mr-auto">
+                                <NumericInput 
+                                    step={0.01} 
+                                    precision={2} 
+                                    value={caseFatalityRateO * 100} 
+                                    format={this.formatAsPercent} 
+                                    style={{ input: { height: 40, width: 100 } }} 
+                                    onChange={valueAsNumber => {
+                                        modelParams[5] = valueAsNumber / 100;
+                                        updateModelParams(modelParams);
+                                    }}/>
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} className="align-items-center" >
+                            <Col xs={7} style={{ textAlign: "left"}}>
+                                <Form.Label>Mortality Rate of ICU Blocked Patients </Form.Label>
+                            </Col>
+                            <Col className="mr-auto">
+                                <NumericInput 
+                                    step={0.01} 
+                                    precision={2} 
+                                    value={mortalityRateICUBlocked * 100} 
+                                    format={this.formatAsPercent} 
+                                    style={{ input: { height: 40, width: 100 } }} 
+                                    onChange={valueAsNumber => {
+                                        modelParams[6] = valueAsNumber / 100;
+                                        updateModelParams(modelParams);
+                                    }}/>
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} className="align-items-center" >
+                            <Col xs={7} style={{ textAlign: "left"}}>
+                                <Form.Label>Mortality Rate of Ventilator Blocked Patients </Form.Label>
+                            </Col>
+                            <Col className="mr-auto">
+                                <NumericInput 
+                                    step={0.01} 
+                                    precision={2} 
+                                    value={mortalityRateVentBlocked * 100} 
+                                    format={this.formatAsPercent} 
+                                    style={{ input: { height: 40, width: 100 } }} 
+                                    onChange={valueAsNumber => {
+                                        modelParams[7] = valueAsNumber / 100;
+                                        updateModelParams(modelParams);
+                                    }}/>
                             </Col>
                         </Form.Group>
                     </Form>
@@ -194,7 +185,10 @@ export default class Params extends Component {
                                     precision={2} 
                                     value={doNothingR0}
                                     style={{ input: { height: 40, width: 100 } }} 
-                                    onChange={valueAsNumber => this.setState({ doNothingR0: valueAsNumber })} />
+                                    onChange={valueAsNumber => {
+                                        r0_params[0] = valueAsNumber;
+                                        updateR0Params(r0_params);
+                                    }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} className="align-items-center" >
@@ -207,7 +201,10 @@ export default class Params extends Component {
                                     precision={2} 
                                     value={socDistR0}
                                     style={{ input: { height: 40, width: 100 } }} 
-                                    onChange={valueAsNumber => this.setState({ socDistR0: valueAsNumber })} />
+                                    onChange={valueAsNumber => {
+                                        r0_params[1] = valueAsNumber;
+                                        updateR0Params(r0_params);
+                                    }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} className="align-items-center" >
@@ -220,7 +217,10 @@ export default class Params extends Component {
                                     precision={2} 
                                     value={relaxedLDR0}
                                     style={{ input: { height: 40, width: 100 } }} 
-                                    onChange={valueAsNumber => this.setState({ relaxedLDR0: valueAsNumber })} />
+                                    onChange={valueAsNumber => {
+                                        r0_params[2] = valueAsNumber;
+                                        updateR0Params(r0_params);
+                                    }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} className="align-items-center" >
@@ -233,7 +233,10 @@ export default class Params extends Component {
                                     precision={2} 
                                     value={sigLDR0}
                                     style={{ input: { height: 40, width: 100 } }} 
-                                    onChange={valueAsNumber => this.setState({ sigLDR0: valueAsNumber })} />
+                                    onChange={valueAsNumber => {
+                                        r0_params[3] = valueAsNumber;
+                                        updateR0Params(r0_params);
+                                    }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} className="align-items-center" >
@@ -246,7 +249,10 @@ export default class Params extends Component {
                                     precision={2} 
                                     value={critLDR0}
                                     style={{ input: { height: 40, width: 100 } }} 
-                                    onChange={valueAsNumber => this.setState({ critLDR0: valueAsNumber })} />
+                                    onChange={valueAsNumber => {
+                                        r0_params[4] = valueAsNumber;
+                                        updateR0Params(r0_params);
+                                    }}/>
                             </Col>
                         </Form.Group>
                     </Form>
@@ -267,7 +273,10 @@ export default class Params extends Component {
                                     step={1} 
                                     value={numHospBeds}
                                     style={{ input: { height: 40, width: 100 } }} 
-                                    onChange={valueAsNumber => this.setState({ numHospBeds: valueAsNumber })} />
+                                    onChange={valueAsNumber => {
+                                        hospBeds[0] = valueAsNumber;
+                                        updateHospBeds(hospBeds);
+                                    }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} className="align-items-center" >
@@ -281,7 +290,10 @@ export default class Params extends Component {
                                     value={bedUtilisation * 100} 
                                     format={this.formatAsPercent} 
                                     style={{ input: { height: 40, width: 100 } }} 
-                                    onChange={valueAsNumber => this.setState({ bedUtilisation: valueAsNumber / 100 })} />
+                                    onChange={valueAsNumber => {
+                                        hospBeds[1] = valueAsNumber / 100;
+                                        updateHospBeds(hospBeds);
+                                    }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} className="align-items-center" >
@@ -295,7 +307,10 @@ export default class Params extends Component {
                                     value={bedUtilSurge * 100} 
                                     format={this.formatAsPercent} 
                                     style={{ input: { height: 40, width: 100 } }} 
-                                    onChange={valueAsNumber => this.setState({ bedUtilSurge: valueAsNumber / 100 })} />
+                                    onChange={valueAsNumber => {
+                                        hospBeds[2] = valueAsNumber / 100;
+                                        updateHospBeds(hospBeds);
+                                    }}/>
                             </Col>
                         </Form.Group>
                     </Form>
@@ -312,7 +327,10 @@ export default class Params extends Component {
                                     step={1} 
                                     value={numICUBeds}
                                     style={{ input: { height: 40, width: 100 } }} 
-                                    onChange={valueAsNumber => this.setState({ numICUBeds: valueAsNumber })} />
+                                    onChange={valueAsNumber => {
+                                        ICUBeds[0] = valueAsNumber;
+                                        updateICUBeds(ICUBeds);
+                                    }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} className="align-items-center" >
@@ -326,7 +344,10 @@ export default class Params extends Component {
                                     value={ICUbedUtilisation * 100} 
                                     format={this.formatAsPercent} 
                                     style={{ input: { height: 40, width: 100 } }} 
-                                    onChange={valueAsNumber => this.setState({ ICUbedUtilisation: valueAsNumber / 100 })} />
+                                    onChange={valueAsNumber => {
+                                        ICUBeds[1] = valueAsNumber / 100;
+                                        updateICUBeds(ICUBeds);
+                                    }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} className="align-items-center" >
@@ -340,7 +361,10 @@ export default class Params extends Component {
                                     value={ICUbedUtilSurge * 100} 
                                     format={this.formatAsPercent} 
                                     style={{ input: { height: 40, width: 100 } }} 
-                                    onChange={valueAsNumber => this.setState({ ICUbedUtilSurge: valueAsNumber / 100 })} />
+                                    onChange={valueAsNumber => {
+                                        ICUBeds[2] = valueAsNumber / 100;
+                                        updateICUBeds(ICUBeds);
+                                    }}/>
                             </Col>
                         </Form.Group>
                     </Form>
@@ -359,7 +383,10 @@ export default class Params extends Component {
                                     precision={2} 
                                     value={ventNumbers}
                                     style={{ input: { height: 40, width: 100 } }} 
-                                    onChange={valueAsNumber => this.setState({ ventNumbers: valueAsNumber })} />
+                                    onChange={valueAsNumber => {
+                                        ventilators[0] = valueAsNumber;
+                                        updateVentilators(ventilators);
+                                    }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} className="align-items-center" >
@@ -371,7 +398,10 @@ export default class Params extends Component {
                                     step={1} 
                                     value={numVents * 100} 
                                     style={{ input: { height: 40, width: 100 } }} 
-                                    onChange={valueAsNumber => this.setState({ numVents: valueAsNumber / 100 })} />
+                                    onChange={valueAsNumber => {
+                                        ventilators[1] = valueAsNumber;
+                                        updateVentilators(ventilators);
+                                    }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} className="align-items-center" >
@@ -385,7 +415,10 @@ export default class Params extends Component {
                                     value={ventUtilisation * 100} 
                                     format={this.formatAsPercent} 
                                     style={{ input: { height: 40, width: 100 } }} 
-                                    onChange={valueAsNumber => this.setState({ ventUtilisation: valueAsNumber / 100 })} />
+                                    onChange={valueAsNumber => {
+                                        ventilators[2] = valueAsNumber / 100;
+                                        updateVentilators(ventilators);
+                                    }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} className="align-items-center" >
@@ -399,7 +432,10 @@ export default class Params extends Component {
                                     value={surgeVentUtilisation * 100} 
                                     format={this.formatAsPercent} 
                                     style={{ input: { height: 40, width: 100 } }} 
-                                    onChange={valueAsNumber => this.setState({ surgeVentUtilisation: valueAsNumber / 100 })} />
+                                    onChange={valueAsNumber => {
+                                        ventilators[3] = valueAsNumber / 100;
+                                        updateVentilators(ventilators);
+                                    }}/>
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} className="align-items-center" >
@@ -413,7 +449,10 @@ export default class Params extends Component {
                                     value={surgeVentCap * 100} 
                                     format={this.formatAsPercent} 
                                     style={{ input: { height: 40, width: 100 } }} 
-                                    onChange={valueAsNumber => this.setState({ surgeVentCap: valueAsNumber / 100 })} />
+                                    onChange={valueAsNumber => {
+                                        ventilators[4] = valueAsNumber / 100;
+                                        updateVentilators(ventilators);
+                                    }}/>
                             </Col>
                         </Form.Group>
                     </Form>

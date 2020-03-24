@@ -19,64 +19,90 @@ export default class Chart extends Component {
       this.chartComponent.current.chart.reflow();
     }
 
-    test() {
-        console.log("hi");
-    }
-
     render() {
-        const placeHolderSusceptible = [66.29779, 66.29779, 66.29779];
-        const placeHolderInfected = [121, 296, 352];
-        const placeHolderRecovered = [0, 16, 47];
-        const placeHolderHospitalised = [7, 19, 22];
-        const placeHolderICU = [0, 4, 8];
-        const placeHolderVentilators = [0, 0, 2];
-        const placeHolderDeaths = [0, 2, 2];
+        const { data } = this.props;
+        const { newly_infected, 
+            susceptible_start,
+            susceptible_end,
+            newly_hospitalised,
+            hbeds_required,
+            newly_icu,
+            icubeds_required,
+            true_icubeds,
+            newly_vent,
+            vents_required,
+            true_vents,
+            newly_passed,
+            overload_passed,
+            newly_recovered } = data;
         const options = {
             chart: {
                 type: 'line'
             },
             title: {
-                text: 'Some data here'
+                text: ''
             },
-            data: {
-                googleSpreadsheetKey: '12Ldo5cwQMCu1Aka2p0nCCvajjYlXQ_ags1OtwHOyKeM'
+            // data: {
+            //     googleSpreadsheetKey: '12Ldo5cwQMCu1Aka2p0nCCvajjYlXQ_ags1OtwHOyKeM'
+            // },
+            xAxis: {
+                type: 'datetime'
             },
-            // xAxis: {
-            //     type: 'datetime'
-            // },
-            // yAxis: {
-            //     title: {
-            //         text: ''
-            //     }
-            // },
-            // plotOptions: {
-            //     series: {
-            //         pointStart: Date.UTC(2020, 2, 22),
-            //         pointInterval: 24 * 3600 * 1000 * 4 // one day
-            //     }
-            // },
-            // series: [{
-            //     name: "Susceptible",
-            //     data: placeHolderSusceptible
-            // }, {
-            //     name: "Infected",
-            //     data: placeHolderInfected
-            // }, {
-            //     name: "Recovered",
-            //     data: placeHolderRecovered
-            // }, {
-            //     name: "Hospitalised",
-            //     data: placeHolderHospitalised
-            // }, {
-            //     name: "ICU",
-            //     data: placeHolderICU
-            // }, {
-            //     name: "Ventilators",
-            //     data: placeHolderVentilators
-            // }, {
-            //     name: "Deaths",
-            //     data: placeHolderDeaths
-            // }]
+            yAxis: {
+                title: {
+                    text: ''
+                }
+            },
+            plotOptions: {
+                series: {
+                    pointStart: Date.UTC(2020, 2, 22),
+                    pointInterval: 24 * 3600 * 1000 * 4, // one day
+                    showCheckbox: true
+                }
+            },
+            series: [{
+                name: "Newly Infected",
+                data: newly_infected
+            }, {
+                name: "Susceptible at Start",
+                data: susceptible_start
+            }, {
+                name: "Susceptible at End",
+                data: susceptible_end
+            }, {
+                name: "Newly Hospitalised",
+                data: newly_hospitalised
+            }, {
+                name: "Hospital Beds Required",
+                data: hbeds_required
+            }, {
+                name: "Newly ICU",
+                data: newly_icu
+            }, {
+                name: "ICU Beds Required",
+                data: icubeds_required
+            }, {
+                name: "True ICU Beds",
+                data: true_icubeds
+            }, {
+                name: "Newly Vent",
+                data: newly_vent
+            }, {
+                name: "Ventilators Required",
+                data: vents_required
+            }, {
+                name: "True Vents",
+                data: true_vents
+            }, {
+                name: "Newly Passed",
+                data: newly_passed
+            }, {
+                name: "Overload Passed",
+                data: overload_passed
+            }, {
+                name: "Newly Recovered",
+                data: newly_recovered
+            }]
         };
 
         return (

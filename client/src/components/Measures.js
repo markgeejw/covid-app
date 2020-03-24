@@ -4,19 +4,11 @@ import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import RangeSlider from 'react-bootstrap-range-slider';
 
 export default class Measures extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            measureWeeks1: 0,
-            measureWeeks2: 0,
-            measureWeeks3: 0,
-            measureWeeks4: 0,
-            measureWeeks5: 0
-        };
-    }
 
     render() {
-        const { measureWeeks1, measureWeeks2, measureWeeks3, measureWeeks4, measureWeeks5 } = this.state;
+        const measureWeeks = this.props.measureWeeks;
+        console.log(measureWeeks);
+        console.log(this.props.eventHandlers.updateMeasureWeeks);
         return(
             <div>
             {/* Left Input */}
@@ -42,16 +34,22 @@ export default class Measures extends Component {
                         <Row>
                         <Col xs={9}>
                         <RangeSlider
-                        value={measureWeeks1}
-                        onChange={changeEvent => this.setState({ measureWeeks1: changeEvent.target.value })}
+                        value={measureWeeks[0]}
+                        onChange={changeEvent => {
+                            measureWeeks[0] = changeEvent.target.value;
+                            this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
+                        }}
                         max={20}
                         variant="danger"
                         />
                         </Col>
                         <Col>
                         <Form.Control 
-                        value={measureWeeks1}
-                        onChange={changeEvent => this.setState({ measureWeeks1: changeEvent.target.value })}
+                        value={measureWeeks[0]}
+                        onChange={changeEvent => {
+                            measureWeeks[0] = changeEvent.target.value;
+                            this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
+                        }}
                         />
                         </Col>
                         </Row>
@@ -66,16 +64,22 @@ export default class Measures extends Component {
                         <Row>
                         <Col xs={9}>
                         <RangeSlider
-                        value={measureWeeks2}
-                        onChange={changeEvent => this.setState({ measureWeeks2: changeEvent.target.value })}
+                        value={measureWeeks[1]}
+                        onChange={changeEvent => {
+                            measureWeeks[1] = changeEvent.target.value;
+                            this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
+                        }}
                         max={20}
                         variant="warning"
                         />
                         </Col>
                         <Col>
                         <Form.Control 
-                        value={measureWeeks2}
-                        onChange={changeEvent => this.setState({ measureWeeks2: changeEvent.target.value })}
+                        value={measureWeeks[1]}
+                        onChange={changeEvent => {
+                            measureWeeks[1] = changeEvent.target.value;
+                            this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
+                        }}
                         />
                         </Col>
                         </Row>
@@ -90,16 +94,22 @@ export default class Measures extends Component {
                         <Row>
                         <Col xs={9}>
                         <RangeSlider
-                        value={measureWeeks3}
-                        onChange={changeEvent => this.setState({ measureWeeks3: changeEvent.target.value })}
+                        value={measureWeeks[2]}
+                        onChange={changeEvent => {
+                            measureWeeks[2] = changeEvent.target.value;
+                            this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
+                        }}
                         max={20}
                         variant="primary"
                         />
                         </Col>
                         <Col>
                         <Form.Control 
-                        value={measureWeeks3}
-                        onChange={changeEvent => this.setState({ measureWeeks3: changeEvent.target.value })}
+                        value={measureWeeks[2]}
+                        onChange={changeEvent => {
+                            measureWeeks[2] = changeEvent.target.value;
+                            this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
+                        }}
                         />
                         </Col>
                         </Row>
@@ -114,16 +124,22 @@ export default class Measures extends Component {
                         <Row>
                         <Col xs={9}>
                         <RangeSlider
-                        value={measureWeeks4}
-                        onChange={changeEvent => this.setState({ measureWeeks4: changeEvent.target.value })}
+                        value={measureWeeks[3]}
+                        onChange={changeEvent => {
+                            measureWeeks[3] = changeEvent.target.value;
+                            this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
+                        }}
                         max={20}
                         variant="info"
                         />
                         </Col>
                         <Col>
                         <Form.Control 
-                        value={measureWeeks4}
-                        onChange={changeEvent => this.setState({ measureWeeks4: changeEvent.target.value })}
+                        value={measureWeeks[3]}
+                        onChange={changeEvent => {
+                            measureWeeks[3] = changeEvent.target.value;
+                            this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
+                        }}
                         />
                         </Col>
                         </Row>
@@ -138,16 +154,22 @@ export default class Measures extends Component {
                         <Row>
                         <Col xs={9}>
                         <RangeSlider
-                        value={measureWeeks5}
-                        onChange={changeEvent => this.setState({ measureWeeks5: changeEvent.target.value })}
+                        value={measureWeeks[4]}
+                        onChange={changeEvent => {
+                            measureWeeks[4] = changeEvent.target.value;
+                            this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
+                        }}
                         max={20}
                         variant="success"
                         />
                         </Col>
                         <Col>
                         <Form.Control 
-                        value={measureWeeks5}
-                        onChange={changeEvent => this.setState({ measureWeeks5: changeEvent.target.value })}
+                        value={measureWeeks[4]}
+                        onChange={changeEvent => {
+                            measureWeeks[4] = changeEvent.target.value;
+                            this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
+                        }}
                         />
                         </Col>
                         </Row>
