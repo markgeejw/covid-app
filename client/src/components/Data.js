@@ -4,7 +4,8 @@ import HighchartsReact from 'highcharts-react-official';
 import { Container } from 'react-bootstrap';
 import Tabletop from 'tabletop';
 import moment from 'moment';
-import { max } from 'mathjs'
+import { max } from 'mathjs';
+import Chart from './Chart';
 // load data
 
 
@@ -12,12 +13,6 @@ export default class Data extends Component {
 
   constructor(props) {
       super(props)
-      this.population = {
-        population:0
-      };
-      this.series = {
-        susceptible:[]
-      };
       this.state = {
         hospital: [],
         cases:[],
@@ -28,6 +23,7 @@ export default class Data extends Component {
     async componentDidMount() {
       // TODO add validation that data has been loaded
       // TODO parse and clean data types
+      // TODO bring to standard format
       // https://github.com/jsoma/tabletop
 
       try
@@ -60,7 +56,6 @@ export default class Data extends Component {
     // window.addEventListener('DOMContentLoaded', init)
 
     console.log('this is props -->', this.props);
-
     console.log('this is data -->',this.state);
 
     const R0Value = 2.68;
@@ -77,7 +72,7 @@ export default class Data extends Component {
     // for future use, if we did things differently
     const simulateDate = '';
 
-    const dateArray = getDates(startDate, stopDate);
+    const dateList = getDates(startDate, stopDate);
 
     function getDates(startDate, stopDate) {
       // generate dates between a range
@@ -91,16 +86,10 @@ export default class Data extends Component {
       return dateArray;
     }
 
-    function initialise(){
-      // initial values
-
-
-    }
-
     function hospitalised(props, data){
       // cumulativeHospitalised - 3 weeks before last cumulativeHospitalised.
       // it assumed people recover on average 11 days
-      console.log('hello world')
+      return null
 
     };
 
@@ -126,7 +115,7 @@ export default class Data extends Component {
     };
 
     function R0(props, data){
-      console.log('hello world')
+      return null
 
     };
 
@@ -239,60 +228,66 @@ export default class Data extends Component {
 
     function stillHospitalised(totalHospitalised, data, index){
       if (data.length < 2){
-
-        console.log('before execute ->',data)
         return 0
       } else{
-        console.log('index -->',index)
-        console.log('data all-->',data)
-        console.log('data length-->',data.length)
-        console.log('data-->', data[index-2].cumulativeHospitalised)
-        console.log('totalHospitalised-->', totalHospitalised)
         return totalHospitalised - data[index-2].cumulativeHospitalised
       }
     }
 
-    // initialise Variables
-    var population = getPopulation(region, this.props, this.state.hospital);
-    var [totalCases, endDate, currentCases] = initCases(region, this.props, this.state.cases, simulateDate);
-    var initHospitalised = initHospitalised(region,this.props, this.state.hospital)
-    var initCases = totalCases - currentCases;
-    var initSusceptible = population - (totalCases - currentCases);
-    // simulate from here
-    var currentSusceptible = initSusceptible;
-    var currentInfected = currentCases;
-    var newHospitalised = currentCases* hospitalAdmissionRates;
-    var currentHospitalised = initHospitalised;
-    var totalHospitalised = initHospitalised;
-    var totalCases = initCases;
-    var recoverHospitalised = 0;
-    var series = [];
+    // loop through data and generate for periods
+    function simulate(
+                      scenarioTitle,
+                      region,
+                      dateList,
+                      props,
+                      hospitalData,
+                      casesData,
+                      R0Value,
+                      hospitalAdmissionRates,
+                      simulateDate = ''
+                    ){
 
-    // push inital values
-    series.push({date:dateArray[0],
-                 susceptibleAtStart:initSusceptible,
-                 newlyInfected:currentInfected,
-                 cumulativeInfected:totalCases,
-                 newlyHospitalised:newHospitalised,
-                 cumulativeHospitalised:totalHospitalised,
-                 stillHospitalised:recoverHospitalised
-               })
-
-    // simulate
-    for(var i=1; i < dateArray.length-45; i++){
-      currentSusceptible -= currentCases
-      currentInfected = newlyInfected(R0Value, this.props,this.state.cases, currentCases, currentSusceptible, population);
-
-      newHospitalised =  newlyHospitalised(currentCases, hospitalAdmissionRates);
+      /*
+      Parameters
+      -------------------
+      region:string
+      dateList: list string
+      props: object
+      hospitalData: googlesheets object
+      casesData: googlesheets ojbect
+      hospitalAdmissionRates: float
+      simulateDate: date string
 
 
-      totalHospitalised = cumulativeHospitalised(region,this.props,this.state.hospital, currentHospitalised,newHospitalised);
+      Example output:
+      --------------------
+      [{date:'2020-03-22', susceptibleAtStart: 6629779 ...}
+      {date:'2020-03-22', susceptibleAtStart: 6629779 ...}
+      ...
+      ]
 
-      // using historical value of totalHospitalised
-      recoverHospitalised = stillHospitalised(totalHospitalised, series, i)
+      */
 
-      series.push({date:dateArray[i],
-                   susceptibleAtStart:currentSusceptible,
+
+      // initialise Variables
+      var population = getPopulation(region, props, hospitalData);
+      var [totalCases, endDate, currentCases] = initCases(region, props, casesData, simulateDate);
+      var initialHospitalised = initHospitalised(region, props, hospitalData)
+      var initialCases = totalCases - currentCases;
+      var initSusceptible = population - (totalCases - currentCases);
+      // simulate from here
+      var currentSusceptible = initSusceptible;
+      var currentInfected = currentCases;
+      var newHospitalised = currentCases* hospitalAdmissionRates;
+      var currentHospitalised = initialHospitalised;
+      var totalHospitalised = initialHospitalised;
+      var totalCases = initialCases;
+      var recoverHospitalised = 0;
+      var series = [];
+
+      // push inital values
+      series.push({date:dateList[0],
+                   susceptibleAtStart:initSusceptible,
                    newlyInfected:currentInfected,
                    cumulativeInfected:totalCases,
                    newlyHospitalised:newHospitalised,
@@ -300,35 +295,43 @@ export default class Data extends Component {
                    stillHospitalised:recoverHospitalised
                  })
 
+      // simulate
+      for(var i=1; i < dateList.length; i++){
+        currentSusceptible -= currentCases
+        currentInfected = newlyInfected(R0Value, props, casesData, currentCases, currentSusceptible, population);
 
-      // update values
-      currentCases = currentInfected;
-      currentHospitalised += newHospitalised;
-      totalCases += currentInfected
+        newHospitalised =  newlyHospitalised(currentCases, hospitalAdmissionRates);
 
+
+        totalHospitalised = cumulativeHospitalised(region,props,hospitalData, currentHospitalised,newHospitalised);
+
+        // using historical value of totalHospitalised
+        recoverHospitalised = stillHospitalised(totalHospitalised, series, i)
+
+        series.push({date:dateList[i],
+                     susceptibleAtStart:currentSusceptible,
+                     newlyInfected:currentInfected,
+                     cumulativeInfected:totalCases,
+                     newlyHospitalised:newHospitalised,
+                     cumulativeHospitalised:totalHospitalised,
+                     stillHospitalised:recoverHospitalised
+                   })
+
+
+        // update values
+        currentCases = currentInfected;
+        currentHospitalised += newHospitalised;
+        totalCases += currentInfected
+
+      }
+      return series
     }
-
-    // loop through data and generate for periods
-    function simulate(dateArray){
-      //dateArray.length
-
-      // data format
-      // series: [{
-      //     name: 'Jane',
-      //     data: [1, 0, 4]
-      // }, {
-      //     name: 'John',
-      //     data: [5, 7, 3]
-      // }]
-      //
-      console.log('working')
-    }
-
-    //simulate(dateArray, population);
+    var scenarioTitle = 'Do nothing'
+    var scenario = simulate(scenarioTitle, region, dateList, this.props, this.state.hospital, this.state.cases, R0Value, hospitalAdmissionRates);
 
     // return a series array for charting
     return (
-        <h1>Hello </h1>
+        <Chart scenarios={scenario}/>
 
     )
 

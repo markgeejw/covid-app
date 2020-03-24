@@ -2,9 +2,28 @@ import React, { Component } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Container } from 'react-bootstrap';
+import Data from './Data';
+
 
 export default class Chart extends Component {
+  constructor(props) {
+      super(props)
+    }
   render() {
+    // parse data
+
+
+    function parseToSeries(data, column){
+
+      var series = []
+      if (typeof data !== 'undefined'){
+      for(var i=1; i < data.length; i++){
+        series.push(data[i][column])
+      }
+      return series
+      }
+    };
+
     const placeHolderSusceptible = [66.29779, 66.29779, 66.29779];
     const placeHolderInfected = [121, 296, 352];
     const placeHolderRecovered = [0, 16, 47];
@@ -12,15 +31,18 @@ export default class Chart extends Component {
     const placeHolderICU = [0, 4, 8];
     const placeHolderVentilators = [0, 0, 2];
     const placeHolderDeaths = [0, 2, 2];
+    const y = []
+    const x = parseToSeries(this.props.scenarios, 'date')
+    const stillHospitalised = parseToSeries(this.props.scenarios, 'stillHospitalised');
+
+
+
     const options = {
         chart: {
-            type: 'line'
+            type: 'area'
         },
         title: {
-            text: 'Some data here'
-        },
-        data: {
-            googleSpreadsheetKey: '1lXuVxV-MmC2M0l5-FrgphI559GQ-_VZMuvijVe1eZBU'
+            text: 'stillHospitalised'
         },
         xAxis: {
             type: 'datetime'
@@ -37,11 +59,11 @@ export default class Chart extends Component {
             }
         },
         series: [{
-            name: "Susceptible",
-            data: placeHolderSusceptible
+            name: 'stillHospitalised',
+            data: stillHospitalised
         }, {
-            name: "Infected",
-            data: placeHolderInfected
+            name: 'stillHospitalised',
+            data: stillHospitalised
         }, {
             name: "Recovered",
             data: placeHolderRecovered
@@ -58,9 +80,14 @@ export default class Chart extends Component {
             name: "Deaths",
             data: placeHolderDeaths
         }]
+
+
     };
 
+
+
     return (
+
       <Container style={{ marginTop: 20 }}>
         <HighchartsReact highcharts={Highcharts} options={options} />
       </Container>
