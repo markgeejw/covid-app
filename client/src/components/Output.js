@@ -3,18 +3,32 @@ import { Row, Col, Container } from 'react-bootstrap';
 import Chart from './Chart';
 
 export default class Output extends Component {
-    
+    constructor(props) {
+        super(props);
+        this.chartComponent = React.createRef();
+    }
+
+    componentDidMount() {
+        // this.chartComponent.current.chartComponent.current.chart.reflow();
+    }
+
+    lol () {
+        console.log("lol");
+    }
+
     render() {
         return(
-            <Container fluid className="Chart" style={{ paddingTop: 20 }}>
+            <Container fluid style={{ padding: 20, paddingTop: 80 }}>
                 <Row>
-                <Col xs={9}>
-                    <Row fluid className="Measures"><h4>Model Data</h4></Row>
-                    <Row fluid className="">
-                        <Chart/>
-                    </Row>
+                <Col lg={8}>
+                    <div className="fixed">
+                        <Row className="Measures"><h4>Model Data</h4></Row>
+                        <Row style={{ justifyContent: "center" }} style={{ height: "100%" }} className="align-items-center">
+                            <Chart ref={this.chartComponent}/>
+                        </Row>
+                    </div>
                 </Col>
-                <Col style={{ textAlign: "left" }}>
+                <Col style={{ textAlign: "left" }} lg={4}>
                     <h4>Key Statistics</h4>
                     <h5>What happened?</h5>
                     <ul>
