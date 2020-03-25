@@ -34,29 +34,23 @@ export default class Chart extends Component {
             return [date, newly_infected[index]];
         });
 
-        const startDoNothing = data[0][0];
         var indx = 0;
-        indx += Math.trunc(Math.round(doNothing * 7 / 4));
-        console.log(indx);
-        const startSocDist = data[indx ? indx-1 : indx][0];
-        indx += Math.trunc(Math.round(socDist * 7 / 4));
-        console.log(indx);
-        const startRelaxedLD = data[indx ? indx-1 : indx][0];
-        indx += Math.trunc(Math.round(relaxedLD * 7 / 4));
-        console.log(indx);
-        const startSigLD = data[indx ? indx-1 : indx][0];
-        indx += Math.trunc(Math.round(sigLD * 7 / 4));
-        console.log(indx);
-        const startCritLD = data[indx ? indx-1 : indx][0];
-        indx += Math.trunc(Math.round(critLD * 7 / 4));
-        console.log(indx);
-        if (indx > dates.length){
-            indx = dates.length;
-        } 
-        const endCritLD = data[indx ? indx-1 : indx][0];
+        var measureDates = [];
+        if (dates[0]) {
+            measureDates.push(data[0][0]);
+            measureWeeks.forEach((int_len) => {
+                indx += Math.trunc(Math.round(int_len * 7 / 4));
+                if (indx > dates.length){
+                    indx = dates.length;
+                } 
+                measureDates.push(data[indx ? indx-1: indx][0]);
+            })
+        }
+        const [ startDoNothing, startSocDist, startRelaxedLD, startSigLD, startCritLD, endCritLD ] = measureDates;
 
         const options = {
             chart: {
+                backgroundColor: '#fefefa',
                 type: 'line'
             },
             title: {
@@ -67,54 +61,8 @@ export default class Chart extends Component {
             // },
             xAxis: {
                 type: 'datetime',
-                // plotLines: [{
-                //     color: doNothing ? 'rgba(210,108,103,1)' : 'white',
-                //     value: startDoNothing,
-                //     // label: {
-                //     //     text: 'Do Nothing',
-                //     //     align: 'center',
-                //     //     y: -30,
-                //     //     rotation: 0
-                //     // }
-                // }, {
-                //     color: socDist ? '#df9c99' : 'white',
-                //     value: startSocDist,
-                //     // label: {
-                //     //     text: 'Social Distancing',
-                //     //     align: 'center',
-                //     //     y: -60,
-                //     //     rotation: 0
-                //     // }
-                // }, {
-                //     color: relaxedLD ? '#fbe69f' : 'white',
-                //     value: startRelaxedLD,
-                //     // label: {
-                //     //     text: 'Relaxed Lockdown',
-                //     //     align: 'center',
-                //     //     y: -30,
-                //     //     rotation: 0
-                //     // }
-                // }, {
-                //     color: sigLD ? '#bdd6ab' : 'white',
-                //     value: startSigLD,
-                //     // label: {
-                //     //     text: 'Significant Lockdown',
-                //     //     align: 'center',
-                //     //     y: -60,
-                //     //     rotation: 0
-                //     // }
-                // }, {
-                //     color: critLD ? '#9cc381' : 'white',
-                //     value: startCritLD,
-                //     // label: {
-                //     //     text: 'Critical Lockdown',
-                //     //     align: 'center',
-                //     //     y: -30,
-                //     //     rotation: 0
-                //     // }
-                // }],
                 plotBands: [{
-                    color: doNothing ? 'rgba(210,108,103,0.2)' : 'white',
+                    color: doNothing ? 'rgba(210,108,103,0.2)' : 'rgba(255,255,255,0)',
                     from: startDoNothing,
                     to: startSocDist,
                     // label: {
@@ -122,7 +70,7 @@ export default class Chart extends Component {
                     //     align: 'center'
                     // }
                 }, {
-                    color: socDist ? 'rgba(223,156,153,0.2)' : 'white',
+                    color: socDist ? 'rgba(223,156,153,0.2)' : 'rgba(255,255,255,0)',
                     from: startSocDist,
                     to: startRelaxedLD,
                     // label: {
@@ -130,7 +78,7 @@ export default class Chart extends Component {
                     //     align: 'center'
                     // }
                 }, {
-                    color: relaxedLD ? 'rgba(251,230,159,0.2)' : 'white',
+                    color: relaxedLD ? 'rgba(251,230,159,0.2)' : 'rgba(255,255,255,0)',
                     from: startRelaxedLD,
                     to: startSigLD,
                     // label: {
@@ -138,7 +86,7 @@ export default class Chart extends Component {
                     //     align: 'center'
                     // }
                 }, {
-                    color: sigLD ? 'rgba(189,214,171,0.2)' : 'white',
+                    color: sigLD ? 'rgba(189,214,171,0.2)' : 'rgba(255,255,255,0)',
                     from: startSigLD,
                     to: startCritLD,
                     // label: {
@@ -146,7 +94,7 @@ export default class Chart extends Component {
                     //     align: 'center'
                     // }
                 }, {
-                    color: critLD ? 'rgba(156,195,129,0.2)' : 'white',
+                    color: critLD ? 'rgba(156,195,129,0.2)' : 'rgba(255,255,255,0)',
                     from: startCritLD,
                     to: endCritLD,
                     // label: {

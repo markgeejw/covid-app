@@ -8,11 +8,12 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = { 
+            // Model inputs
             // Intervention lengths
             measureWeeks:               [0, 0, 0, 0, 0],
             
             // Model Parameters
-            modelParams:                [0.06666, 0.02, 0.5, 0.01, 0.0097, 0.0166, 1, 1],
+            modelParams:                [0.06666, 0.02, 0.5, 0.01, 0.0097, 0.0166, 1.00, 1.00],
 
             // Intervention Parameters
             r0_params:                  [2.67, 1.68, 1.40, 1.05, 0.32],
@@ -23,7 +24,12 @@ class App extends Component {
             // ICU Beds
             ICUBeds:                    [476, 0.4, 0.8],
             // Ventilators
-            ventilators:                [5.4, 358, 0.4, 0.8, 3]
+            ventilators:                [5.4, 358, 0.4, 0.8, 3.00],
+
+            // Model outputs
+            model_results: {},
+            newly_infected: [],
+            dates: []
         };
         this.output = React.createRef();
     }
@@ -102,7 +108,7 @@ class App extends Component {
                 <div>
                     <Row style={{ width: "100%", margin: 0 }}>
                         <Col xs={3}>
-                            <div className="Input">
+                            <div className="Input border-right border-gray">
                                 <Input
                                     params = {{
                                         measureWeeks: measureWeeks, 
@@ -122,7 +128,7 @@ class App extends Component {
                                     }}/>
                             </div>
                         </Col>
-                        <Col xs={9}>
+                        <Col xs={9} style={{ backgroundColor: '#fefefa' }}>
                             <Output 
                                 results={model_results}
                                 measureWeeks={measureWeeks}

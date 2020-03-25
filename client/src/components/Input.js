@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Container, Form, Button } from 'react-bootstrap';
+import { Row, Button } from 'react-bootstrap';
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCog, faQuestionCircle, faChevronCircleLeft } from "@fortawesome/free-solid-svg-icons";
