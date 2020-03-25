@@ -21,7 +21,7 @@ class CovidModel(object):
 				R0_params, 
 				model_values,
 				resource_values,
-				sim_len_user=188, sim_interval=4):
+				sim_len_user=182, sim_interval=4):
 		# essential model params
 		self.sim_len_user = sim_len_user
 		self.sim_interval = sim_interval
