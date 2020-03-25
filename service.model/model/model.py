@@ -232,7 +232,7 @@ class CovidModel(object):
 		# ICU beds
 		results['icubeds_req_peak'] = int(np.amax(icubeds_required))
 		results['shortfall_icubeds_peak'] = int(max(np.amax(icubeds_required) - results['icubed_surge'], 0))
-		results['patients_missed_out_icubeds'] = max(cumulative_needed_icu - cumulative_received_icu, 0)
+		results['patients_missed_out_icubeds'] = int(max(cumulative_needed_icu - cumulative_received_icu, 0))
 		results['icubeds_run_out_normal'] = np.datetime_as_string(dates[np.argmax(icubeds_required > results['icubed_normal'])])
 		results['icubeds_run_out_surge'] = np.datetime_as_string(dates[np.argmax(icubeds_required > results['icubed_surge'])])
 		results['days_icubed_out'] = int((icubeds_required > results['icubed_surge']).sum())
