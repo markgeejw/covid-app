@@ -8,11 +8,27 @@ import Data from './Data';
 export default class Chart extends Component {
   constructor(props) {
       super(props)
+      this.state = {
+        data:[]
+      }
     }
+
+    async componentDidMount() {
+
+      try {
+        await this.setState({data:this.props.scenarios})
+      }
+      catch(error)
+      {
+        console.log(error);
+      }
+
+    }
+
   render() {
+
+
     // parse data
-
-
     function parseToSeries(data, column){
 
       var series = []
