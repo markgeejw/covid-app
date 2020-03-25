@@ -21,6 +21,8 @@ export default class Chart extends Component {
     render() {
         const { newly_infected, resources, measureWeeks, dates } = this.props;
         const { numHospBeds, numICUBeds, numVents } = resources;
+        console.log(dates.length);
+        console.log(newly_infected.length);
         
         // Compute weeks
         const [ doNothing, socDist, relaxedLD, sigLD, critLD ] = measureWeeks;
@@ -33,16 +35,25 @@ export default class Chart extends Component {
         });
 
         const startDoNothing = data[0][0];
-        var accumWeeks = Number(doNothing);
-        const startSocDist = data[Math.trunc(Math.round(accumWeeks * 7) / 4)][0];
-        accumWeeks += Number(socDist);
-        const startRelaxedLD = data[Math.trunc(Math.round(accumWeeks * 7) / 4)][0];
-        accumWeeks += Number(relaxedLD);
-        const startSigLD = data[Math.trunc(Math.round(accumWeeks * 7) / 4)][0];
-        accumWeeks += Number(sigLD);
-        const startCritLD = data[Math.trunc(Math.round(accumWeeks * 7) / 4)][0];
-        accumWeeks += Number(critLD);
-        const endCritLD = data[Math.trunc(Math.round(accumWeeks * 7) / 4)][0];
+        var indx = 0;
+        indx += Math.trunc(Math.round(doNothing * 7 / 4));
+        console.log(indx);
+        const startSocDist = data[indx ? indx-1 : indx][0];
+        indx += Math.trunc(Math.round(socDist * 7 / 4));
+        console.log(indx);
+        const startRelaxedLD = data[indx ? indx-1 : indx][0];
+        indx += Math.trunc(Math.round(relaxedLD * 7 / 4));
+        console.log(indx);
+        const startSigLD = data[indx ? indx-1 : indx][0];
+        indx += Math.trunc(Math.round(sigLD * 7 / 4));
+        console.log(indx);
+        const startCritLD = data[indx ? indx-1 : indx][0];
+        indx += Math.trunc(Math.round(critLD * 7 / 4));
+        console.log(indx);
+        if (indx > dates.length){
+            indx = dates.length;
+        } 
+        const endCritLD = data[indx ? indx-1 : indx][0];
 
         const options = {
             chart: {

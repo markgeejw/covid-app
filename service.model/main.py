@@ -41,7 +41,7 @@ class Model(Resource):
             if 'sim_len' in request.args:
                 sim_len_user = int(request.args['sim_len'])
             else:
-                sim_len_user = 188
+                sim_len_user = 182
             # print(sim_len_user)
             if 'sim_interval' in request.args:
                 sim_interval = int(request.args['sim_interval'])

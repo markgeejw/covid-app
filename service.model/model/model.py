@@ -6,6 +6,14 @@ import numpy as np
 from datetime import date
 import datetime
 import collections
+import math
+
+def round_js(value):
+    x = math.floor(value)
+    if (value - x) < .50:
+        return x
+    else:
+        return math.ceil(value)
 
 def round_down(num, multiple):
     return num - (num % multiple)
@@ -21,7 +29,7 @@ class CovidModel(object):
 				R0_params, 
 				model_values,
 				resource_values,
-				sim_len_user=188, sim_interval=4):
+				sim_len_user=182, sim_interval=4):
 		# essential model params
 		self.sim_len_user = sim_len_user
 		self.sim_interval = sim_interval
@@ -44,7 +52,8 @@ class CovidModel(object):
 		R0_vector = np.zeros(0)
 		for i in range(len(self.intervention_len)):
 			if (self.intervention_len[i] != 0):
-				intervention_epochs = int(round((self.intervention_len[i] * 7)/self.sim_interval))
+				intervention_epochs = int(round_js((self.intervention_len[i] * 7)/self.sim_interval))
+				print(intervention_epochs)
 				R0_vector = np.concatenate((R0_vector, np.repeat(self.R0_params[i], intervention_epochs)))
 		R0_vector = R0_vector[:self.epochs]
 		if (sum(self.intervention_len) == 26):
@@ -190,7 +199,9 @@ class CovidModel(object):
 
 		# update data
 		data['newly_infected'] = newly_infected.tolist()
+		print(len(newly_infected.tolist()))
 		data['dates'] = np.datetime_as_string(dates).tolist()
+		data['R0'] = R0.tolist()
 
 		# update results 
 		results['pandemic_end'] = bool((newly_infected[-1] == 0))
