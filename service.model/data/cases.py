@@ -1,10 +1,11 @@
 import urllib.request
 from bs4 import BeautifulSoup
 import pandas as pd
+import pdb
 
 class Crawler():
 
-  def __init__(self, country, state):
+  def __init__(self, country, state=None):
     self.country = country
     self.state = state
     self.url = 'https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_time_series'
@@ -86,18 +87,29 @@ class Crawler():
         df=pd.read_csv(download_url)
     return df
 
-  def query_data(self, df,country,state, file):
+  def query_data(self, df,file,country, state=None):
 
-    df_subset=df[(df['Country/Region'] == country) & (df['Province/State'] == state)]
+    if state:
+      df_subset=df[(df['Country/Region'] == country) & (df['Province/State'] == state)]
 
-    data=pd.melt(df_subset, id_vars=['Province/State', 'Country/Region'],
-          var_name ='date',
-          value_vars=df_subset.iloc[:,4:],
-          value_name =file)
+      data=pd.melt(df_subset, id_vars=['Province/State', 'Country/Region'],
+            var_name ='date',
+            value_vars=df_subset.iloc[:,4:],
+            value_name =file)
+    else:
+      df_subset=df[(df['Country/Region'] == country)]
+
+      data=pd.melt(df_subset, id_vars=['Country/Region'],
+            var_name ='date',
+            value_vars=df_subset.iloc[:,4:],
+            value_name =file)
     return data
 
-  def merge_data(self, df1, df2):
-    output = df1.merge(df2, left_on=['Province/State', 'Country/Region', 'date'], right_on=['Province/State', 'Country/Region', 'date'])
+  def merge_data(self, df1, df2, has_state=False):
+    if has_state:
+      output = df1.merge(df2, left_on=['Province/State', 'Country/Region', 'date'], right_on=['Province/State', 'Country/Region', 'date'])
+    else:
+      output = df1.merge(df2, left_on=['Country/Region', 'date'], right_on=['Country/Region', 'date'])
     return output
 
   def query(self):
@@ -106,13 +118,16 @@ class Crawler():
 
     output = None
     for file in self.files:
-      df = crawler.get_file(self.raw_url,file_list, file)
-      df = crawler.query_data(df,country,state,file)
+      df = self.get_file(self.raw_url,file_list, file)
+      df = self.query_data(df,file,self.country,self.state)
 
       if type(output) == type(None):
         output = df
       else:
-        output = self.merge_data(output, df)
+        if self.state:
+          output = self.merge_data(output, df, has_state=True)
+        else:
+          output = self.merge_data(output, df, has_state=False)
 
     return output
 
@@ -123,9 +138,6 @@ class Crawler():
     return df.to_json(orient='records')
 
   def filter_data(self, df, start_date, interval=4):
-      """
-      filter data to match model as periodically updates rather than cumulating
-      """
 
       df['date'] = pd.to_datetime(df['date'])
       df = df[df['date'] >= start_date]
@@ -139,11 +151,12 @@ class Crawler():
 
 
 if __name__ == '__main__':
-  country = 'Australia'
-  state = 'Victoria'
-  start_date = '3/10/20'
+  country = 'Singapore'
+  state = None
+  start_date = '2020-03-10'
 
   crawler = Crawler(country, state)
   df = crawler.query()
+
   filtered_df = crawler.filter_data(df, start_date, interval=4)
   json_output = crawler.convert_to_json(df)
