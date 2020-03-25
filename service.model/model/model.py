@@ -51,7 +51,7 @@ class CovidModel(object):
 			last_val = R0_vector[-1]
 			R0_vector = np.concatenate((R0_vector, np.array([last_val, last_val])))
 		elif (sum(self.intervention_len) < 26):
-			R0_vector = np.concatenate((R0_vector, np.repeat(self.R0_params[2], self.epochs - len(R0_vector))))
+			R0_vector = np.concatenate((R0_vector, np.repeat(self.R0_params[1], self.epochs - len(R0_vector))))
 
 		# update resource values based on state
 		if (self.resource_values[0] == 0): # beds
