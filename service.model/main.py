@@ -66,10 +66,13 @@ class Model(Resource):
 
                     df = Crawler('Australia','Victoria').query()
                     state_cases = crawler.filter_data(df, '2020-03-10', interval=4)
+
                 elif state == "nsw":
                     state_info = state_info_template(pop=8118000, pub_hbeds=21253, priv_hbeds=8491, icu_beds=874,
                                         vents=int(resource_values[6]*8118000/100000), weekly_hosps=58921)
-                    state_cases = np.array([55, 4, 13, 14, 20, 22, 37, 39, 57, 40, 46, 83, 97, 136])
+
+                    df = Crawler('Australia','New South Wales').query()
+                    state_cases = crawler.filter_data(df, '2020-03-10', interval=4)
                 else:
                     return 'Unrecognized or unsupported state', 400
             if 'state_info' in request.args:
