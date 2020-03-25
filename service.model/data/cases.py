@@ -30,44 +30,6 @@ class Crawler():
     soup = BeautifulSoup(data, "lxml")
     return soup
 
-  def getUpdatedCases(self, soup, country, state):
-    """
-    Params
-    --------
-    soup: string
-    country: string
-    state: string
-
-    Output
-    --------
-    list
-
-    Example output
-    ----
-    [{'Name': 'Victoria', 'Confirmed': '466 ...}]
-    """
-
-    data = []
-    for link in soup.find_all('div', attrs={'id':'container_'+ country}):
-
-      for row in link.find_all("tr"):
-        row_list = []
-
-        # retreive table heaers
-        for header in row.find_all("th"):
-          header_list.append(header.text)
-        # retreive values in tables
-        for row_line in row.find_all("td"):
-          row_list.append(row_line.text.replace('\n','').replace(' ','').replace('★', ''))
-
-        if len(row_list) > 0:
-          # only retreive the row for a specific state
-          if row_list[0] == state:
-            cases_dict = dict(zip(header_list, row_list))
-            data.append(cases_dict)
-
-    return data
-
   def query_files(self,soup):
     file_list = []
     for link in soup.find_all('tr', attrs={'class':'js-navigation-item'}):
