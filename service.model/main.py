@@ -65,14 +65,14 @@ class Model(Resource):
                                         vents=int(resource_values[6]*6229900/100000), weekly_hosps=46000)
 
                     df = Crawler('Australia','Victoria').query()
-                    state_cases = crawler.filter_data(df, '2020-03-10', interval=4)
+                    state_cases = crawler.filter_data(df, '2020-03-10', interval=4)['cases'].values
 
                 elif state == "nsw":
                     state_info = state_info_template(pop=8118000, pub_hbeds=21253, priv_hbeds=8491, icu_beds=874,
                                         vents=int(resource_values[6]*8118000/100000), weekly_hosps=58921)
 
                     df = Crawler('Australia','New South Wales').query()
-                    state_cases = crawler.filter_data(df, '2020-03-10', interval=4)
+                    state_cases = crawler.filter_data(df, '2020-03-10', interval=4)['cases'].values
                 else:
                     return 'Unrecognized or unsupported state', 400
             if 'state_info' in request.args:

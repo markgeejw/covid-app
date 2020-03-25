@@ -134,7 +134,7 @@ class Crawler():
       df = df[df.index % interval == 0]
 
       period_increase = df['confirmed_global'] - df['confirmed_global'].shift(1, fill_value=0)
-      df['period_increase'] = period_increase
+      df['cases'] = period_increase
       return df
 
 
