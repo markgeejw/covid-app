@@ -30,40 +30,35 @@ class App extends Component {
 
     updateMeasureWeeks = (measureWeeks) => {
         this.setState({ measureWeeks: measureWeeks });
+        this.updateData();
     }
 
     updateModelParams = (modelParams) => {
         this.setState({ modelParams: modelParams });
+        this.updateData();
     }
 
     updateR0Params = (r0_params) => {
         this.setState({ r0_params: r0_params });
+        this.updateData();
     }
     
     updateHospBeds = (hospBeds) => {
         this.setState({ hospBeds: hospBeds });
+        this.updateData();
     }
 
     updateICUBeds = (ICUBeds) => {
         this.setState({ ICUBeds: ICUBeds });
+        this.updateData();
     }
 
     updateVentilators = (ventilators) => {
         this.setState({ ventilators: ventilators });
+        this.updateData();
     }
 
-
-    callAPI() {
-        fetch("http://localhost:9000/testAPI")
-            .then(res => res.text())
-            .then(res => {
-                console.log(res);
-                this.setState({ apiResponse: res });
-            })
-            .catch(err => err);
-    }
-
-    componentDidMount() {
+    updateData = () => {
         const { measureWeeks, modelParams, r0_params, hospBeds, ICUBeds, ventilators } = this.state;
         var url = "http://localhost:9000";
         url += "?int_len=" + measureWeeks;
@@ -75,13 +70,17 @@ class App extends Component {
             .then(res => res.json())
             .then(json => {
                 json = JSON.parse(json);
-                this.setState({ model_results: json.results, model_data: json.data });
+                this.setState({ model_results: json.results, newly_infected: json.data["newly_infected"] });
             })
             .catch(err => err);
     }
 
+    componentDidMount() {
+        this.updateData();
+    }
+
     render() {
-        const { measureWeeks, modelParams, r0_params, hospBeds, ICUBeds, ventilators, model_results, model_data } = this.state;
+        const { measureWeeks, modelParams, r0_params, hospBeds, ICUBeds, ventilators, model_results, newly_infected } = this.state;
         return (
             <div className="App">
                 <div>
@@ -122,7 +121,12 @@ class App extends Component {
                         <Col>
                             <Output 
                                 results={model_results}
-                                data={model_data}
+                                resources={{
+                                    numHospBeds: hospBeds[0],
+                                    numICUBeds:  ICUBeds[0],
+                                    numVents:    ventilators[1]
+                                }}
+                                newly_infected={newly_infected}
                                 ref={this.output}/>
                         </Col>
                     </Row>

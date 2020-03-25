@@ -7,8 +7,6 @@ export default class Measures extends Component {
 
     render() {
         const measureWeeks = this.props.measureWeeks;
-        console.log(measureWeeks);
-        console.log(this.props.eventHandlers.updateMeasureWeeks);
         return(
             <div>
             {/* Left Input */}

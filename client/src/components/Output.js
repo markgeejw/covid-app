@@ -9,7 +9,7 @@ export default class Output extends Component {
     }
 
     render() {
-        const { results, data } = this.props;
+        const { results, resources, newly_infected } = this.props;
         return(
             <div>
             { results && <Container fluid style={{ padding: 20, paddingTop: 80 }}>
@@ -17,8 +17,8 @@ export default class Output extends Component {
                 <Col lg={8}>
                     <div className="fixed">
                         <Row className="Measures"><h4>Model Data</h4></Row>
-                        <Row style={{ justifyContent: "center" }} style={{ height: "100%" }} className="align-items-center">
-                            <Chart data={data} ref={this.chartComponent}/>
+                        <Row style={{ justifyContent: "center", height: "100%" }} className="align-items-center">
+                            <Chart resources={resources} newly_infected={newly_infected} ref={this.chartComponent}/>
                         </Row>
                     </div>
                 </Col>
