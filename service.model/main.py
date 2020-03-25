@@ -62,11 +62,11 @@ class Model(Resource):
                 if state == "vic":
                     state_info = state_info_template(pop=6229900, pub_hbeds=14820, priv_hbeds=8367, icu_beds=476, 
                                         vents=int(resource_values[6]*6229900/100000), weekly_hosps=46000)
-                    state_cases = np.array([18, 3, 6, 9, 13, 8, 14, 23, 27, 29, 28, 51, 67, 61])
+                    state_cases = np.array([21, 6, 9, 13, 8, 14, 23, 27, 29, 28, 51, 67, 61])
                 elif state == "nsw":
                     state_info = state_info_template(pop=8118000, pub_hbeds=21253, priv_hbeds=8491, icu_beds=874, 
                                         vents=int(resource_values[6]*8118000/100000), weekly_hosps=58921)
-                    state_cases = np.array([55, 4, 13, 14, 20, 22, 37, 39, 57, 40, 46, 83, 97, 136])
+                    state_cases = np.array([59, 13, 14, 20, 22, 37, 39, 57, 40, 46, 83, 97, 136])
                 else:
                     return 'Unrecognized or unsupported state', 400
             if 'state_info' in request.args:
