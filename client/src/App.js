@@ -60,7 +60,7 @@ class App extends Component {
 
     updateData = () => {
         const { measureWeeks, modelParams, r0_params, hospBeds, ICUBeds, ventilators } = this.state;
-        var url = "http://192.168.86.247:9000";
+        var url = "http://localhost:9000";
         url += "?int_len=" + measureWeeks;
         url += "&model_vals=" + modelParams;
         url += "&r0=" + r0_params;
