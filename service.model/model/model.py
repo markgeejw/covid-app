@@ -190,19 +190,7 @@ class CovidModel(object):
 
 		# update data
 		data['newly_infected'] = newly_infected.tolist()
-		data['susceptible_start'] = susceptible_start.tolist()
-		data['susceptible_end'] = susceptible_end.tolist()
-		data['newly_hospitalised'] = newly_hospitalised.tolist()
-		data['hbeds_required'] = hbeds_required.tolist()
-		data['newly_icu'] = newly_icu.tolist()
-		data['icubeds_required'] = icubeds_required.tolist()
-		data['true_icubeds'] = true_icubeds.tolist()
-		data['newly_vent'] = newly_vent.tolist()
-		data['vents_required'] = vents_required.tolist()
-		data['true_vents'] = true_vents.tolist()
-		data['newly_passed'] = newly_passed.tolist()
-		data['overload_passed'] = overload_passed.tolist()
-		data['newly_recovered'] = newly_recovered.tolist()
+		data['dates'] = np.datetime_as_string(dates).tolist()
 
 		# update results 
 		results['pandemic_end'] = bool((newly_infected[-1] == 0))

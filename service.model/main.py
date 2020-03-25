@@ -22,35 +22,35 @@ class Model(Resource):
                     return "Intervention length has to be of size 5", 400
             else:
                 return 'Need intervention lengths', 400
-            print(intervention_len)
+            # print(intervention_len)
             if 'r0' in request.args:
                 r0_params = list(map(float, request.args['r0'].split(",")))
             else:
                 r0_params = [2.67, 1.675, 1.40, 1.05, 0.32]
-            print(r0_params)
+            # print(r0_params)
             if 'model_vals' in request.args:
                 model_vals = list(map(float, request.args['model_vals'].split(",")))
             else:
                 model_vals = [0.0666, 0.02, 0.5, 0, 0.0097, 0.0166, 1.00, 1.00]
-            print(model_vals)
+            # print(model_vals)
             if 'resource_vals' in request.args:
                 resource_values = list(map(float, request.args['resource_vals'].split(",")))
             else:
                 resource_values = [0, 0.4, 0.8, 0, 0.4, 0.8, 5.4, 0, 0.4, 0.8, 3.0]
-            print(resource_values)
+            # print(resource_values)
             if 'sim_len' in request.args:
                 sim_len_user = int(request.args['sim_len'])
             else:
                 sim_len_user = 188
-            print(sim_len_user)
+            # print(sim_len_user)
             if 'sim_interval' in request.args:
                 sim_interval = int(request.args['sim_interval'])
             else:
                 sim_interval = 4
-            print(sim_interval)
+            # print(sim_interval)
             
             model = CovidModel(intervention_len, r0_params, model_vals, resource_values, sim_len_user, sim_interval)
-            print('Model created')
+            # print('Model created')
 
             # Getting state information and cases
             # Right now hard coded

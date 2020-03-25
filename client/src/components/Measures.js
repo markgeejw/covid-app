@@ -14,12 +14,13 @@ export default class Measures extends Component {
                     <Row>
                         <Col style={{ textAlign: "left" }}><h4>Inputs</h4></Col>
                     </Row>
-                    <Row>
-                        <Col xs={9} style={{ textAlign: "left" }}>
+                    <Row className="align-items-center">
+                        <Col xs={8} style={{ textAlign: "left" }}>
                             <h5>Measures</h5>
                         </Col>
-                        <Col xs={3}>
+                        <Col xs={4} style={{ textAlign: "right" }}>
                             <h5>Weeks</h5>
+                            <p style={{ marginBottom: 0 }}>(Max 26)</p>
                         </Col>
                     </Row>
                     <Form>
@@ -37,7 +38,7 @@ export default class Measures extends Component {
                             measureWeeks[0] = changeEvent.target.value;
                             this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
                         }}
-                        max={20}
+                        max={26 - measureWeeks[1] - measureWeeks[2] - measureWeeks[3] - measureWeeks[4]}
                         variant="danger"
                         />
                         </Col>
@@ -67,7 +68,7 @@ export default class Measures extends Component {
                             measureWeeks[1] = changeEvent.target.value;
                             this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
                         }}
-                        max={20}
+                        max={26 - measureWeeks[0] - measureWeeks[2] - measureWeeks[3] - measureWeeks[4]}
                         variant="warning"
                         />
                         </Col>
@@ -97,7 +98,7 @@ export default class Measures extends Component {
                             measureWeeks[2] = changeEvent.target.value;
                             this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
                         }}
-                        max={20}
+                        max={26 - measureWeeks[0] - measureWeeks[1] - measureWeeks[3] - measureWeeks[4]}
                         variant="primary"
                         />
                         </Col>
@@ -127,7 +128,7 @@ export default class Measures extends Component {
                             measureWeeks[3] = changeEvent.target.value;
                             this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
                         }}
-                        max={20}
+                        max={26 - measureWeeks[0] - measureWeeks[1] - measureWeeks[2] - measureWeeks[4]}
                         variant="info"
                         />
                         </Col>
@@ -157,7 +158,7 @@ export default class Measures extends Component {
                             measureWeeks[4] = changeEvent.target.value;
                             this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
                         }}
-                        max={20}
+                        max={26 - measureWeeks[0] - measureWeeks[1] - measureWeeks[2] - measureWeeks[3]}
                         variant="success"
                         />
                         </Col>

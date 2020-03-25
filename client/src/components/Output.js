@@ -9,7 +9,7 @@ export default class Output extends Component {
     }
 
     render() {
-        const { results, resources, newly_infected } = this.props;
+        const { results, resources, newly_infected, measureWeeks, dates } = this.props;
         return(
             <div>
             { results && <Container fluid style={{ padding: 20, paddingTop: 80 }}>
@@ -18,7 +18,12 @@ export default class Output extends Component {
                     <div className="fixed">
                         <Row className="Measures"><h4>Model Data</h4></Row>
                         <Row style={{ justifyContent: "center", height: "100%" }} className="align-items-center">
-                            <Chart resources={resources} newly_infected={newly_infected} ref={this.chartComponent}/>
+                            <Chart 
+                            resources={resources} 
+                            measureWeeks={measureWeeks} 
+                            newly_infected={newly_infected} 
+                            dates={dates}
+                            ref={this.chartComponent}/>
                         </Row>
                     </div>
                 </Col>
@@ -46,7 +51,7 @@ export default class Output extends Component {
                     </ul>
                     <h5>Hospital Beds</h5>
                     <ul>
-                        <li>Beds required at the peak: {results["hbed_req_peak"]}</li>
+                        <li>Beds required at the peak: {results["hbeds_req_peak"]}</li>
                         <li>Shortfall of beds at the peak: {results["shortfall_hbeds_peak"]}</li>
                         <li>When beds would run out (normal capacity): {results["hbeds_run_out_normal"]}</li>
                         <li>When beds would run out (surge capacity): {results["hbeds_run_out_surge"]}</li>

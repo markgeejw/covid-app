@@ -60,7 +60,7 @@ class App extends Component {
 
     updateData = () => {
         const { measureWeeks, modelParams, r0_params, hospBeds, ICUBeds, ventilators } = this.state;
-        var url = "http://localhost:9000";
+        var url = "http://192.168.86.247:9000";
         url += "?int_len=" + measureWeeks;
         url += "&model_vals=" + modelParams;
         url += "&r0=" + r0_params;
@@ -70,7 +70,11 @@ class App extends Component {
             .then(res => res.json())
             .then(json => {
                 json = JSON.parse(json);
-                this.setState({ model_results: json.results, newly_infected: json.data["newly_infected"] });
+                this.setState({ 
+                    model_results: json.results, 
+                    newly_infected: json.data.newly_infected,
+                    dates: json.data.dates
+                });
             })
             .catch(err => err);
     }
@@ -80,7 +84,7 @@ class App extends Component {
     }
 
     render() {
-        const { measureWeeks, modelParams, r0_params, hospBeds, ICUBeds, ventilators, model_results, newly_infected } = this.state;
+        const { measureWeeks, modelParams, r0_params, hospBeds, ICUBeds, ventilators, model_results, newly_infected, dates } = this.state;
         return (
             <div className="App">
                 <div>
@@ -118,14 +122,16 @@ class App extends Component {
                                     }}/>
                             </div>
                         </Col>
-                        <Col>
+                        <Col xs={9}>
                             <Output 
                                 results={model_results}
+                                measureWeeks={measureWeeks}
                                 resources={{
                                     numHospBeds: hospBeds[0],
                                     numICUBeds:  ICUBeds[0],
                                     numVents:    ventilators[1]
                                 }}
+                                dates={dates}
                                 newly_infected={newly_infected}
                                 ref={this.output}/>
                         </Col>
