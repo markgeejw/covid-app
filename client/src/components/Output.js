@@ -41,7 +41,7 @@ export default class Output extends Component {
                 data: formatDate(results.pandemic_peak)
             }, {
                 title: 'Daily infections at peak',
-                data: addComma(Number(results.daily_infection_rate_at_peak).toFixed)
+                data: addComma(Number(results.daily_infection_rate_at_peak).toFixed())
             }, {
                 title: 'Average R0',
                 data: to2dp(results.average_R0)
