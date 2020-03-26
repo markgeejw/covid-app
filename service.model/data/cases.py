@@ -10,7 +10,7 @@ class Crawler():
     self.state = state
     self.url = 'https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_time_series'
     self.raw_url = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/'
-    self.files = ['confirmed_global', 'deaths_global', 'recovered_global']
+    self.files = ['confirmed_global', 'deaths_global']
 
   def scrapePage(self, url):
     """
@@ -113,12 +113,17 @@ class Crawler():
 
 
 if __name__ == '__main__':
-  country = 'Singapore'
-  state = None
-  start_date = '2020-03-10'
+    # display options
+    pd.set_option('display.width', 100)
+    pd.set_option('display.max_columns', 10)
 
-  crawler = Crawler(country, state)
-  df = crawler.query()
+    country = 'Australia'
+    state = 'Victoria'
+    start_date = '2020-03-10'
 
-  filtered_df = crawler.filter_data(df, start_date, interval=4)
-  json_output = crawler.convert_to_json(df)
+    crawler = Crawler(country, state)
+    df = crawler.query()
+
+    filtered_df = crawler.filter_data(df, start_date, interval=4)
+    print(filtered_df)
+    json_output = crawler.convert_to_json(df)

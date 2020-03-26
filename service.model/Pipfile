@@ -11,6 +11,10 @@ flask-restful = "*"
 requests = "*"
 numpy = "*"
 flask-cors = "*"
+urllib3 = "*"
+beautifulsoup4 = "*"
+pandas = "*"
+lxml = "*"
 
 [requires]
 python_version = "3.7"
