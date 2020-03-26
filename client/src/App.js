@@ -4,6 +4,12 @@ import "./App.css";
 import { Navbar, Nav, Row, Col } from 'react-bootstrap';
 import Input from './components/Input';
 import Output from './components/Output';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+  } from "react-router-dom";
 class App extends Component {
     constructor(props) {
         super(props);
@@ -93,18 +99,22 @@ class App extends Component {
         const { measureWeeks, modelParams, r0_params, hospBeds, ICUBeds, ventilators, model_results, newly_infected, dates } = this.state;
         return (
             <div className="App">
+                <Router>
+                    
                 <div>
                 <Navbar fixed="top" bg="dark" variant="dark" expand="lg" style={{ paddingLeft: 20, paddingRight: 20 }}>
                 <Navbar.Brand href="#home">COVID-19 App</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ml-auto">
-                    <Nav.Link href="#home">Home</Nav.Link>
-                    <Nav.Link href="#link">About</Nav.Link>
+                    <Nav.Link href="#"><Link to="/">Home</Link></Nav.Link>
+                    <Nav.Link href="#"><Link to="/">About</Link></Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
                 </Navbar>
                 </div>
+                <Switch>
+                <Route path="/">
                 <div>
                     <Row style={{ width: "100%", margin: 0 }}>
                         <Col xs={3}>
@@ -143,7 +153,10 @@ class App extends Component {
                         </Col>
                     </Row>
                 </div>
+                </Route>
+                </Switch>
                 {/* <p className="App-intro">{this.state.apiResponse}</p> */}
+                </Router>
             </div>
         );
     }

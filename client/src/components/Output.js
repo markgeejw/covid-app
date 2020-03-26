@@ -9,11 +9,15 @@ function to2dp(x) {
 }
 
 function formatDate(dateString) {
-    const d = new Date('2020-05-16');
-    const dtf = new Intl.DateTimeFormat('en', { year: '2-digit', month: 'short', day: '2-digit' });
-    const [{ value: mo },,{ value: da },,{ value: ye }] = dtf.formatToParts(d);
-
-    return `${da} ${mo} ${ye}`;
+    if (dateString) {
+        const d = new Date(dateString);
+        const dtf = new Intl.DateTimeFormat('en', { year: '2-digit', month: 'short', day: '2-digit' });
+        const [{ value: mo },,{ value: da },,{ value: ye }] = dtf.formatToParts(d);
+    
+        return `${da} ${mo} ${ye}`;
+    } else {
+        return undefined;
+    }
 }
 
 export default class Output extends Component {

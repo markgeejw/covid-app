@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Row, Col, Container } from 'react-bootstrap';
 import { Input, InputAdornment, Table, TableBody, TableCell, TableContainer, TableRow } from '@material-ui/core';
 
-function to2dp(x) {
-    return Number.parseFloat(x).toFixed(2);
+function toDp(x, prec) {
+    return Number.parseFloat(x).toFixed(prec);
 }
 export default class Params extends Component {
     formatAsPercent = (num) => {
@@ -59,12 +59,15 @@ export default class Params extends Component {
                     <TableContainer>
                     <Table>
                         <TableBody>
-                        {modelParams.map((entry, index) => (
+                        {modelParams.map((entry, index) => {
+                            const isCFR = index === 4 || index === 5;
+                            return (
                             <TableRow>
                                 <TableCell style={{ paddingLeft: 0, paddingRight: 0 }}>{modelParamTitles[index]}</TableCell>
-                                <TableCell align="right" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                <TableCell align="right" style={{ paddingLeft: 0, paddingRight: 0, width: "20%" }}
+                                size='small'>
                                 <Input
-                                value={to2dp(entry * 100)} 
+                                value={toDp(entry * 100, isCFR ? 1 : 0)} 
                                 margin="dense"
                                 onChange={event => {
                                     modelParams[index] = event.target.value / 100;
@@ -72,15 +75,15 @@ export default class Params extends Component {
                                 }}
                                 endAdornment={<InputAdornment position="end">%</InputAdornment>}
                                 inputProps={{
-                                step: 0.01,
+                                step: isCFR ? 0.1 : 1,
                                 min: 0,
-                                max: 1e3,
                                 type: 'number'
                                 }}
                                 />
                                 </TableCell>
                             </TableRow>
-                        ))}
+                            )
+                        })}
                         </TableBody>
                     </Table>
                     </TableContainer>
@@ -101,18 +104,17 @@ export default class Params extends Component {
                         {r0_params.map((entry, index) => (
                             <TableRow>
                                 <TableCell style={{ paddingLeft: 0, paddingRight: 0 }}>{r0ParamTitles[index]}</TableCell>
-                                <TableCell align="right" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                <TableCell align="right" style={{ paddingLeft: 0, paddingRight: 0, width: "20%" }}>
                                 <Input
-                                value={to2dp(entry)} 
+                                value={toDp(entry, 2)} 
                                 margin="dense"
                                 onChange={event => {
                                     r0_params[index] = event.target.value;
-                                    updateR0Params(modelParams);
+                                    updateR0Params(r0_params);
                                 }}
                                 inputProps={{
                                 step: 0.01,
                                 min: 0,
-                                max: 1e3,
                                 type: 'number'
                                 }}
                                 />
@@ -131,29 +133,30 @@ export default class Params extends Component {
                     <TableContainer>
                     <Table>
                         <TableBody>
-                        {hospBeds.map((entry, index) => (
+                        {hospBeds.map((entry, index) => {
+                            const isInt = index === 0;
+                            return (
                             <TableRow>
                                 <TableCell style={{ paddingLeft: 0, paddingRight: 0 }}>{hospTitles[index]}</TableCell>
-                                <TableCell align="right" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                <TableCell align="right" style={{ paddingLeft: 0, paddingRight: 0, width: "20%" }}>
                                 <Input
-                                value={index === 0 ? entry : to2dp(entry * 100)} 
+                                value={isInt ? entry : entry * 100} 
                                 margin="dense"
                                 onChange={event => {
-                                    hospBeds[index] = index === 0 ? event.target.value : (event.target.value / 100);
+                                    hospBeds[index] = isInt ? event.target.value : (event.target.value / 100);
                                     updateHospBeds(hospBeds);
                                 }}
-                                endAdornment={(index !== 0) && <InputAdornment position="end">%</InputAdornment>}
-                                fullWidth
+                                endAdornment={!isInt && <InputAdornment position="end">%</InputAdornment>}
                                 inputProps={{
-                                step: index === 0 ? 1 : 0.01,
+                                step: isInt ? 100 : 1,
                                 min: 0,
-                                max: 1e3,
                                 type: 'number'
                                 }}
                                 />
                                 </TableCell>
                             </TableRow>
-                        ))}
+                        )})
+                        }
                         </TableBody>
                     </Table>
                     </TableContainer>
@@ -163,29 +166,30 @@ export default class Params extends Component {
                     <TableContainer>
                     <Table>
                         <TableBody>
-                        {ICUBeds.map((entry, index) => (
+                        {ICUBeds.map((entry, index) => {
+                            const isInt = index === 0;
+                            return (
                             <TableRow>
                                 <TableCell style={{ paddingLeft: 0, paddingRight: 0 }}>{ICUTitles[index]}</TableCell>
-                                <TableCell align="right" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                <TableCell align="right" style={{ paddingLeft: 0, paddingRight: 0, width: "20%" }}>
                                 <Input
-                                value={index === 0 ? entry : to2dp(entry * 100)} 
+                                value={isInt ? entry : entry * 100} 
                                 margin="dense"
                                 onChange={event => {
-                                    ICUBeds[index] = index === 0 ? event.target.value : (event.target.value / 100);
+                                    ICUBeds[index] = isInt ? event.target.value : (event.target.value / 100);
                                     updateICUBeds(ICUBeds);
                                 }}
-                                endAdornment={(index !== 0) && <InputAdornment position="end">%</InputAdornment>}
                                 fullWidth
+                                endAdornment={!isInt && <InputAdornment position="end">%</InputAdornment>}
                                 inputProps={{
-                                step: index === 0 ? 1 : 0.01,
+                                step: isInt ? 100 : 1,
                                 min: 0,
-                                max: 1e3,
                                 type: 'number'
                                 }}
                                 />
                                 </TableCell>
                             </TableRow>
-                        ))}
+                        )})}
                         </TableBody>
                     </Table>
                     </TableContainer>
@@ -195,29 +199,31 @@ export default class Params extends Component {
                     <TableContainer>
                     <Table>
                         <TableBody>
-                        {ventilators.map((entry, index) => (
+                        {ventilators.map((entry, index) => {
+                            const is1dp = index === 0;
+                            const isInt = index === 1;
+                            return (
                             <TableRow>
                                 <TableCell style={{ paddingLeft: 0, paddingRight: 0 }}>{ventTitles[index]}</TableCell>
-                                <TableCell align="right" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                <TableCell align="right" style={{ paddingLeft: 0, paddingRight: 0, width: "20%" }}>
                                 <Input
-                                value={index === 1 ? entry : to2dp(entry * 100)} 
+                                value={isInt || is1dp ? entry : entry * 100} 
                                 margin="dense"
                                 onChange={event => {
-                                    ventilators[index] = index === 1 ? event.target.value : (event.target.value / 100);
+                                    ventilators[index] = isInt || is1dp ? event.target.value : (event.target.value / 100);
                                     updateVentilators(ventilators);
                                 }}
-                                endAdornment={index !== 1 && <InputAdornment position="end">%</InputAdornment>}
+                                endAdornment={!isInt && !is1dp && <InputAdornment position="end">%</InputAdornment>}
                                 fullWidth
                                 inputProps={{
-                                step: index === 1 ? 1: 0.01,
+                                step: isInt ? 100: is1dp ? 0.1 : 1,
                                 min: 0,
-                                max: 1e3,
                                 type: 'number'
                                 }}
                                 />
                                 </TableCell>
                             </TableRow>
-                        ))}
+                        )})}
                         </TableBody>
                     </Table>
                     </TableContainer>
