@@ -41,7 +41,7 @@ export default class Output extends Component {
                 data: formatDate(results.pandemic_peak)
             }, {
                 title: 'Daily infections at peak',
-                data: addComma(Number(results.daily_infection_rate_at_peak).toFixed())
+                data: addComma(Number(results.daily_infection_rate_at_peak).toFixed)
             }, {
                 title: 'Average R0',
                 data: to2dp(results.average_R0)
@@ -50,9 +50,12 @@ export default class Output extends Component {
                 title: 'Total deceased',
                 data: addComma(results.total_deaths)
             }, {
+                title: 'Total deceased (from health system overload)',
+                data: addComma(results.total_deaths_overload)
+            }, {
                 title: 'Total infected',
                 data: addComma(results.total_infected)
-            } , {
+            }, {
                 title: 'Total hospitalised',
                 data: addComma(results.total_hospitalised)
             }, {
@@ -62,14 +65,11 @@ export default class Output extends Component {
                 title: 'Total ventilated',
                 data: addComma(results.total_received_vent)
             }, {
-                title: 'Deaths from health system overload',
-                data: addComma(results.total_deaths_overload)
-            }, {
-                title: 'Percentage of population infected',
-                data: to2dp(results.percentage_infected)
-            }, {
-                title: 'Percentage of all deaths from hospital overload',
+                title: 'Percentage of deaths attributed to hospital overload',
                 data: to2dp(results.percentage_deaths_overload)
+            }, {
+                title: 'Percentage of total population infected',
+                data: to2dp(results.percentage_infected)
             }],
             hospital: [{
                 title: 'Beds required at peak',
