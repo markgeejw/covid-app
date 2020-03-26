@@ -87,13 +87,13 @@ export default class Output extends Component {
                 data: addComma(results.shortfall_hbeds_peak)
             }, {
                 title: 'When beds ran out (normal capacity)',
-                data: formatDate(results.hbeds_run_out_normal)
+                data: results.days_hbed_out_normal ? formatDate(results.hbeds_run_out_normal) : "N/A"
             }, {
                 title: 'When beds ran out (surge capacity)',
-                data: formatDate(results.hbeds_run_out_surge)
+                data: results.days_hbed_out_surge ? formatDate(results.hbeds_run_out_surge) : "N/A"
             }, {
                 title: 'How many days beds ran out for (surge capacity)',
-                data: toDays(results.days_hbed_out)
+                data: toDays(results.days_hbed_out_surge)
             }],
             ICU: [{
                 title: 'ICU beds required at peak',
@@ -106,13 +106,13 @@ export default class Output extends Component {
                 data: addComma(results.patients_missed_out_icubeds)
             }, {
                 title: 'When ICU beds ran out (normal capacity)',
-                data: formatDate(results.icubeds_run_out_normal)
+                data: results.days_icubed_out_normal ? formatDate(results.icubeds_run_out_normal) : "N/A"
             }, {
                 title: 'When ICU beds ran out (surge capacity)',
-                data: formatDate(results.icubeds_run_out_surge)
+                data: results.days_icubed_out_surge ? formatDate(results.icubeds_run_out_surge) : "N/A"
             }, {
                 title: 'How many days ICU beds ran out for (surge capacity)',
-                data: toDays(results.days_icubed_out)
+                data: toDays(results.days_icubed_out_surge)
             }],
             ventilators: [{
                 title: 'Ventilators required at peak',
@@ -125,13 +125,13 @@ export default class Output extends Component {
                 data: addComma(results.patients_missed_out_ventilators)
             }, {
                 title: 'When ventilators ran out (normal capacity)',
-                data: formatDate(results.vents_run_out_normal)
+                data: results.days_vents_out_normal ? formatDate(results.vents_run_out_normal) : "N/A"
             }, {
                 title: 'When ventilators ran out (surge capacity)',
-                data: formatDate(results.vents_run_out_surge)
+                data: results.days_vents_out_surge ? formatDate(results.vents_run_out_surge) : "N/A"
             }, {
                 title: 'How many days ventilators ran out for (surge capacity)',
-                data: toDays(results.days_vents_out)
+                data: toDays(results.days_vents_out_surge)
             }]
         }
         return(
