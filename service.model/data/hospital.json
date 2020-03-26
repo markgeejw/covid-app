@@ -1,0 +1,65 @@
+{
+  "Australia":{
+    "population":6229900,
+    "public hospital beds":14820,
+    "private hospital beds":8367,
+    "icu beds":476,
+    "weekly hospital":54173
+  },
+  "Singapore": {
+    "population":5703600,
+    "public hospital beds":12328,
+    "private hospital beds":2929,
+    "icu beds":1500,
+    "weekly hospital":12450
+  },
+  "New South Wales":{
+    "population":8118000,
+    "public hospital beds":21253,
+    "private hospital beds":8491,
+    "icu beds":874,
+    "weekly hospital":62000
+  },
+  "Queensland":{
+    "population":5115500,
+    "public hospital beds":12271,
+    "private hospital beds":7018,
+    "icu beds":413,
+    "weekly hospital":48019
+  },
+  "Western Australia":{
+    "population":2630600,
+    "public hospital beds":5947,
+    "private hospital beds":4002,
+    "icu beds":162,
+    "weekly hospital":22288
+  },
+  "South Australia":{
+    "population":1756500,
+    "public hospital beds":4608,
+    "private hospital beds":1941,
+    "icu beds":188,
+    "weekly hospital":14538
+  },
+  "Tasmania":{
+    "population":535500,
+    "public hospital beds":1340,
+    "private hospital beds":584,
+    "icu beds":50,
+    "weekly hospital":2385
+  },
+  "Canberra":{
+    "population":428100,
+    "public hospital beds":1078,
+    "private hospital beds":470,
+    "icu beds":44,
+    "weekly hospital":2211
+  },
+  "Victoria":{
+    "population":6229900,
+    "public hospital beds":14820,
+    "private hospital beds":8367,
+    "icu beds":476,
+    "weekly hospital":54173
+  }
+}

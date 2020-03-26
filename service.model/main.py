@@ -7,6 +7,8 @@ from flask_restful import Resource, Api
 from model.model import CovidModel
 from flask_cors import CORS
 from data.cases import Crawler
+import json
+from data.hospital import Hospital
 
 
 # Server setup
@@ -61,15 +63,19 @@ class Model(Resource):
             if 'state' in request.args:
                 state = request.args['state']
                 if state == "vic":
-                    state_info = state_info_template(pop=6229900, pub_hbeds=14820, priv_hbeds=8367, icu_beds=476,
-                                        vents=int(resource_values[6]*6229900/100000), weekly_hosps=46000)
+                    hospital_data = Hospital().query(region='Victoria')
+                    state_info = state_info_template(pop=hospital_data['population'], pub_hbeds=hospital_data['public hospital beds'],
+                                                     priv_hbeds=hospital_data['private hospital beds'], icu_beds=hospital_data['icu beds'],
+                                        vents=int(resource_values[6]*hospital_data['population']/100000), weekly_hosps=hospital_data['weekly hospital'])
 
                     df = Crawler('Australia','Victoria').query()
                     state_cases = crawler.filter_data(df, '2020-03-10', interval=4)['cases'].values
 
                 elif state == "nsw":
-                    state_info = state_info_template(pop=8118000, pub_hbeds=21253, priv_hbeds=8491, icu_beds=874,
-                                        vents=int(resource_values[6]*8118000/100000), weekly_hosps=58921)
+                    hospital_data = Hospital().query(region='New South Wales')
+                    state_info = state_info_template(pop=hospital_data['population'], pub_hbeds=hospital_data['public hospital beds'],
+                                                     priv_hbeds=hospital_data['private hospital beds'], icu_beds=hospital_data['icu beds'],
+                                        vents=int(resource_values[6]*hospital_data['population']/100000), weekly_hosps=hospital_data['weekly hospital'])
 
                     df = Crawler('Australia','New South Wales').query()
                     state_cases = crawler.filter_data(df, '2020-03-10', interval=4)['cases'].values
