@@ -10,7 +10,7 @@ class Crawler():
     self.state = state
     self.url = 'https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_time_series'
     self.raw_url = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/'
-    self.files = ['confirmed_global', 'deaths_global']
+    self.files = ['confirmed_global', 'deaths_global', 'recovered_global']
 
   def scrapePage(self, url):
     """
