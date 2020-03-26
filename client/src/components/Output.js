@@ -149,10 +149,10 @@ export default class Output extends Component {
                     <h4>Key Statistics</h4>
                     <h5 className="Stats-Category">What happened?</h5>
                     <TableContainer component={Paper}>
-                    <Table aria-label="simple table">
+                    <Table>
                         <TableBody>
-                        {outputData.summary.map(row => (
-                            <TableRow>
+                        {outputData.summary.map((row, index) => (
+                            <TableRow key={index}>
                                 <TableCell>{row.title}</TableCell>
                                 <TableCell align="right">{row.data}</TableCell>
                             </TableRow>
@@ -162,10 +162,10 @@ export default class Output extends Component {
                     </TableContainer>
                     <h5 className="Stats-Category">Population Totals</h5>
                     <TableContainer component={Paper}>
-                    <Table aria-label="simple table">
+                    <Table>
                         <TableBody>
-                        {outputData.population.map(row => (
-                            <TableRow>
+                        {outputData.population.map((row, index) => (
+                            <TableRow key={index}>
                                 <TableCell>{row.title}</TableCell>
                                 <TableCell align="right">{row.data}</TableCell>
                             </TableRow>
@@ -175,10 +175,10 @@ export default class Output extends Component {
                     </TableContainer>
                     <h5 className="Stats-Category">Hospital Beds</h5>
                     <TableContainer component={Paper}>
-                    <Table aria-label="simple table">
+                    <Table>
                         <TableBody>
-                        {outputData.hospital.map(row => (
-                            <TableRow>
+                        {outputData.hospital.map((row, index)  => (
+                            <TableRow key={index}>
                                 <TableCell>{row.title}</TableCell>
                                 <TableCell align="right">{row.data}</TableCell>
                             </TableRow>
@@ -188,10 +188,10 @@ export default class Output extends Component {
                     </TableContainer>
                     <h5 className="Stats-Category">ICU Beds</h5>
                     <TableContainer component={Paper}>
-                    <Table aria-label="simple table">
+                    <Table>
                         <TableBody>
-                        {outputData.ICU.map(row => (
-                            <TableRow>
+                        {outputData.ICU.map((row, index)  => (
+                            <TableRow key={index}>
                                 <TableCell>{row.title}</TableCell>
                                 <TableCell align="right">{row.data}</TableCell>
                             </TableRow>
@@ -201,10 +201,10 @@ export default class Output extends Component {
                     </TableContainer>
                     <h5 className="Stats-Category">Ventilators</h5>
                     <TableContainer component={Paper}>
-                    <Table aria-label="simple table">
+                    <Table>
                         <TableBody>
-                        {outputData.ventilators.map(row => (
-                            <TableRow>
+                        {outputData.ventilators.map((row, index)  => (
+                            <TableRow key={index}>
                                 <TableCell>{row.title}</TableCell>
                                 <TableCell align="right">{row.data}</TableCell>
                             </TableRow>

@@ -107,7 +107,7 @@ export default class Measures extends Component {
                                 value: 0,
                                 label: '0'
                             }, {
-                                value: max1,
+                                value: max1 ? max1: 26,
                                 label: '' + (max1 ? max1 : '')
                             }]}
                             max={max1}
@@ -158,7 +158,7 @@ export default class Measures extends Component {
                                 value: 0,
                                 label: '0'
                             }, {
-                                value: max2,
+                                value: max2 ? max2 : 26,
                                 label: '' + (max2 ? max2 : '')
                             }]}
                             max={max2}
@@ -209,7 +209,7 @@ export default class Measures extends Component {
                                 value: 0,
                                 label: '0'
                             }, {
-                                value: max3,
+                                value: max3 ? max3 : 26,
                                 label: '' + (max3 ? max3 : '')
                             }]}
                             max={max3}
@@ -260,7 +260,7 @@ export default class Measures extends Component {
                                 value: 0,
                                 label: '0'
                             }, {
-                                value: max4,
+                                value: max4 ? max4 : 26,
                                 label: '' + (max4 ? max4 : '')
                             }]}
                             max={max4}
@@ -311,7 +311,7 @@ export default class Measures extends Component {
                                 value: 0,
                                 label: '0'
                             }, {
-                                value: max5,
+                                value: max5 ? max5 : 26,
                                 label: '' + (max5 ? max5 : '')
                             }]}
                             max={max5}

@@ -3,7 +3,7 @@ import { Row, Col, Container } from 'react-bootstrap';
 import { Input, InputAdornment, Table, TableBody, TableCell, TableContainer, TableRow } from '@material-ui/core';
 
 function toDp(x, prec) {
-    return Number.parseFloat(x).toFixed(prec);
+    return Number(Number.parseFloat(x).toFixed(prec));
 }
 export default class Params extends Component {
     formatAsPercent = (num) => {
@@ -91,12 +91,7 @@ export default class Params extends Component {
                         <Col style={{ textAlign: "left" }}><h5>Intervention Parameters</h5></Col>
                     </Row>
                     <Row>
-                        <Col xs={7} style={{ textAlign: "left" }}>
-                            <h6>Measures</h6>
-                        </Col>
-                        <Col>
-                            <h6>R0</h6>
-                        </Col>
+                        <Col style={{ textAlign: "left" }}><h6>R0 of Intervention Measures</h6></Col>
                     </Row>
                     <TableContainer>
                     <Table>
