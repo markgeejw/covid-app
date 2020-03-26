@@ -13,8 +13,9 @@ export default class Instructions extends Component {
                     </Row>
                     <Row>
                         <Col style={{ textAlign: "left", paddingTop: 20 }}>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam bibendum interdum tellus at rhoncus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam tempus, arcu sed rutrum accumsan, orci mauris ultricies purus, ac sagittis diam urna vitae risus. Duis in nibh varius, viverra mauris at, interdum nunc. Duis malesuada at diam non scelerisque. Mauris bibendum cursus dictum. Donec vel ornare turpis.</p>
-                            <p>Aliquam ut ex id urna malesuada cursus nec id sapien. Suspendisse potenti. Phasellus malesuada justo at quam eleifend tempus. Proin tempor maximus varius. Fusce nisl orci, luctus vel metus et, malesuada porttitor diam. Mauris rutrum egestas odio, sit amet posuere nisl ultrices et. Phasellus a neque massa. Nullam massa tellus, imperdiet nec dui at, pharetra suscipit orci. Etiam pharetra nulla hendrerit magna efficitur porta. Aenean accumsan cursus tellus. Nunc non nisl vel eros auctor posuere. Maecenas vitae convallis justo, in sollicitudin felis.</p>
+                            <p>Select the number of weeks you want for each intervention (max 26 weeks). Hover over each to find out what they mean and what measures are required.</p>
+		                    <p>Interventions occur in order, from least invasive to most invasive (top to bottom). If you don't reach 26 weeks, the rest becomes social distancing.</p>
+                            <p>Click on model parameters to change more detailed variables, like how many ventilators are available.</p>
                         </Col>
                     </Row>
                 </Container>
