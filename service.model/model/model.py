@@ -64,7 +64,7 @@ class CovidModel(object):
 
 		# update resource values based on state
 		if (self.resource_values[0] == 0): # beds
-			self.resource_values[0] = state_info.pub_hbeds + state_info.priv_hbeds
+			self.resource_values[0] = state_info.hbeds
 		if (self.resource_values[3] == 0): # ICU beds
 			self.resource_values[3] = state_info.icu_beds
 		if (self.resource_values[7] == 0): # ventilators
@@ -83,8 +83,8 @@ class CovidModel(object):
 	def init_results(self, results, R0, state_info, resource_params):
 		results['total_weeks_action'] = sum(self.intervention_len)
 		results['average_R0'] = np.mean(R0)
-		results['hbed_normal'] = (state_info.pub_hbeds + state_info.priv_hbeds) * resource_params['hbed_util']
-		results['hbed_surge'] = (state_info.pub_hbeds + state_info.priv_hbeds) * resource_params['surge_hbed_util']
+		results['hbed_normal'] = (state_info.hbeds) * resource_params['hbed_util']
+		results['hbed_surge'] = (state_info.hbeds) * resource_params['surge_hbed_util']
 		results['hosp_per_week'] = state_info.weekly_hosps
 		results['icubed_normal'] = state_info.icu_beds * resource_params['icubed_util']
 		results['icubed_surge'] = state_info.icu_beds * resource_params['surge_icubed_util']
