@@ -13,18 +13,18 @@ export default class Model extends Component {
             measureWeeks:               [0, 26, 0, 0, 0],
             
             // Model Parameters
-            modelParams:                [0.06666, 0.02, 0.5, 0.01, 0.0097, 0.0166, 1.00, 1.00],
+            modelParams:                ['6.66', '2.0', '50', '1.0', '0.97', '1.66', '100', '100'],
 
             // Intervention Parameters
-            r0_params:                  [2.67, 1.68, 1.40, 1.05, 0.32],
+            r0_params:                  ['2.67', '1.68', '1.40', '1.05', '0.32'],
 
             // Resource Availability
             // Hospital Beds
-            hospBeds:                   [23187, 0.4, 0.8],
+            hospBeds:                   ['23187', '40', '80'],
             // ICU Beds
-            ICUBeds:                    [476, 0.4, 0.8],
+            ICUBeds:                    ['476', '40', '80'],
             // Ventilators
-            ventilators:                [5.4, 358, 0.4, 0.8, 3.00],
+            ventilators:                ['358', '40', '80', '300'],
 
             // Model outputs
             model_results: {},
@@ -103,7 +103,7 @@ export default class Model extends Component {
         return (
         <div>
             <Row style={{ width: "100%", margin: 0 }}>
-                <Col xs={3}>
+                <Col xs={3} style={{ paddingRight: 0 }}>
                     <div className="Input border-right border-gray">
                         <Input
                             params = {{
@@ -124,7 +124,7 @@ export default class Model extends Component {
                             }}/>
                     </div>
                 </Col>
-                <Col xs={9} style={{ backgroundColor: '#fefefa' }}>
+                <Col xs={9} style={{ backgroundColor: '#fefefa', paddingLeft: 0 }}>
                     <Output 
                         results={model_results}
                         measureWeeks={measureWeeks}

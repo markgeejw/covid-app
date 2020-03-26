@@ -21,8 +21,6 @@ export default class Chart extends Component {
     render() {
         const { newly_infected, resources, measureWeeks, dates } = this.props;
         const { numHospBeds, numICUBeds, numVents } = resources;
-        console.log(dates.length);
-        console.log(newly_infected.length);
         
         // Compute weeks
         const [ doNothing, socDist, relaxedLD, sigLD, critLD ] = measureWeeks;

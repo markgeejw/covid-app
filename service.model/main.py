@@ -29,14 +29,17 @@ class Model(Resource):
                 r0_params = [2.67, 1.675, 1.40, 1.05, 0.32]
             # print(r0_params)
             if 'model_vals' in request.args:
-                model_vals = list(map(float, request.args['model_vals'].split(",")))
+                model_vals = list(map(lambda x : float(x) / 100, request.args['model_vals'].split(",")))
             else:
                 model_vals = [0.0666, 0.02, 0.5, 0, 0.0097, 0.0166, 1.00, 1.00]
             # print(model_vals)
             if 'resource_vals' in request.args:
-                resource_values = list(map(float, request.args['resource_vals'].split(",")))
+                resource_values = list(map(lambda x: float(x) / 100, request.args['resource_vals'].split(",")))
+                resource_values[0] = int(resource_values[0] * 100)
+                resource_values[3] = int(resource_values[3] * 100)
+                resource_values[6] = int(resource_values[6] * 100)
             else:
-                resource_values = [0, 0.4, 0.8, 0, 0.4, 0.8, 5.4, 0, 0.4, 0.8, 3.0]
+                resource_values = [0, 0.4, 0.8, 0, 0.4, 0.8, 0, 0.4, 0.8, 3.0]
             # print(resource_values)
             if 'sim_len' in request.args:
                 sim_len_user = int(request.args['sim_len'])
@@ -56,15 +59,19 @@ class Model(Resource):
             # Right now hard coded
             state_info = None
             state_cases = None
-            state_info_template = collections.namedtuple('state_info', 'pop pub_hbeds priv_hbeds icu_beds vents weekly_hosps')
+            state_info_template = collections.namedtuple('state_info', 'pop hbeds icu_beds vents weekly_hosps')
             if 'state' in request.args:
                 state = request.args['state']
                 if state == "vic":
-                    state_info = state_info_template(pop=6229900, pub_hbeds=14820, priv_hbeds=8367, icu_beds=476, 
-                                        vents=int(resource_values[6]*6229900/100000), weekly_hosps=46000)
+                    pop = 6229900
+                    hbeds = resource_values[0]
+                    icu_beds = resource_values[3]
+                    vents = resource_values[6]
+                    state_info = state_info_template(pop=pop, hbeds=hbeds, icu_beds=icu_beds, 
+                                        vents=vents, weekly_hosps=46000)
                     state_cases = np.array([21, 6, 9, 13, 8, 14, 23, 27, 29, 28, 51, 67, 61])
                 elif state == "nsw":
-                    state_info = state_info_template(pop=8118000, pub_hbeds=21253, priv_hbeds=8491, icu_beds=874, 
+                    state_info = state_info_template(pop=8118000, hbeds=29744, icu_beds=874, 
                                         vents=int(resource_values[6]*8118000/100000), weekly_hosps=58921)
                     state_cases = np.array([59, 13, 14, 20, 22, 37, 39, 57, 40, 46, 83, 97, 136])
                 else:

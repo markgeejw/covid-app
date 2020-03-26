@@ -20,7 +20,7 @@ def round_down(num, multiple):
 
 model_keys = ['hosp_admit', 'icu_admit', 'icu_vent', 'vent_rates', 'cfr_normal', 'cfr_overload', 'mort_icublocked', 'mort_ventblocked']
 resource_keys = ['hbed', 'hbed_util', 'surge_hbed_util', 'icubed', 'icubed_util', 
-										'surge_icubed_util', 'vent_per_100000', 'vent', 'vent_util', 
+										'surge_icubed_util', 'vent', 'vent_util', 
 										'surge_vent_util', 'surge_vent_capac']
 
 class CovidModel(object):
@@ -53,7 +53,6 @@ class CovidModel(object):
 		for i in range(len(self.intervention_len)):
 			if (self.intervention_len[i] != 0):
 				intervention_epochs = int(round_js((self.intervention_len[i] * 7)/self.sim_interval))
-				print(intervention_epochs)
 				R0_vector = np.concatenate((R0_vector, np.repeat(self.R0_params[i], intervention_epochs)))
 		R0_vector = R0_vector[:self.epochs]
 		if (sum(self.intervention_len) == 26):
@@ -62,15 +61,6 @@ class CovidModel(object):
 		elif (sum(self.intervention_len) < 26):
 			R0_vector = np.concatenate((R0_vector, np.repeat(self.R0_params[1], self.epochs - len(R0_vector))))
 
-		# update resource values based on state
-		if (self.resource_values[0] == 0): # beds
-			self.resource_values[0] = state_info.hbeds
-		if (self.resource_values[3] == 0): # ICU beds
-			self.resource_values[3] = state_info.icu_beds
-		if (self.resource_values[7] == 0): # ventilators
-			self.resource_values[7] = self.resource_values[6]*state_info.pop/100000
-		if (self.model_values[3] == 0): # ventilation rates 
-			self.model_values[3] = self.model_values[1] * self.model_values[2]
 		# create model and resource parameter dicts
 		model_params = {}
 		resource_params = {}
