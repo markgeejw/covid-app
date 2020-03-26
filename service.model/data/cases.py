@@ -117,8 +117,8 @@ if __name__ == '__main__':
     pd.set_option('display.width', 100)
     pd.set_option('display.max_columns', 10)
 
-    country = 'Australia'
-    state = 'Victoria'
+    country = 'Singapore'
+    state = None
     start_date = '2020-03-10'
 
     crawler = Crawler(country, state)
