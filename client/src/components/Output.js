@@ -12,6 +12,14 @@ function addComma(x) {
     return Number(x).toLocaleString('en-US');
 }
 
+function toPercent(x) {
+    return Number(x) * 100 + '%';
+}
+
+function toDays(x) {
+    return Number(x) + ' days';
+}
+
 function formatDate(dateString) {
     if (dateString) {
         const d = new Date(dateString);
@@ -66,10 +74,10 @@ export default class Output extends Component {
                 data: addComma(results.total_received_vent)
             }, {
                 title: 'Percentage of deaths attributed to hospital overload',
-                data: to2dp(results.percentage_deaths_overload)
+                data: toPercent(to2dp(results.percentage_deaths_overload))
             }, {
                 title: 'Percentage of total population infected',
-                data: to2dp(results.percentage_infected)
+                data: toPercent(to2dp(results.percentage_infected))
             }],
             hospital: [{
                 title: 'Beds required at peak',
@@ -85,7 +93,7 @@ export default class Output extends Component {
                 data: formatDate(results.hbeds_run_out_surge)
             }, {
                 title: 'How many days beds ran out for (surge capacity)',
-                data: results.days_hbed_out
+                data: toDays(results.days_hbed_out)
             }],
             ICU: [{
                 title: 'ICU beds required at peak',
@@ -104,7 +112,7 @@ export default class Output extends Component {
                 data: formatDate(results.icubeds_run_out_surge)
             }, {
                 title: 'How many days ICU beds ran out for (surge capacity)',
-                data: results.days_icubed_out
+                data: toDays(results.days_icubed_out)
             }],
             ventilators: [{
                 title: 'Ventilators required at peak',
@@ -123,7 +131,7 @@ export default class Output extends Component {
                 data: formatDate(results.vents_run_out_surge)
             }, {
                 title: 'How many days ventilators ran out for (surge capacity)',
-                data: results.days_vents_out
+                data: toDays(results.days_vents_out)
             }]
         }
         return(
