@@ -1,10 +1,10 @@
 {
   "Australia":{
-    "population":6229900,
-    "public hospital beds":14820,
-    "private hospital beds":8367,
-    "icu beds":476,
-    "weekly hospital":54173
+    "population":25464100,
+    "public hospital beds":61675,
+    "private hospital beds":31029,
+    "icu beds":2229,
+    "weekly hospital":211788
   },
   "Singapore": {
     "population":5703600,
