@@ -95,7 +95,7 @@ class StateInfo(Resource):
             hospital_loader = Hospital()
             hospital_data = hospital_loader.query(query_code)
             return json.dumps(hospital_data)
-            
+
         except Exception as e:
             print(e)
             return 'Error', 400
@@ -119,11 +119,20 @@ class StateCases(Resource):
                 interval = request.args['interval']
             else:
                 interval = 1
-            crawler = Crawler(country, state)
-            df = crawler.query()
-            state_cases = crawler.filter_data(df, start_date, interval=interval)['cases'].values
+
+            online_data = True
+            if online_data:
+                crawler = Crawler()
+                df = crawler.query_single(country=country, state=state)
+                state_cases = crawler.periodic_dataset(df,start_date, interval=interval)['cases'].values
+            else:
+                crawler = Crawler()
+                df = crawler.import_json('data/cases.json', import_type='dataframe')
+                df = crawler.filter_dataset(df,country, state)
+                state_cases = crawler.periodic_dataset(df,start_date, interval=interval)['cases'].values
+
             return json.dumps({'cases': state_cases.tolist()})
-            
+
         except Exception as e:
             print(e)
             return 'Error', 400
