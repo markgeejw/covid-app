@@ -24,7 +24,7 @@ export default class Params extends Component {
             'Case Fatality Rate (Normal)', 
             'Case Fatality Rate (Overload)',
             'Mortality Rate of ICU Blocked Patients', 
-            'Mortality Rate of Ventilator Blocked Patients]' 
+            'Mortality Rate of Ventilator Blocked Patients' 
         ];
         const r0ParamTitles = [ 
             'Do Nothing', 

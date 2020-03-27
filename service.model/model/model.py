@@ -91,11 +91,11 @@ class CovidModel(object):
 					vents_req > results['vent_normal']):
 				case_fatality_rate = model_params['cfr_overload']
 				if (icubeds_req > results['icubed_normal']):
-					deaths += icubeds_req - results['icubed_normal']
-					overload_deaths += icubeds_req - results['icubed_normal']
+					deaths += (icubeds_req - results['icubed_normal']) * model_params['mort_icublocked']
+					overload_deaths += (icubeds_req - results['icubed_normal']) * model_params['mort_icublocked']
 				if (vents_req > results['vent_normal']):
-					deaths += vents_req - results['icubed_normal']
-					overload_deaths += vents_req - results['icubed_normal']
+					deaths += (vents_req - results['icubed_normal']) * model_params['mort_ventblocked']
+					overload_deaths += (vents_req - results['icubed_normal']) * model_params['mort_ventblocked']
 		deaths += case_fatality_rate * infected
 		return deaths, overload_deaths
 
