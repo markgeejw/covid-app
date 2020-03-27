@@ -3,7 +3,7 @@ from pprint import pprint
 
 class Hospital:
     def __init__(self):
-        self.filepath = 'hospital.json'
+        self.filepath = './data/hospital.json'
 
 
     def load_data(self,filepath):

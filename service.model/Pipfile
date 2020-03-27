@@ -15,6 +15,7 @@ urllib3 = "*"
 beautifulsoup4 = "*"
 pandas = "*"
 lxml = "*"
+bs4 = "*"
 
 [requires]
 python_version = "3.7"

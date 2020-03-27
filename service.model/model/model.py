@@ -20,7 +20,7 @@ def round_down(num, multiple):
 
 model_keys = ['hosp_admit', 'icu_admit', 'icu_vent', 'vent_rates', 'cfr_normal', 'cfr_overload', 'mort_icublocked', 'mort_ventblocked']
 resource_keys = ['hbed', 'hbed_util', 'surge_hbed_util', 'icubed', 'icubed_util', 
-										'surge_icubed_util', 'vent_per_100000', 'vent', 'vent_util', 
+										'surge_icubed_util', 'vent', 'vent_util', 
 										'surge_vent_util', 'surge_vent_capac']
 
 class CovidModel(object):
@@ -53,7 +53,6 @@ class CovidModel(object):
 		for i in range(len(self.intervention_len)):
 			if (self.intervention_len[i] != 0):
 				intervention_epochs = int(round_js((self.intervention_len[i] * 7)/self.sim_interval))
-				print(intervention_epochs)
 				R0_vector = np.concatenate((R0_vector, np.repeat(self.R0_params[i], intervention_epochs)))
 		R0_vector = R0_vector[:self.epochs]
 		if (sum(self.intervention_len) == 26):
@@ -62,15 +61,6 @@ class CovidModel(object):
 		elif (sum(self.intervention_len) < 26):
 			R0_vector = np.concatenate((R0_vector, np.repeat(self.R0_params[1], self.epochs - len(R0_vector))))
 
-		# update resource values based on state
-		if (self.resource_values[0] == 0): # beds
-			self.resource_values[0] = state_info.pub_hbeds + state_info.priv_hbeds
-		if (self.resource_values[3] == 0): # ICU beds
-			self.resource_values[3] = state_info.icu_beds
-		if (self.resource_values[7] == 0): # ventilators
-			self.resource_values[7] = self.resource_values[6]*state_info.pop/100000
-		if (self.model_values[3] == 0): # ventilation rates 
-			self.model_values[3] = self.model_values[1] * self.model_values[2]
 		# create model and resource parameter dicts
 		model_params = {}
 		resource_params = {}
@@ -83,8 +73,8 @@ class CovidModel(object):
 	def init_results(self, results, R0, state_info, resource_params):
 		results['total_weeks_action'] = sum(self.intervention_len)
 		results['average_R0'] = np.mean(R0)
-		results['hbed_normal'] = (state_info.pub_hbeds + state_info.priv_hbeds) * resource_params['hbed_util']
-		results['hbed_surge'] = (state_info.pub_hbeds + state_info.priv_hbeds) * resource_params['surge_hbed_util']
+		results['hbed_normal'] = (state_info.hbeds) * resource_params['hbed_util']
+		results['hbed_surge'] = (state_info.hbeds) * resource_params['surge_hbed_util']
 		results['hosp_per_week'] = state_info.weekly_hosps
 		results['icubed_normal'] = state_info.icu_beds * resource_params['icubed_util']
 		results['icubed_surge'] = state_info.icu_beds * resource_params['surge_icubed_util']
@@ -232,7 +222,7 @@ class CovidModel(object):
 		# ICU beds
 		results['icubeds_req_peak'] = int(np.amax(icubeds_required))
 		results['shortfall_icubeds_peak'] = int(max(np.amax(icubeds_required) - results['icubed_surge'], 0))
-		results['patients_missed_out_icubeds'] = max(cumulative_needed_icu - cumulative_received_icu, 0)
+		results['patients_missed_out_icubeds'] = int(max(cumulative_needed_icu - cumulative_received_icu, 0))
 		results['icubeds_run_out_normal'] = np.datetime_as_string(dates[np.argmax(icubeds_required > results['icubed_normal'])])
 		results['icubeds_run_out_surge'] = np.datetime_as_string(dates[np.argmax(icubeds_required > results['icubed_surge'])])
 		results['days_icubed_out'] = int((icubeds_required > results['icubed_surge']).sum())

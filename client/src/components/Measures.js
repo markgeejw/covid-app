@@ -1,12 +1,79 @@
 import React, { Component } from 'react';
-import { Row, Col, Container, Form } from 'react-bootstrap';
+import { Row, Col, Container } from 'react-bootstrap';
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
-import RangeSlider from 'react-bootstrap-range-slider';
+import { withStyles } from '@material-ui/core/styles';
+import { Slider, Input, Tooltip, IconButton } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+
+const spawnToolTipFromColor = (color) => {
+    const tooltipOptions = {
+        tooltip: {
+            backgroundColor: color,
+            color: '#000000',
+            fontSize: 13,
+        }
+    };
+    return withStyles(tooltipOptions)(Tooltip);
+}
+
+const spawnSliderFromColor = (color) => {
+    const sliderOptions = {
+        root: {
+          color: color,
+          height: 8,
+        },
+        thumb: {
+          height: 24,
+          width: 24,
+          backgroundColor: '#fff',
+          border: '2px solid currentColor',
+          marginTop: -8,
+          marginLeft: -12,
+          '&:focus, &:hover, &$active': {
+            boxShadow: 'inherit',
+          },
+        },
+        active: {},
+        valueLabel: {
+          left: 'calc(-50% + 4px)',
+        },
+        track: {
+          height: 8,
+          borderRadius: 4,
+        },
+        rail: {
+          height: 8,
+          borderRadius: 4,
+        },
+        mark: {
+            height: 0
+        }
+    };
+    return withStyles(sliderOptions)(Slider);
+}
+
+const Slider1 = spawnSliderFromColor('#d26c67');
+const Slider2 = spawnSliderFromColor('#df9c99');
+const Slider3 = spawnSliderFromColor('#fbe69f');
+const Slider4 = spawnSliderFromColor('#bdd6ab');
+const Slider5 = spawnSliderFromColor('#9cc381');
+
+const Tooltip1 = spawnToolTipFromColor('#d26c67');
+const Tooltip2 = spawnToolTipFromColor('#df9c99');
+const Tooltip3 = spawnToolTipFromColor('#fbe69f');
+const Tooltip4 = spawnToolTipFromColor('#bdd6ab');
+const Tooltip5 = spawnToolTipFromColor('#9cc381');
 
 export default class Measures extends Component {
 
     render() {
         const measureWeeks = this.props.measureWeeks;
+        const max1 = 26 - measureWeeks[1] - measureWeeks[2] - measureWeeks[3] - measureWeeks[4];
+        const max2 = 26 - measureWeeks[0] - measureWeeks[2] - measureWeeks[3] - measureWeeks[4];
+        const max3 = 26 - measureWeeks[0] - measureWeeks[1] - measureWeeks[3] - measureWeeks[4];
+        const max4 = 26 - measureWeeks[0] - measureWeeks[1] - measureWeeks[2] - measureWeeks[4];
+        const max5 = 26 - measureWeeks[0] - measureWeeks[1] - measureWeeks[2] - measureWeeks[3];
         return(
             <div>
             {/* Left Input */}
@@ -15,165 +82,265 @@ export default class Measures extends Component {
                         <Col style={{ textAlign: "left" }}><h4>Inputs</h4></Col>
                     </Row>
                     <Row className="align-items-center">
-                        <Col xs={8} style={{ textAlign: "left" }}>
-                            <h5>Measures</h5>
-                        </Col>
-                        <Col xs={4} style={{ textAlign: "right" }}>
-                            <h5>Weeks</h5>
-                            <p style={{ marginBottom: 0 }}>(Max 26)</p>
+                        <Col style={{ textAlign: "left" }}>
+                            <p><span style={{ fontWeight: 500 }}>Intervention Measures in Weeks</span> (Max 26)</p>
                         </Col>
                     </Row>
-                    <Form>
-                    <Form.Group>
-                        <Row>
-                            <Col>
-                                <Row className="Measure-Titles"><p>Do Nothing</p></Row>
-                            </Col>
-                        </Row>
-                        <Row>
+                    <Row>
+                        <Col>
+                            <Row className="Measure-Titles doNothing">
+                                <p>Do Nothing
+                                    <Tooltip1 title="Business as usual. Minimal damage to the economy. No interventions.">
+                                        <IconButton style={{ marginLeft: 5, padding: 0 }} size='small'>
+                                            <FontAwesomeIcon icon={faQuestionCircle}/>
+                                        </IconButton>
+                                    </Tooltip1>
+                                </p>
+                            </Row>
+                        </Col>
+                    </Row>
+                    <Row style={{ paddingLeft: 10, paddingRight: 10 }}>
                         <Col xs={9}>
-                        <RangeSlider
-                        value={measureWeeks[0]}
-                        onChange={changeEvent => {
-                            measureWeeks[0] = changeEvent.target.value;
-                            this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
-                        }}
-                        max={26 - measureWeeks[1] - measureWeeks[2] - measureWeeks[3] - measureWeeks[4]}
-                        variant="danger"
-                        />
+                            <Slider1
+                            step={1}
+                            marks={[{
+                                value: 0,
+                                label: '0'
+                            }, {
+                                value: max1 ? max1: 26,
+                                label: '' + (max1 ? max1 : '')
+                            }]}
+                            max={max1}
+                            value={measureWeeks[0]}
+                            onChange={(_, value) => {
+                                measureWeeks[0] = value;
+                                this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
+                            }} 
+                            valueLabelDisplay="auto"
+                            aria-labelledby="doNothing" />
                         </Col>
                         <Col>
-                        <Form.Control 
-                        value={measureWeeks[0]}
-                        onChange={changeEvent => {
-                            measureWeeks[0] = changeEvent.target.value;
-                            this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
-                        }}
+                        <Input
+                            value={measureWeeks[0]}
+                            margin="dense"
+                            onChange={(event) => {
+                                measureWeeks[0] = event.target.value;
+                                this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
+                            }} 
+                            inputProps={{
+                            step: 1,
+                            min: 0,
+                            max: max1,
+                            type: 'number',
+                            'aria-labelledby': 'doNothing',
+                            }}
                         />
                         </Col>
-                        </Row>
-                    </Form.Group>
-                    
-                    <Form.Group>
-                        <Row>
-                            <Col>
-                                <Row className="Measure-Titles"><p>Social Distancing</p></Row>
-                            </Col>
-                        </Row>
-                        <Row>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Row className="Measure-Titles socDist">
+                                <p>Social Distancing
+                                    <Tooltip2 title="Lockdown for high risk groups. Public advocacy for social distancing and enhanced hygiene. Restricted travel.">
+                                        <IconButton style={{ marginLeft: 5, padding: 0 }} size='small'>
+                                            <FontAwesomeIcon icon={faQuestionCircle}/>
+                                        </IconButton>
+                                    </Tooltip2>
+                                </p>
+                            </Row>
+                        </Col>
+                    </Row>
+                    <Row style={{ paddingLeft: 10, paddingRight: 10 }}>
                         <Col xs={9}>
-                        <RangeSlider
-                        value={measureWeeks[1]}
-                        onChange={changeEvent => {
-                            measureWeeks[1] = changeEvent.target.value;
-                            this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
-                        }}
-                        max={26 - measureWeeks[0] - measureWeeks[2] - measureWeeks[3] - measureWeeks[4]}
-                        variant="warning"
-                        />
+                            <Slider2
+                            step={1}
+                            marks={[{
+                                value: 0,
+                                label: '0'
+                            }, {
+                                value: max2 ? max2 : 26,
+                                label: '' + (max2 ? max2 : '')
+                            }]}
+                            max={max2}
+                            value={measureWeeks[1]}
+                            onChange={(_, value) => {
+                                measureWeeks[1] = value;
+                                this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
+                            }} 
+                            valueLabelDisplay="auto"
+                            aria-labelledby="socDist" />
                         </Col>
                         <Col>
-                        <Form.Control 
-                        value={measureWeeks[1]}
-                        onChange={changeEvent => {
-                            measureWeeks[1] = changeEvent.target.value;
-                            this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
-                        }}
-                        />
+                            <Input
+                                value={measureWeeks[1]}
+                                margin="dense"
+                                onChange={(event) => {
+                                    measureWeeks[1] = event.target.value;
+                                    this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
+                                }} 
+                                inputProps={{
+                                step: 1,
+                                min: 0,
+                                max: max2,
+                                type: 'number',
+                                'aria-labelledby': 'socDist',
+                                }}
+                            />
                         </Col>
-                        </Row>
-                    </Form.Group>
-                    
-                    <Form.Group>
-                        <Row>
-                            <Col>
-                                <Row className="Measure-Titles"><p>Relaxed Lockdown</p></Row>
-                            </Col>
-                        </Row>
-                        <Row>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Row className="Measure-Titles relaxedLD">
+                                <p>Relaxed Lockdown
+                                    <Tooltip3 title="Voluntary community-wide home quarantine (especially firm for high-risk groups). Shutdown of non-essential businesses. Can still attend essential services (e.g. groceries, go for a run).">
+                                        <IconButton style={{ marginLeft: 5, padding: 0 }} size='small'>
+                                            <FontAwesomeIcon icon={faQuestionCircle}/>
+                                        </IconButton>
+                                    </Tooltip3>
+                                </p>
+                            </Row>
+                        </Col>
+                    </Row>
+                    <Row style={{ paddingLeft: 10, paddingRight: 10 }}>
                         <Col xs={9}>
-                        <RangeSlider
-                        value={measureWeeks[2]}
-                        onChange={changeEvent => {
-                            measureWeeks[2] = changeEvent.target.value;
-                            this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
-                        }}
-                        max={26 - measureWeeks[0] - measureWeeks[1] - measureWeeks[3] - measureWeeks[4]}
-                        variant="primary"
-                        />
+                            <Slider3
+                            step={1}
+                            marks={[{
+                                value: 0,
+                                label: '0'
+                            }, {
+                                value: max3 ? max3 : 26,
+                                label: '' + (max3 ? max3 : '')
+                            }]}
+                            max={max3}
+                            value={measureWeeks[2]}
+                            onChange={(_, value) => {
+                                measureWeeks[2] = value;
+                                this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
+                            }} 
+                            valueLabelDisplay="auto"
+                            aria-labelledby="relaxedLD" />
                         </Col>
                         <Col>
-                        <Form.Control 
-                        value={measureWeeks[2]}
-                        onChange={changeEvent => {
-                            measureWeeks[2] = changeEvent.target.value;
-                            this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
-                        }}
+                        <Input
+                            value={measureWeeks[2]}
+                            margin="dense"
+                            onChange={(event) => {
+                                measureWeeks[2] = event.target.value;
+                                this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
+                            }} 
+                            inputProps={{
+                            step: 1,
+                            min: 0,
+                            max: max3,
+                            type: 'number',
+                            'aria-labelledby': 'relaxedLD',
+                            }}
                         />
                         </Col>
-                        </Row>
-                    </Form.Group>
-                    
-                    <Form.Group>
-                        <Row>
-                            <Col>
-                                <Row className="Measure-Titles"><p>Significant Lockdown</p></Row>
-                            </Col>
-                        </Row>
-                        <Row>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Row className="Measure-Titles sigLD">
+                                <p>Significant Lockdown
+                                    <Tooltip4 title="Semi-voluntary community-wide home quarantine. Shops closed except groceries/medicine. Permission required to leave house or about one family member allowed to leave every 2 days.">
+                                        <IconButton style={{ marginLeft: 5, padding: 0 }} size='small'>
+                                            <FontAwesomeIcon icon={faQuestionCircle}/>
+                                        </IconButton>
+                                    </Tooltip4>
+                                </p>
+                            </Row>
+                        </Col>
+                    </Row>
+                    <Row style={{ paddingLeft: 10, paddingRight: 10 }}>
                         <Col xs={9}>
-                        <RangeSlider
-                        value={measureWeeks[3]}
-                        onChange={changeEvent => {
-                            measureWeeks[3] = changeEvent.target.value;
-                            this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
-                        }}
-                        max={26 - measureWeeks[0] - measureWeeks[1] - measureWeeks[2] - measureWeeks[4]}
-                        variant="info"
-                        />
+                            <Slider4
+                            step={1}
+                            marks={[{
+                                value: 0,
+                                label: '0'
+                            }, {
+                                value: max4 ? max4 : 26,
+                                label: '' + (max4 ? max4 : '')
+                            }]}
+                            max={max4}
+                            value={measureWeeks[3]}
+                            onChange={(_, value) => {
+                                measureWeeks[3] = value;
+                                this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
+                            }} 
+                            valueLabelDisplay="auto"
+                            aria-labelledby="sigLD" />
                         </Col>
                         <Col>
-                        <Form.Control 
-                        value={measureWeeks[3]}
-                        onChange={changeEvent => {
-                            measureWeeks[3] = changeEvent.target.value;
-                            this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
-                        }}
+                        <Input
+                            value={measureWeeks[3]}
+                            margin="dense"
+                            onChange={(event) => {
+                                measureWeeks[3] = event.target.value;
+                                this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
+                            }} 
+                            inputProps={{
+                            step: 1,
+                            min: 0,
+                            max: max4,
+                            type: 'number',
+                            'aria-labelledby': 'sigLD',
+                            }}
                         />
                         </Col>
-                        </Row>
-                    </Form.Group>
-                    
-                    <Form.Group>
-                        <Row>
-                            <Col>
-                                <Row className="Measure-Titles"><p>Critical Lockdown</p></Row>
-                            </Col>
-                        </Row>
-                        <Row>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Row className="Measure-Titles critLD">
+                                <p>Critical Lockdown
+                                    <Tooltip5 title="Mandatory home quarantine for everyone. Food delivered by couriers or army. Officials move door-to-door for health checks and anyone ill is quarantined in a hospital.">
+                                        <IconButton style={{ marginLeft: 5, padding: 0 }} size='small'>
+                                            <FontAwesomeIcon icon={faQuestionCircle}/>
+                                        </IconButton>
+                                    </Tooltip5>
+                                </p>
+                            </Row>
+                        </Col>
+                    </Row>
+                    <Row style={{ paddingLeft: 10, paddingRight: 10 }}>
                         <Col xs={9}>
-                        <RangeSlider
-                        value={measureWeeks[4]}
-                        onChange={changeEvent => {
-                            measureWeeks[4] = changeEvent.target.value;
-                            this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
-                        }}
-                        max={26 - measureWeeks[0] - measureWeeks[1] - measureWeeks[2] - measureWeeks[3]}
-                        variant="success"
-                        />
+                            <Slider5
+                            step={1}
+                            marks={[{
+                                value: 0,
+                                label: '0'
+                            }, {
+                                value: max5 ? max5 : 26,
+                                label: '' + (max5 ? max5 : '')
+                            }]}
+                            max={max5}
+                            value={measureWeeks[4]}
+                            onChange={(_, value) => {
+                                measureWeeks[4] = value;
+                                this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
+                            }} 
+                            valueLabelDisplay="auto"
+                            aria-labelledby="critLD" />
                         </Col>
                         <Col>
-                        <Form.Control 
-                        value={measureWeeks[4]}
-                        onChange={changeEvent => {
-                            measureWeeks[4] = changeEvent.target.value;
-                            this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
-                        }}
+                        <Input
+                            value={measureWeeks[4]}
+                            margin="dense"
+                            onChange={(event) => {
+                                measureWeeks[4] = event.target.value;
+                                this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
+                            }} 
+                            inputProps={{
+                            step: 1,
+                            min: 0,
+                            max: max5,
+                            type: 'number',
+                            'aria-labelledby': 'critLD',
+                            }}
                         />
                         </Col>
-                        </Row>
-                    </Form.Group>
-                    </Form>
+                    </Row>
                 </Container>
             </div>
         )
