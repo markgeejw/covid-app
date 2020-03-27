@@ -13,7 +13,7 @@ function addComma(x) {
 }
 
 function toPercent(x) {
-    return Number(x) * 100 + '%';
+    return (Number(x) * 100).toFixed() + '%';
 }
 
 function toDays(x) {
