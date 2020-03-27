@@ -141,8 +141,7 @@ class StateCases(Resource):
                 online_data = False
             else:
                 online_data = True
-            logger.info('this is state')
-            logger.debug(state)
+
             if online_data:
                 crawler = Crawler()
                 df = crawler.query_single(country=country, state=state)
