@@ -2,6 +2,7 @@ import urllib.request
 from bs4 import BeautifulSoup
 import pandas as pd
 import pdb
+import time
 
 class Crawler():
 
@@ -113,17 +114,17 @@ class Crawler():
 
 
 if __name__ == '__main__':
-    # display options
-    pd.set_option('display.width', 100)
-    pd.set_option('display.max_columns', 10)
+  # display options
+  pd.set_option('display.width', 100)
+  pd.set_option('display.max_columns', 10)
 
-    country = 'Singapore'
-    state = None
-    start_date = '2020-03-10'
+  country = 'Australia'
+  state = None
+  start_date = '2020-03-10'
 
-    crawler = Crawler(country, state)
-    df = crawler.query()
+  crawler = Crawler(country, state)
+  df = crawler.query()
 
-    filtered_df = crawler.filter_data(df, start_date, interval=4)
-    print(filtered_df)
-    json_output = crawler.convert_to_json(df)
+  filtered_df = crawler.filter_data(df, start_date, interval=4)
+  print(filtered_df)
+  json_output = crawler.convert_to_json(df)
