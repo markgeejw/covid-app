@@ -16,16 +16,18 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = { 
+            selectMode: true,
             country: '',
             state: '',
         }
     }
 
-    updateRegion= (country, state) => {
-        this.setState({ country: country, state: state });
+    updateRegion= (select, country, state) => {
+        this.setState({ selectMode: select, country: country, state: state });
     }
 
     render() {
+        const { selectMode, country, state } = this.state;
         return (
             <div className="App">
                 <Router>                    
@@ -35,7 +37,12 @@ class App extends Component {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ml-auto">
-                    <Nav.Link as={Link} to="/">Home</Nav.Link>
+                    <Nav.Link 
+                        as={Link} 
+                        to="/"
+                        onClick={() => this.updateRegion(true, "", "")}>
+                        Home
+                    </Nav.Link>
                     <Nav.Link as={Link} to="/map">Map</Nav.Link>
                     <Nav.Link as={Link} to="/about">About</Nav.Link>
                     </Nav>
@@ -44,19 +51,17 @@ class App extends Component {
                 </div>
                 <Switch>
                 <Route exact path="/">
-                    <Home
+                    {selectMode && <Home
                     eventHandlers={{
                         updateRegion: this.updateRegion
                     }}
-                    />
-                </Route>
-                <Route exact path="/model">
-                    <Model
+                    />}
+                    {!selectMode && <Model
                     region={{
-                        country: this.state.country,
-                        state: this.state.state
+                        country: country,
+                        state: state
                     }}
-                    />
+                    />}
                 </Route>
                 <Route exact path="/about">
                     <About/>

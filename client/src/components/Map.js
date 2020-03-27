@@ -47,7 +47,12 @@ export default class Map extends Component {
 	render() {
 		return (
             <Container style={{ paddingTop: 80 }}>
+                <div style={{ textAlign: 'left' }}>
                 <h2>Map</h2>
+                <div style={{ marginTop: 20 }}>
+                    <p>Just a map that does nothing for now.</p>
+                </div>
+                </div>
 				<div>
 					<SVGMap
 						map={World}

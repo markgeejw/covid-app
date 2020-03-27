@@ -129,8 +129,7 @@ export default class Output extends Component {
             }]
         }
         return(
-            <div>
-            { <Container fluid style={{ padding: 20, paddingTop: 80 }}>
+            <Container fluid style={{ padding: 20, paddingTop: 80 }}>
                 <Row>
                 <Col lg={8}>
                     <div className="fixed">
@@ -145,7 +144,7 @@ export default class Output extends Component {
                         </Row>
                     </div>
                 </Col>
-                <Col style={{ textAlign: "left" }} lg={4}>
+                {results.total_weeks_action && <Col className="stats" style={{ textAlign: "left" }} lg={4}>
                     <h4>Key Statistics</h4>
                     <h5 className="Stats-Category">What happened?</h5>
                     <TableContainer component={Paper}>
@@ -212,10 +211,9 @@ export default class Output extends Component {
                         </TableBody>
                     </Table>
                     </TableContainer>
-                </Col>
+                </Col>}
                 </Row>
-            </Container>}
-            </div>
+            </Container>
         )
     }
 }
