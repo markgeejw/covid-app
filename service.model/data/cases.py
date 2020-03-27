@@ -3,9 +3,6 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import logging
 import pdb
-<<<<<<< HEAD
-import time
-=======
 import json
 import sys
 import time
@@ -18,7 +15,6 @@ if logging.root.handlers == []:
     ch = logging.StreamHandler(sys.stdout)
     ch.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))
     logger.addHandler(ch)
->>>>>>> 438dd41f86f85e9e0f1e5d1dde1eda77af78746f
 
 class Crawler():
 
