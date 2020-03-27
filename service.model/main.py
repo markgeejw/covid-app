@@ -97,7 +97,7 @@ class Model(Resource):
             return json.dumps({'results': results, 'data': data})
 
         except Exception as e:
-            print(e)
+            logger.debug(e)
             return 'Error', 400
 
 class StateInfo(Resource):
@@ -114,7 +114,8 @@ class StateInfo(Resource):
             return json.dumps(hospital_data)
 
         except Exception as e:
-            print(e)
+            logger.debug('error retreiving hospital data')
+            logger.debug(e)
             return 'Error', 400
 
 class StateCases(Resource):
@@ -140,6 +141,8 @@ class StateCases(Resource):
                 online_data = False
             else:
                 online_data = True
+            logger.info('this is state')
+            logger.debug(state)
             if online_data:
                 crawler = Crawler()
                 df = crawler.query_single(country=country, state=state)
@@ -153,7 +156,8 @@ class StateCases(Resource):
             return json.dumps({'cases': state_cases.tolist()})
 
         except Exception as e:
-            print(e)
+            logger.debug('error retreiving cases data')
+            logger.debug(e)
             return 'Error', 400
 
 api.add_resource(Model, '/')
