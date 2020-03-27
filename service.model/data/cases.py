@@ -221,46 +221,46 @@ class Crawler():
 
 
 if __name__ == '__main__':
-    # display options
-    pd.set_option('display.width', 100)
-    pd.set_option('display.max_columns', 10)
+  # display options
+  pd.set_option('display.width', 100)
+  pd.set_option('display.max_columns', 10)
 
-    # single dataset
-    country = 'Singapore'
-    state = None
-    start_date = '2020-03-10'
+  # single dataset
+  country = 'Singapore'
+  state = None
+  start_date = '2020-03-10'
 
-    start = time.time()
+  start = time.time()
 
-    crawler = Crawler()
-    df = crawler.query_single(country=country, state=state)
-    filtered_df = crawler.periodic_dataset(df,start_date, interval=1)
-    print('---- single data ----')
-    print(filtered_df)
+  crawler = Crawler()
+  df = crawler.query_single(country=country, state=state)
+  filtered_df = crawler.periodic_dataset(df,start_date, interval=1)
+  print('---- single data ----')
+  print(filtered_df)
 
-    end = time.time()
-    print('query online dataset end time:{:.2f}'.format(end-start))
+  end = time.time()
+  print('query online dataset end time:{:.2f}'.format(end-start))
 
-    start = time.time()
-    #full dataset
-    crawler = Crawler()
-    regions_df = crawler.query_regions()
-    entire_dataset = crawler.query_entire()
+  start = time.time()
+  #full dataset
+  crawler = Crawler()
+  regions_df = crawler.query_regions()
+  entire_dataset = crawler.query_entire()
 
-    print('\n---- saving entire data to json ----')
-    output = entire_dataset.to_dict(orient='records')
-    crawler.export_json('cases.json', output)
+  print('\n---- saving entire data to json ----')
+  output = entire_dataset.to_dict(orient='records')
+  crawler.export_json('cases.json', output)
 
-    end = time.time()
-    print('saving entire dataset end time:{:.2f}'.format(end-start))
+  end = time.time()
+  print('saving entire dataset end time:{:.2f}'.format(end-start))
 
-    start = time.time()
-    print('\n---- query cases from json load ----')
-    country = 'Singapore'
-    state = None
-    df = crawler.import_json('cases.json', import_type='dataframe')
-    df = crawler.filter_dataset(df,country, state)
-    filtered_df = crawler.periodic_dataset(df,start_date, interval=1)
+  start = time.time()
+  print('\n---- query cases from json load ----')
+  country = 'Singapore'
+  state = None
+  df = crawler.import_json('cases.json', import_type='dataframe')
+  df = crawler.filter_dataset(df,country, state)
+  filtered_df = crawler.periodic_dataset(df,start_date, interval=1)
 
-    end = time.time()
-    print('load and query flat dataset end time:{:.2f}'.format(end-start))
+  end = time.time()
+  print('load and query flat dataset end time:{:.2f}'.format(end-start))

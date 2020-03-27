@@ -20,10 +20,13 @@ export default class Home extends Component {
                 return(
                     <ul>
                         <li>
-                            <Link
-                            onClick={() => {this.props.eventHandlers.updateRegion(false, country, "")}}>
+                            {supported_regions[country].length === 0 ?
+                                <Link
+                                onClick={() => {this.props.eventHandlers.updateRegion(false, country, "")}}
+                                to="/">
                                 {country}
-                            </Link>
+                                </Link> : <span>{country}</span>
+                            }
                         </li>
                         <ul>
                             {supported_regions[country].map(state => {
