@@ -136,10 +136,10 @@ class StateCases(Resource):
                 interval = request.args['interval']
             else:
                 interval = 1
-            if 'online_data' in request.args:
-                online_data = True
-            else:
+            if 'app' in request.args:
                 online_data = False
+            else:
+                online_data = True
             if online_data:
                 crawler = Crawler()
                 df = crawler.query_single(country=country, state=state)
