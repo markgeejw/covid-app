@@ -91,11 +91,11 @@ class CovidModel(object):
 					vents_req > results['vent_normal']):
 				case_fatality_rate = model_params['cfr_overload']
 				if (icubeds_req > results['icubed_normal']):
-					deaths += icubeds_req - results['icubed_normal']
-					overload_deaths += icubeds_req - results['icubed_normal']
+					deaths += (icubeds_req - results['icubed_normal']) * model_params['mort_icublocked']
+					overload_deaths += (icubeds_req - results['icubed_normal']) * model_params['mort_icublocked']
 				if (vents_req > results['vent_normal']):
-					deaths += vents_req - results['icubed_normal']
-					overload_deaths += vents_req - results['icubed_normal']
+					deaths += (vents_req - results['icubed_normal']) * model_params['mort_ventblocked']
+					overload_deaths += (vents_req - results['icubed_normal']) * model_params['mort_ventblocked']
 		deaths += case_fatality_rate * infected
 		return deaths, overload_deaths
 
@@ -189,7 +189,6 @@ class CovidModel(object):
 
 		# update data
 		data['newly_infected'] = newly_infected.tolist()
-		print(len(newly_infected.tolist()))
 		data['dates'] = np.datetime_as_string(dates).tolist()
 		data['R0'] = R0.tolist()
 
@@ -218,21 +217,24 @@ class CovidModel(object):
 		results['shortfall_hbeds_peak'] = int(max(np.amax(hbeds_required) - results['hbed_surge'], 0))
 		results['hbeds_run_out_normal'] = np.datetime_as_string(dates[np.argmax(hbeds_required > results['hbed_normal'])])
 		results['hbeds_run_out_surge'] = np.datetime_as_string(dates[np.argmax(hbeds_required > results['hbed_surge'])])
-		results['days_hbed_out'] = int((hbeds_required > results['hbed_surge']).sum())
+		results['days_hbed_out_normal'] = int((hbeds_required > results['hbed_normal']).sum())
+		results['days_hbed_out_surge'] = int((hbeds_required > results['hbed_surge']).sum())
 		# ICU beds
 		results['icubeds_req_peak'] = int(np.amax(icubeds_required))
 		results['shortfall_icubeds_peak'] = int(max(np.amax(icubeds_required) - results['icubed_surge'], 0))
 		results['patients_missed_out_icubeds'] = int(max(cumulative_needed_icu - cumulative_received_icu, 0))
 		results['icubeds_run_out_normal'] = np.datetime_as_string(dates[np.argmax(icubeds_required > results['icubed_normal'])])
 		results['icubeds_run_out_surge'] = np.datetime_as_string(dates[np.argmax(icubeds_required > results['icubed_surge'])])
-		results['days_icubed_out'] = int((icubeds_required > results['icubed_surge']).sum())
+		results['days_icubed_out_normal'] = int((icubeds_required > results['icubed_normal']).sum())
+		results['days_icubed_out_surge'] = int((icubeds_required > results['icubed_surge']).sum())
 		# ventilators 
 		results['vents_req_peak'] = int(np.amax(vents_required))
 		results['shortfall_vents_peak'] = int(max(np.amax(vents_required) - results['vent_surge'], 0))
 		results['patients_missed_out_ventilators'] = int(max(cumulative_needed_vents - cumulative_received_vents, 0))
 		results['vents_run_out_normal'] = np.datetime_as_string(dates[np.argmax(vents_required > results['vent_normal'])])
 		results['vents_run_out_surge'] = np.datetime_as_string(dates[np.argmax(vents_required > results['vent_surge'])])
-		results['days_vents_out'] = int((vents_required > results['vent_surge']).sum())
+		results['days_vents_out_normal'] = int((vents_required > results['vent_normal']).sum())
+		results['days_vents_out_surge'] = int((vents_required > results['vent_surge']).sum())
 		return peak_index
 
 	def run_simulate(self, state_info, state_cases):

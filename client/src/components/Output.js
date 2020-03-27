@@ -8,6 +8,18 @@ function to2dp(x) {
     return Number.parseFloat(x).toFixed(2);
 }
 
+function addComma(x) {
+    return Number(x).toLocaleString('en-US');
+}
+
+function toPercent(x) {
+    return (Number(x) * 100).toFixed() + '%';
+}
+
+function toDays(x) {
+    return Number(x) + ' days';
+}
+
 function formatDate(dateString) {
     if (dateString) {
         const d = new Date(dateString);
@@ -30,102 +42,96 @@ export default class Output extends Component {
         const { results, resources, newly_infected, measureWeeks, dates, region } = this.props;
         const outputData = {
             summary: [{
-                title: 'Total weeks of action',
-                data: results.total_weeks_action
-            }, {
-                title: 'Did the pandemic end before September 22nd?',
+                title: 'Did the pandemic end in 6 months?',
                 data: results.pandemic_end ? "Yes" : "No"
             }, {
-                title: 'Average R0 from your actions',
-                data: to2dp(results.average_R0)
-            }, {
-                title: 'Peak of pandemic was at',
+                title: 'Peak of pandemic',
                 data: formatDate(results.pandemic_peak)
             }, {
-                title: 'Daily infection rate at the peak',
-                data: to2dp(results.daily_infection_rate_at_peak)
+                title: 'Daily infections at peak',
+                data: addComma(Number(results.daily_infection_rate_at_peak).toFixed())
+            }, {
+                title: 'Average R0',
+                data: to2dp(results.average_R0)
             }],
             population: [{
-                title: 'Total infected over 6 months',
-                data: results.total_infected
+                title: 'Total deceased',
+                data: addComma(results.total_deaths)
             }, {
-                title: 'Total saved (not infected) over 6 months',
-                data: results.total_saved
+                title: 'Total deceased (from health system overload)',
+                data: addComma(results.total_deaths_overload)
             }, {
-                title: 'Percentage of population infected',
-                data: to2dp(results.percentage_infected)
+                title: 'Total infected',
+                data: addComma(results.total_infected)
             }, {
-                title: 'Total hospitalised over 6 months',
-                data: results.total_hospitalised
+                title: 'Total hospitalised',
+                data: addComma(results.total_hospitalised)
             }, {
-                title: 'Total in ICU over 6 months',
-                data: results.total_received_icu
+                title: 'Total intensive cared',
+                data: addComma(results.total_received_icu)
             }, {
-                title: 'Total ventilated over 6 months',
-                data: results.total_received_vent
+                title: 'Total ventilated',
+                data: addComma(results.total_received_vent)
             }, {
-                title: 'Total deceased over 6 months',
-                data: results.total_deaths
+                title: 'Percentage of deaths attributed to hospital overload',
+                data: toPercent(to2dp(results.percentage_deaths_overload))
             }, {
-                title: 'Total deaths from hospital overload',
-                data: results.total_deaths_overload
-            }, {
-                title: 'Percentage of total deaths from hospital overload',
-                data: to2dp(results.percentage_deaths_overload)
+                title: 'Percentage of total population infected',
+                data: toPercent(to2dp(results.percentage_infected))
             }],
             hospital: [{
-                title: 'Beds required at the peak',
-                data: results.hbeds_req_peak
+                title: 'Beds required at peak',
+                data: addComma(results.hbeds_req_peak)
             }, {
-                title: 'Shortfall of beds at the peak',
-                data: results.shortfall_hbeds_peak
+                title: 'Shortfall of beds at peak',
+                data: addComma(results.shortfall_hbeds_peak)
             }, {
-                title: 'When beds would run out (normal capacity)',
-                data: formatDate(results.hbeds_run_out_normal)
+                title: 'When beds ran out (normal capacity)',
+                data: results.days_hbed_out_normal ? formatDate(results.hbeds_run_out_normal) : "N/A"
             }, {
-                title: 'When beds would run out (surge capacity)',
-                data: formatDate(results.hbeds_run_out_surge)
+                title: 'When beds ran out (surge capacity)',
+                data: results.days_hbed_out_surge ? formatDate(results.hbeds_run_out_surge) : "N/A"
             }, {
                 title: 'How many days beds ran out for (surge capacity)',
-                data: results.days_hbed_out
+                data: toDays(results.days_hbed_out_surge)
             }],
             ICU: [{
-                title: 'ICU beds required at the peak',
-                data: results.icubeds_req_peak
+                title: 'ICU beds required at peak',
+                data: addComma(results.icubeds_req_peak)
             }, {
                 title: 'Shortfall in ICU beds at peak',
-                data: results.shortfall_icubeds_peak
+                data: addComma(results.shortfall_icubeds_peak)
             }, {
                 title: 'Number of patients who missed out on an ICU bed',
-                data: results.patients_missed_out_icubeds
+                data: addComma(results.patients_missed_out_icubeds)
             }, {
-                title: 'When ICU beds would run out (normal capacity)',
-                data: formatDate(results.icubeds_run_out_normal)
+                title: 'When ICU beds ran out (normal capacity)',
+                data: results.days_icubed_out_normal ? formatDate(results.icubeds_run_out_normal) : "N/A"
             }, {
-                title: 'When ICU beds would run out (surge capacity)',
-                data: formatDate(results.icubeds_run_out_surge)
+                title: 'When ICU beds ran out (surge capacity)',
+                data: results.days_icubed_out_surge ? formatDate(results.icubeds_run_out_surge) : "N/A"
             }, {
                 title: 'How many days ICU beds ran out for (surge capacity)',
-                data: results.days_icubed_out
+                data: toDays(results.days_icubed_out_surge)
             }],
             ventilators: [{
-                title: 'Ventilators required at the peak',
-                data: results.vents_req_peak
+                title: 'Ventilators required at peak',
+                data: addComma(results.vents_req_peak)
             }, {
                 title: 'Shortfall in ventilators at peak',
-                data: results.shortfall_vents_peak
+                data: addComma(results.shortfall_vents_peak)
             }, {
                 title: 'Number of patients who missed out on a ventilator',
-                data: results.patients_missed_out_ventilators
+                data: addComma(results.patients_missed_out_ventilators)
             }, {
-                title: 'When ventilators would run out (normal capacity)',
-                data: formatDate(results.vents_run_out_normal)
+                title: 'When ventilators ran out (normal capacity)',
+                data: results.days_vents_out_normal ? formatDate(results.vents_run_out_normal) : "N/A"
             }, {
-                title: 'When ventilators would run out (surge capacity)',
-                data: formatDate(results.vents_run_out_surge)
+                title: 'When ventilators ran out (surge capacity)',
+                data: results.days_vents_out_surge ? formatDate(results.vents_run_out_surge) : "N/A"
             }, {
                 title: 'How many days ventilators ran out for (surge capacity)',
-                data: results.days_vents_out
+                data: toDays(results.days_vents_out_surge)
             }]
         }
         return(
