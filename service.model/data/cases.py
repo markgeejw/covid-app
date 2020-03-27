@@ -226,8 +226,8 @@ if __name__ == '__main__':
   pd.set_option('display.max_columns', 10)
 
   # single dataset
-  country = 'Singapore'
-  state = None
+  country = 'Australia'
+  state = 'Canberra'
   start_date = '2020-03-10'
 
   start = time.time()
@@ -256,8 +256,8 @@ if __name__ == '__main__':
 
   start = time.time()
   print('\n---- query cases from json load ----')
-  country = 'Singapore'
-  state = None
+  country = 'Australia'
+  state = 'Canberra'
   df = crawler.import_json('cases.json', import_type='dataframe')
   df = crawler.filter_dataset(df,country, state)
   filtered_df = crawler.periodic_dataset(df,start_date, interval=1)

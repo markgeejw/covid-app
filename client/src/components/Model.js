@@ -143,7 +143,7 @@ export default class Model extends Component {
                         console.log("Case API returned:")
                         console.log(json);
                         const cases = json["cases"];
-                        while (cases.length != 13){
+                        while (cases.length !== 13){
                             const first = cases.shift();
                             cases[0] += first;
                         }

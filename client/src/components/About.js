@@ -5,7 +5,7 @@ export default class About extends Component {
 
     render() {
         return (
-            <Container style={{ paddingTop: 80 }}>
+            <Container style={{ paddingTop: 80, paddingBottom: 40 }}>
                 <div style={{ textAlign: 'left' }}>
                 <h2>About</h2>
                 <div style={{ marginTop : 20 }}>

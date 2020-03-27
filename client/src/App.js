@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 // import logo from "./logo.svg";
 import "./App.css";
-import { Navbar, Nav, Row, Col } from 'react-bootstrap';
-import Model from './components/Model'
-import About from './components/About'
-import Map from './components/Map'
-import Home from './components/Home'
+import { Navbar, Nav } from 'react-bootstrap';
+import Model from './components/Model';
+import About from './components/About';
+import Home from './components/Home';
 import {
     BrowserRouter as Router,
     Switch,
@@ -43,7 +42,6 @@ class App extends Component {
                         onClick={() => this.updateRegion(true, "", "")}>
                         Home
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/map">Map</Nav.Link>
                     <Nav.Link as={Link} to="/about">About</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
@@ -51,11 +49,13 @@ class App extends Component {
                 </div>
                 <Switch>
                 <Route exact path="/">
-                    {selectMode && <Home
+                    {selectMode && 
+                    <Home
                     eventHandlers={{
                         updateRegion: this.updateRegion
                     }}
-                    />}
+                    />
+                    }
                     {!selectMode && <Model
                     region={{
                         country: country,
@@ -65,9 +65,6 @@ class App extends Component {
                 </Route>
                 <Route exact path="/about">
                     <About/>
-                </Route>
-                <Route exact path="/map">
-                    <Map/>
                 </Route>
                 </Switch>
                 </Router>
