@@ -9,6 +9,17 @@ from flask_cors import CORS
 from data.cases import Crawler
 import json
 from data.hospital import Hospital
+import time
+import logging
+import sys
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+if logging.root.handlers == []:
+    ch = logging.StreamHandler(sys.stdout)
+    ch.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))
+    logger.addHandler(ch)
 
 
 # Server setup
@@ -76,7 +87,13 @@ class Model(Resource):
             else:
                 return "Need state cases.", 400
 
+            logger.info('running simulator')
+            start_time = time.time()
             results, data = model.run_simulate(state_info, state_cases)
+            end_time = time.time()
+            execution_time = end_time-start_time
+            logger.info('simulation runtime: %f',execution_time)
+
             return json.dumps({'results': results, 'data': data})
 
         except Exception as e:
