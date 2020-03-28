@@ -139,7 +139,7 @@ export default class Output extends Component {
             <Container fluid style={{ paddingLeft: 20, paddingRight: 20, paddingBottom: 20 }}>
                 <Row>
                 <Col lg={8}>
-                    <div className="Chart" style={{ position: "sticky", top: 20 + barHeight }}>
+                    <div className="Chart" style={{ position: "sticky", top: barHeight ? 20 + barHeight : 0 }}>
                         <Row className="Measures"><h4>Model {region.country !== "" ? ("(" + (region.state === "" ? region.country : region.country + ", " + region.state) + ")") : ""}</h4></Row>
                         <Row style={{ justifyContent: "center", height: "100%" }} className="align-items-center">
                             <Chart 
