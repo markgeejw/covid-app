@@ -31,6 +31,7 @@ class Crawler():
     Params
     --------
     url:string
+
     Output
     --------
     string
@@ -159,14 +160,6 @@ class Crawler():
                 }
     return output
 
-  def aggregate_countries(self, df):
-    df_subset = df[pd.isnull(df[self.state_col]) == False]
-    df_subset = df_subset.groupby([self.country_col, 'date']).agg('sum')
-    df_subset.reset_index(drop=False, inplace=True)
-    df_subset[self.state_col]=None
-
-    return pd.concat([df_subset, df], ignore_index=True, sort=False)
-
 
   def query_entire(self):
     soup = self.scrapePage(self.url)
@@ -229,7 +222,7 @@ if __name__ == '__main__':
   pd.set_option('display.max_columns', 10)
 
   # single dataset
-  country = 'Singapore'
+  country = 'Australia'
   state = None
   start_date = '2020-03-10'
 
@@ -250,7 +243,6 @@ if __name__ == '__main__':
   regions_df = crawler.query_regions()
 
   entire_dataset = crawler.query_entire()
-  entire_dataset = crawler.aggregate_countries(entire_dataset)
 
   print('\n---- saving entire data to json ----')
   output = entire_dataset.to_dict(orient='records')
@@ -261,11 +253,12 @@ if __name__ == '__main__':
 
   start = time.time()
   print('\n---- query cases from json load ----')
-  country = 'Singapore'
+  country = 'Australia'
   state = None
   df = crawler.import_json('cases.json', import_type='dataframe')
   df = crawler.filter_dataset(df,country, state)
   filtered_df = crawler.periodic_dataset(df,start_date, interval=1)
+  print(filtered_df)
 
   end = time.time()
   print('load and query flat dataset end time:{:.2f}'.format(end-start))
