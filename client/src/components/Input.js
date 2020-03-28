@@ -53,6 +53,7 @@ export default class Input extends Component {
                         ICUBeds: ICUBeds, 
                         ventilators: ventilators
                     }}
+                    currentTab={this.props.currentTab}
                     eventHandlers={{
                         updateModelParams: updateModelParams,
                         updateR0Params: updateR0Params,

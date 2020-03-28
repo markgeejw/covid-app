@@ -77,7 +77,7 @@ export default class Measures extends Component {
         return(
             <div>
             {/* Left Input */}
-                <Container fluid style={{ padding: 20, paddingTop: 80 }}>
+                <Container fluid style={{ paddingLeft: 20, paddingRight: 20 }}>
                     <Row>
                         <Col style={{ textAlign: "left" }}><h4>Inputs</h4></Col>
                     </Row>

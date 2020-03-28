@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'react-bootstrap';
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
 
 import Input from './Input';
 import Output from './Output';
@@ -29,11 +32,16 @@ export default class Model extends Component {
             weeklyHosp:                 54173,
 
             // Model outputs
-            model_results: {},
-            newly_infected: [],
-            dates: []
+            model_results:              {},
+            newly_infected:             [],
+            hbeds_required:             [],
+            icubeds_required:           [],
+            vents_required:             [],
+            dates:                      [],
+            currentTab:                 0
         };
         this.output = React.createRef();
+        this.appbar = React.createRef();
     }
 
     updateMeasureWeeks = (measureWeeks) => {
@@ -65,6 +73,10 @@ export default class Model extends Component {
         this.setState({ ventilators: ventilators });
         this.updateData();
     }
+    
+    updateTab = (tabIndx) => {
+        this.setState({ currentTab: tabIndx });
+    }
 
     updateData = () => {
         const { measureWeeks, modelParams, r0_params, hospBeds, ICUBeds, ventilators, population, weeklyHosp, cases } = this.state;
@@ -82,6 +94,9 @@ export default class Model extends Component {
                 this.setState({ 
                     model_results: json.results, 
                     newly_infected: json.data.newly_infected,
+                    hbeds_required: json.data.newly_infected,
+                    icubeds_required: json.data.newly_infected,
+                    vents_required: json.data.newly_infected,
                     dates: json.data.dates
                 });
                 var axis = this.output.current.chartComponent.current.chartComponent.current.chart.axes[1];
@@ -98,6 +113,7 @@ export default class Model extends Component {
     }
 
     componentDidMount() {
+        this.setState({ appbarHeight: this.appbar.current.clientHeight });
         var { country, state } = this.props.region;
         country = country.replace(/ /g, "_");
         state = state.replace(/ /g, "_");
@@ -157,50 +173,91 @@ export default class Model extends Component {
     }
 
     render() {
-        const { measureWeeks, modelParams, r0_params, hospBeds, ICUBeds, ventilators, model_results, newly_infected, dates } = this.state;
+        const { currentTab, measureWeeks, modelParams, r0_params, 
+            hospBeds, ICUBeds, ventilators, 
+            model_results, newly_infected, hbeds_required, icubeds_required, vents_required,
+            dates, appbarHeight } = this.state;
+        const navbarHeight = this.props.navbarHeight;
         return (
-        <div>
-            <Row style={{ width: "100%", margin: 0 }}>
-                <Col xs={3} style={{ paddingRight: 0 }}>
-                    <div className="Input border-right border-gray">
-                        <Input
-                            params = {{
-                                measureWeeks: measureWeeks, 
-                                modelParams: modelParams, 
-                                r0_params: r0_params, 
-                                hospBeds: hospBeds, 
-                                ICUBeds: ICUBeds, 
-                                ventilators: ventilators
-                            }}
-                            eventHandlers={{
-                                updateMeasureWeeks: this.updateMeasureWeeks,
-                                updateModelParams: this.updateModelParams,
-                                updateR0Params: this.updateR0Params,
-                                updateHospBeds: this.updateHospBeds,
-                                updateICUBeds: this.updateICUBeds,
-                                updateVentilators: this.updateVentilators
-                            }}/>
-                    </div>
-                </Col>
-                <Col xs={9} style={{ backgroundColor: '#fefefa', paddingLeft: 0 }}>
-                    <Output 
-                        results={model_results}
-                        measureWeeks={measureWeeks}
-                        resources={{
-                            numHospBeds: hospBeds[0],
-                            numICUBeds:  ICUBeds[0],
-                            numVents:    ventilators[1]
+        <Row style={{ margin: 0 }}>
+            <AppBar 
+                ref={this.appbar}
+                className="border-bottom border-gray" 
+                style={{ paddingBottom: 5, position: "fixed", top: navbarHeight }} 
+                color="white" 
+                elevation={0}>
+                <Tabs
+                value={currentTab}
+                onChange={(_, value) => {
+                    this.setState({currentTab: value})
+                }}
+                indicatorColor="primary"
+                textColor="primary"
+                variant="scrollable"
+                scrollButtons="auto"
+                aria-label="full width tabs example"
+                >
+                <Tab label="Infections"
+                id="full-width-tab-0"
+                aria-controls="full-width-tabpanel-0"/>
+                <Tab label="Hospitalisations"
+                id="full-width-tab-1"
+                aria-controls="full-width-tabpanel-1"/>
+                <Tab label="ICU Admissions"
+                id="full-width-tab-2"
+                aria-controls="full-width-tabpanel-2"/>
+                <Tab label="Ventilators"
+                id="full-width-tab-3"
+                aria-controls="full-width-tabpanel-3"/>
+                </Tabs>
+            </AppBar>
+            <Col xs={3} style={{ paddingRight: 0 }}>
+                <div className="Fixed border-right border-gray" style={{ paddingTop: 20 + appbarHeight + navbarHeight }}>
+                    <Input
+                        params={{
+                            measureWeeks: measureWeeks, 
+                            modelParams: modelParams, 
+                            r0_params: r0_params, 
+                            hospBeds: hospBeds, 
+                            ICUBeds: ICUBeds, 
+                            ventilators: ventilators
                         }}
-                        region = {{ 
-                            country: this.props.region.country,
-                            state: this.props.region.state
-                        }}
-                        dates={dates}
-                        newly_infected={newly_infected}
-                        ref={this.output}/>
-                </Col>
-            </Row>
-        </div>
+                        currentTab={currentTab}
+                        eventHandlers={{
+                            updateMeasureWeeks: this.updateMeasureWeeks,
+                            updateModelParams: this.updateModelParams,
+                            updateR0Params: this.updateR0Params,
+                            updateHospBeds: this.updateHospBeds,
+                            updateICUBeds: this.updateICUBeds,
+                            updateVentilators: this.updateVentilators
+                        }}/>
+                </div>
+            </Col>
+            <Col xs={9} style={{ backgroundColor: '#fefefa', paddingLeft: 0 }}>
+                <div style={{ paddingTop: 20 + appbarHeight + navbarHeight }}>
+                <Output 
+                    barHeight={appbarHeight + navbarHeight}
+                    results={model_results}
+                    measureWeeks={measureWeeks}
+                    resources={{
+                        numHospBeds: hospBeds[0],
+                        numICUBeds:  ICUBeds[0],
+                        numVents:    ventilators[0]
+                    }}
+                    region = {{ 
+                        country: this.props.region.country,
+                        state: this.props.region.state
+                    }}
+                    currentTab={currentTab}
+                    dates={dates}
+                    newly_infected={newly_infected}
+                    hbeds_required={hbeds_required}
+                    icubeds_required={icubeds_required}
+                    vents_required={vents_required}
+                    ref={this.output}/>
+                </div>
+            </Col>
+        </Row>
         )
     }
 }

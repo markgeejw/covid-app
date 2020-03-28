@@ -189,6 +189,9 @@ class CovidModel(object):
 
 		# update data
 		data['newly_infected'] = newly_infected.tolist()
+		data['hbeds_required'] = hbeds_required.tolist()
+		data['icubeds_required'] = icubeds_required.tolist()
+		data['vents_required'] = vents_required.tolist()
 		data['dates'] = np.datetime_as_string(dates).tolist()
 		data['R0'] = R0.tolist()
 

@@ -19,19 +19,23 @@ class App extends Component {
             country: '',
             state: '',
         }
+        this.navbar = React.createRef();
     }
 
     updateRegion = (select, country, state) => {
         this.setState({ selectMode: select, country: country, state: state });
     }
 
+    componentDidMount() {
+        this.setState({ navbarHeight: this.navbar.current.clientHeight });
+    }
+
     render() {
-        const { selectMode, country, state } = this.state;
+        const { selectMode, country, state, navbarHeight } = this.state;
         return (
             <div className="App">
-                <Router>                    
-                <div>
-                <Navbar fixed="top" bg="dark" variant="dark" expand="lg" style={{ paddingLeft: 20, paddingRight: 20 }}>
+                <Router>
+                <Navbar ref={this.navbar} fixed="top" bg="dark" variant="dark" expand="lg" style={{ paddingLeft: 20, paddingRight: 20 }}>
                 <Navbar.Brand href="#home">COVID-19 App</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
@@ -46,7 +50,6 @@ class App extends Component {
                     </Nav>
                 </Navbar.Collapse>
                 </Navbar>
-                </div>
                 <Switch>
                 <Route exact path="/">
                     {selectMode && 
@@ -57,6 +60,7 @@ class App extends Component {
                     />
                     }
                     {!selectMode && <Model
+                    navbarHeight={navbarHeight}
                     region={{
                         country: country,
                         state: state

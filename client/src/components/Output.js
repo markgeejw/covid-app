@@ -39,7 +39,8 @@ export default class Output extends Component {
     }
 
     render() {
-        const { results, resources, newly_infected, measureWeeks, dates, region } = this.props;
+        const { results, resources, newly_infected, measureWeeks, dates, region, currentTab, barHeight } = this.props;
+        console.log(currentTab);
         const outputData = {
             summary: [{
                 title: 'Did the pandemic end in 6 months?',
@@ -135,10 +136,10 @@ export default class Output extends Component {
             }]
         }
         return(
-            <Container fluid style={{ padding: 20, paddingTop: 80 }}>
+            <Container fluid style={{ paddingLeft: 20, paddingRight: 20, paddingBottom: 20 }}>
                 <Row>
                 <Col lg={8}>
-                    <div className="fixed">
+                    <div className="Chart" style={{ position: "sticky", top: 20 + barHeight }}>
                         <Row className="Measures"><h4>Model {region.country !== "" ? ("(" + (region.state === "" ? region.country : region.country + ", " + region.state) + ")") : ""}</h4></Row>
                         <Row style={{ justifyContent: "center", height: "100%" }} className="align-items-center">
                             <Chart 
@@ -178,6 +179,7 @@ export default class Output extends Component {
                         </TableBody>
                     </Table>
                     </TableContainer>
+                    {currentTab === 1 && <div>
                     <h5 className="Stats-Category">Hospital Beds</h5>
                     <TableContainer component={Paper}>
                     <Table>
@@ -191,6 +193,8 @@ export default class Output extends Component {
                         </TableBody>
                     </Table>
                     </TableContainer>
+                    </div>}
+                    {currentTab === 2 && <div>
                     <h5 className="Stats-Category">ICU Beds</h5>
                     <TableContainer component={Paper}>
                     <Table>
@@ -204,6 +208,8 @@ export default class Output extends Component {
                         </TableBody>
                     </Table>
                     </TableContainer>
+                    </div>}
+                    {currentTab === 3 && <div>
                     <h5 className="Stats-Category">Ventilators</h5>
                     <TableContainer component={Paper}>
                     <Table>
@@ -217,6 +223,7 @@ export default class Output extends Component {
                         </TableBody>
                     </Table>
                     </TableContainer>
+                    </div>}
                 </Col>}
                 </Row>
             </Container>
