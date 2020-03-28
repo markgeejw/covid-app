@@ -21,7 +21,7 @@ class App extends Component {
         }
     }
 
-    updateRegion= (select, country, state) => {
+    updateRegion = (select, country, state) => {
         this.setState({ selectMode: select, country: country, state: state });
     }
 
