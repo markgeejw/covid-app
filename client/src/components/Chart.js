@@ -23,7 +23,7 @@ export default class Chart extends Component {
         const { numHospBeds, numICUBeds, numVents } = resources;
 
         const possibleData = [newly_infected, hbeds_required, icubeds_required, vents_required];
-        const dataNames = ["Newly Infected", "Hospital Beds Required", "ICU Beds Required", "Ventilators Required"];
+        const dataNames = ["Infected", "Hospital Beds Required", "ICU Beds Required", "Ventilators Required"];
         const currentTabData = possibleData[currentTab];
         const currentTabName = dataNames[currentTab];
         

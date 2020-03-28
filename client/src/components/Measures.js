@@ -82,7 +82,7 @@ export default class Measures extends Component {
                     </Row>
                     <Row className="align-items-center">
                         <Col style={{ textAlign: "left" }}>
-                            <p><span style={{ fontWeight: 500 }}>Intervention Measures in Weeks</span> (Max 26)</p>
+                            <p><span style={{ fontWeight: 500 }}>Interventions in Weeks</span> (Max 26)</p>
                         </Col>
                     </Row>
                     <Row>

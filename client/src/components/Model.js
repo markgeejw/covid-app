@@ -16,19 +16,19 @@ export default class Model extends Component {
             // Intervention lengths
             measureWeeks:               [0, 26, 0, 0, 0],
             
-            // Model Parameters
-            modelParams:                ['6.66', '2.0', '50', '1.0', '0.97', '1.66', '100', '100'],
-
             // Intervention Parameters
             r0_params:                  ['2.67', '1.68', '1.40', '1.05', '0.32'],
+            
+            // Model Parameters
+            modelParams:                ['0.97', '1.66'],
 
             // Resource Availability
             // Hospital Beds
-            hospBeds:                   ['23187', '40', '80'],
+            hospBeds:                   ['23187', '6.66', '40', '80'],
             // ICU Beds
-            ICUBeds:                    ['476', '40', '80'],
+            ICUBeds:                    ['476', '2.0', '40', '80', '100'],
             // Ventilators
-            ventilators:                ['358', '40', '80', '300'],
+            ventilators:                ['358', '1.0', '40', '80', '300', '100'],
 
             weeklyHosp:                 54173,
 
@@ -197,10 +197,10 @@ export default class Model extends Component {
                 <Tab label="Infections"
                 id="full-width-tab-0"
                 aria-controls="full-width-tabpanel-0"/>
-                <Tab label="Hospitalisations"
+                <Tab label="Hospital Beds"
                 id="full-width-tab-1"
                 aria-controls="full-width-tabpanel-1"/>
-                <Tab label="ICU Admissions"
+                <Tab label="ICU Beds"
                 id="full-width-tab-2"
                 aria-controls="full-width-tabpanel-2"/>
                 <Tab label="Ventilators"

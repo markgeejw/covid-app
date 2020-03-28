@@ -44,21 +44,21 @@ class Model(Resource):
             # print(r0_params)
             if 'model_vals' in request.args:
                 model_vals = list(map(lambda x : float(x) / 100, request.args['model_vals'].split(",")))
-                if len(model_vals) != 8:
-                    return "Model parameters array has to be of size 8, with the following values: 'hosp_admit','icu_admit','icu_vent','vent_rates','cfr_normal','cfr_overload','mort_icublocked','mort_ventblocked'", 400
+                if len(model_vals) != 2:
+                    return "Model parameters array has to be of size 2, with the following values: 'cfr_normal', 'cfr_overload'", 400
             else:
                 return 'Need model parameters.', 400
             # print(model_vals)
             if 'resource_vals' in request.args:
                 resource_values = list(map(lambda x: float(x) / 100, request.args['resource_vals'].split(",")))
-                if len(resource_values) != 10:
-                    return "Resource values array has to be of size 10, with the following values: 'hbed','hbed_util','surge_hbed_util','icubed','icubed_util','surge_icubed_util','vent', 'vent_util','surge_vent_util','surge_vent_capac'", 400
+                if len(resource_values) != 15:
+                    return "Resource values array has to be of size 15, with the following values: 'hbed', 'hosp_admit', 'hbed_util', 'surge_hbed_util', 'icubed', 'icu_admit', 'icubed_util', 'surge_icubed_util', 'mort_icublocked', 'vent', 'vent_rates', 'vent_util', 'surge_vent_util', 'surge_vent_capac', 'mort_ventblocked'", 400
                 hbeds = int(resource_values[0] * 100)
-                icu_beds = int(resource_values[3] * 100)
-                vents = int(resource_values[6] * 100)
+                icu_beds = int(resource_values[4] * 100)
+                vents = int(resource_values[9] * 100)
                 resource_values[0] = hbeds
-                resource_values[3] = icu_beds
-                resource_values[6] = vents
+                resource_values[4] = icu_beds
+                resource_values[9] = vents
             else:
                 return 'Need parameters for resources.', 400
             # print(resource_values)

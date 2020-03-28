@@ -9,17 +9,7 @@ export default class Params extends Component {
 
     render() {
         const { currentTab } = this.props;
-        const { modelParams, r0_params, hospBeds, ICUBeds, ventilators } = this.props.params;
-        const modelParamTitles = [ 
-            'Hospital Admission Rates', 
-            'ICU Admission Rates', 
-            '% ICU Admissions needing Ventilator',
-            'Ventilator Rates', 
-            'Case Fatality Rate (Normal)', 
-            'Case Fatality Rate (Overload)',
-            'Mortality Rate of ICU Blocked Patients', 
-            'Mortality Rate of Ventilator Blocked Patients' 
-        ];
+        const { r0_params, modelParams, hospBeds, ICUBeds, ventilators } = this.props.params; 
         const r0ParamTitles = [ 
             'Do Nothing', 
             'Social Distancing', 
@@ -27,31 +17,67 @@ export default class Params extends Component {
             'Significant Lockdown', 
             'Critical Lockdown' 
         ];
-        const hospTitles = [ 
+        const modelParamTitles = [  
+            'Normal Hospital CFR', 
+            'Overloaded Hospital CFR',
+        ];
+        const hospTitles = [
             'Number of Hospital Beds', 
+            'Hospital Admission Rates',  
             'Bed Utilisation', 
             'Surge Bed Utilisation' 
         ];
         const ICUTitles = [
-            'Number of ICU Beds', 
+            'Number of ICU Beds',
+            'ICU Admission Rates', 
             'ICU Bed Utilisation', 
-            'Surge ICU Bed Utilisation' 
+            'Surge ICU Bed Utilisation',
+            'Mortality Rate of ICU Blocked Patients' 
         ];
         const ventTitles = [
-            'Number of Ventilators', 
+            'Number of Ventilators',
+            'Ventilator Rates',  
             'Ventilator Utilisation', 
             'Surge Ventilator Utilisation', 
-            'Surge Ventilator Capacity'
+            'Surge Ventilator Capacity',
+            'Mortality Rate of Ventilator Blocked Patients'
         ]
-        const { updateModelParams, updateR0Params, updateHospBeds, updateICUBeds, updateVentilators } = this.props.eventHandlers;
+        const { updateR0Params, updateModelParams, updateHospBeds, updateICUBeds, updateVentilators } = this.props.eventHandlers;
         return(
             <div>
                 <Container fluid style={{ paddingLeft: 20, paddingRight: 20 }}>
                     <Row>
                         <Col style={{ textAlign: "left" }}><h4>Parameters</h4></Col>
                     </Row>
+                    <Row style={{ paddingTop: 20 }}>
+                        <Col style={{ textAlign: "left" }}><h5>General Parameters</h5></Col>
+                    </Row>
                     <Row style={{ paddingTop: 10 }}>
-                        <Col style={{ textAlign: "left" }}><h5>Model Parameters</h5></Col>
+                        <Col style={{ textAlign: "left" }}><h6>R0 of Intervention Measures</h6></Col>
+                    </Row>
+                    <TableContainer>
+                    <Table>
+                        <TableBody>
+                        {r0_params.map((entry, index) => (
+                            <TableRow key={index}>
+                                <TableCell style={{ paddingLeft: 0, paddingRight: 0 }}>{r0ParamTitles[index]}</TableCell>
+                                <TableCell align="right" style={{ paddingLeft: 0, paddingRight: 0, width: "20%" }}>
+                                <Input
+                                value={entry} 
+                                margin="dense"
+                                onChange={event => {
+                                    r0_params[index] = event.target.value;
+                                    updateR0Params(r0_params);
+                                }}
+                                />
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                        </TableBody>
+                    </Table>
+                    </TableContainer>
+                    <Row style={{ paddingTop: 20 }}>
+                        <Col style={{ textAlign: "left" }}><h6>Case Fatality Rates</h6></Col>
                     </Row>
                     <TableContainer>
                     <Table>
@@ -79,35 +105,8 @@ export default class Params extends Component {
                         </TableBody>
                     </Table>
                     </TableContainer>
-                    <Row style={{ paddingTop: 10 }}>
-                        <Col style={{ textAlign: "left" }}><h5>Intervention Parameters</h5></Col>
-                    </Row>
-                    <Row>
-                        <Col style={{ textAlign: "left" }}><h6>R0 of Intervention Measures</h6></Col>
-                    </Row>
-                    <TableContainer>
-                    <Table>
-                        <TableBody>
-                        {r0_params.map((entry, index) => (
-                            <TableRow key={index}>
-                                <TableCell style={{ paddingLeft: 0, paddingRight: 0 }}>{r0ParamTitles[index]}</TableCell>
-                                <TableCell align="right" style={{ paddingLeft: 0, paddingRight: 0, width: "20%" }}>
-                                <Input
-                                value={entry} 
-                                margin="dense"
-                                onChange={event => {
-                                    r0_params[index] = event.target.value;
-                                    updateR0Params(r0_params);
-                                }}
-                                />
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                        </TableBody>
-                    </Table>
-                    </TableContainer>
                     {currentTab === 1 && <div>
-                    <Row style={{ paddingTop: 10 }}>
+                    <Row style={{ paddingTop: 20 }}>
                         <Col style={{ textAlign: "left" }}><h5>Hospital Beds</h5></Col>
                     </Row>
                     <TableContainer>
@@ -138,7 +137,7 @@ export default class Params extends Component {
                     </TableContainer>
                     </div>}
                     {currentTab === 2 && <div>
-                    <Row style={{ paddingTop: 10 }}>
+                    <Row style={{ paddingTop: 20 }}>
                         <Col style={{ textAlign: "left" }}><h5>ICU Beds</h5></Col>
                     </Row>
                     <TableContainer>
@@ -170,7 +169,7 @@ export default class Params extends Component {
                     </TableContainer>
                     </div>}
                     {currentTab === 3 && <div>
-                    <Row style={{ paddingTop: 10 }}>
+                    <Row style={{ paddingTop: 20 }}>
                         <Col style={{ textAlign: "left" }}><h5>Ventilators</h5></Col>
                     </Row>
                     <TableContainer>
