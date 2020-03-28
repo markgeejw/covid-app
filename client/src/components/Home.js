@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-const config = require('../default.json');
+const config = require('../config.json');
 
 export default class Home extends Component {
 
     render() {
         const supported_regions = config["supported_regions"];
         return (
-            <Container style={{ paddingTop: 80, textAlign: 'left' }}>
+            <Container style={{ paddingTop: 80, paddingBottom: 40, textAlign: 'left' }}>
             <h2>COVID-19 Model WebApp</h2>
             <div style={{ marginTop: 20, marginBottom: 20 }}>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacinia pulvinar feugiat. Donec purus nisl, blandit nec ipsum sed, eleifend molestie ligula. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer dui odio, dictum quis vehicula et, vestibulum ut ante. Nam eu euismod erat. Quisque in semper felis, rutrum mollis sapien. Sed dignissim vel est vitae luctus. Quisque felis libero, malesuada ac tempus commodo, condimentum eget lectus. Ut enim dolor, porttitor eleifend velit vitae, viverra interdum justo. Fusce at nunc vel ex tempor finibus sed in lacus. Nullam iaculis sem ut elit mattis tincidunt et at nulla. Donec at ex vitae orci tincidunt volutpat at id velit. Cras lobortis sapien in rutrum efficitur. Nulla condimentum hendrerit risus, at laoreet elit ullamcorper vitae. Sed pretium venenatis dolor, quis ullamcorper turpis lacinia consectetur.</p>
@@ -16,23 +16,22 @@ export default class Home extends Component {
             </div>
             <div style={{ marginTop: 20, marginBottom: 20 }}>
             <h4>List of supported countries and states:</h4>
-            {Object.keys(supported_regions).map(country => {
+            {Object.keys(supported_regions).map((country, index) => {
                 return(
-                    <ul>
+                    <ul key={index}>
                         <li>
-                            {supported_regions[country].length === 0 ?
-                                <Link
-                                onClick={() => {this.props.eventHandlers.updateRegion(false, country, "")}}
-                                to="/">
-                                {country}
-                                </Link> : <span>{country}</span>
-                            }
+                            <Link
+                            onClick={() => {this.props.eventHandlers.updateRegion(false, country, "")}}
+                            to="/">
+                            {country}
+                            </Link>
                         </li>
                         <ul>
-                            {supported_regions[country].map(state => {
+                            {supported_regions[country].map((state, index) => {
                                 return(
-                                    <li>
+                                    <li key={index}>
                                         <Link
+                                        to="/"
                                         onClick={() => {this.props.eventHandlers.updateRegion(false, country, state)}}>
                                             {state}
                                         </Link>

@@ -68,7 +68,7 @@ const Tooltip5 = spawnToolTipFromColor('#9cc381');
 export default class Measures extends Component {
 
     render() {
-        const measureWeeks = this.props.measureWeeks;
+        const { measureWeeks } = this.props;
         const max1 = 26 - measureWeeks[1] - measureWeeks[2] - measureWeeks[3] - measureWeeks[4];
         const max2 = 26 - measureWeeks[0] - measureWeeks[2] - measureWeeks[3] - measureWeeks[4];
         const max3 = 26 - measureWeeks[0] - measureWeeks[1] - measureWeeks[3] - measureWeeks[4];
@@ -76,8 +76,7 @@ export default class Measures extends Component {
         const max5 = 26 - measureWeeks[0] - measureWeeks[1] - measureWeeks[2] - measureWeeks[3];
         return(
             <div>
-            {/* Left Input */}
-                <Container fluid style={{ padding: 20, paddingTop: 80 }}>
+                <Container fluid style={{ paddingLeft: 20, paddingRight: 20 }}>
                     <Row>
                         <Col style={{ textAlign: "left" }}><h4>Inputs</h4></Col>
                     </Row>
@@ -115,7 +114,10 @@ export default class Measures extends Component {
                             onChange={(_, value) => {
                                 measureWeeks[0] = value;
                                 this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
-                            }} 
+                            }}
+                            onChangeCommitted={() => {
+                                this.props.eventHandlers.updateData();
+                            }}
                             valueLabelDisplay="auto"
                             aria-labelledby="doNothing" />
                         </Col>
@@ -166,7 +168,10 @@ export default class Measures extends Component {
                             onChange={(_, value) => {
                                 measureWeeks[1] = value;
                                 this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
-                            }} 
+                            }}
+                            onChangeCommitted={() => {
+                                this.props.eventHandlers.updateData();
+                            }}
                             valueLabelDisplay="auto"
                             aria-labelledby="socDist" />
                         </Col>
@@ -217,7 +222,10 @@ export default class Measures extends Component {
                             onChange={(_, value) => {
                                 measureWeeks[2] = value;
                                 this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
-                            }} 
+                            }}
+                            onChangeCommitted={() => {
+                                this.props.eventHandlers.updateData();
+                            }}
                             valueLabelDisplay="auto"
                             aria-labelledby="relaxedLD" />
                         </Col>
@@ -268,7 +276,10 @@ export default class Measures extends Component {
                             onChange={(_, value) => {
                                 measureWeeks[3] = value;
                                 this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
-                            }} 
+                            }}
+                            onChangeCommitted={() => {
+                                this.props.eventHandlers.updateData();
+                            }}
                             valueLabelDisplay="auto"
                             aria-labelledby="sigLD" />
                         </Col>
@@ -319,7 +330,10 @@ export default class Measures extends Component {
                             onChange={(_, value) => {
                                 measureWeeks[4] = value;
                                 this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
-                            }} 
+                            }}
+                            onChangeCommitted={() => {
+                                this.props.eventHandlers.updateData();
+                            }}
                             valueLabelDisplay="auto"
                             aria-labelledby="critLD" />
                         </Col>

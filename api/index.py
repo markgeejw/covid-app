@@ -81,7 +81,6 @@ class Model(Resource):
 
             if 'state_cases' in request.args:
                 state_cases = np.array(list(map(int, request.args['state_cases'].split(","))))
-                print(state_cases)
                 if state_cases.size != 13:
                     return "Number of cases should be size 13. First value should be total cases from before 12 days ago. Remaining values are the daily cases since.", 400
             else:
@@ -159,10 +158,10 @@ class StateCases(Resource):
             logger.debug(e)
             return 'Error', 400
 
-api.add_resource(Model, '/')
-api.add_resource(StateInfo, '/info')
-api.add_resource(StateCases, '/case')
+api.add_resource(Model, '/api/model')
+api.add_resource(StateInfo, '/api/info')
+api.add_resource(StateCases, '/api/case')
 
 if __name__ == '__main__':
     app.config.from_object('config.default')
-    app.run(host='0.0.0.0', port=app.config['PORT'])
+    app.run()

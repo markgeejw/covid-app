@@ -8,6 +8,7 @@ export default class Params extends Component {
     }
 
     render() {
+        const { currentTab } = this.props;
         const { modelParams, r0_params, hospBeds, ICUBeds, ventilators } = this.props.params;
         const modelParamTitles = [ 
             'Hospital Admission Rates', 
@@ -45,11 +46,11 @@ export default class Params extends Component {
         const { updateModelParams, updateR0Params, updateHospBeds, updateICUBeds, updateVentilators } = this.props.eventHandlers;
         return(
             <div>
-                <Container fluid style={{ padding: 20, paddingTop: 80 }}>
+                <Container fluid style={{ paddingLeft: 20, paddingRight: 20 }}>
                     <Row>
                         <Col style={{ textAlign: "left" }}><h4>Parameters</h4></Col>
                     </Row>
-                    <Row>
+                    <Row style={{ paddingTop: 10 }}>
                         <Col style={{ textAlign: "left" }}><h5>Model Parameters</h5></Col>
                     </Row>
                     <TableContainer>
@@ -104,12 +105,10 @@ export default class Params extends Component {
                         ))}
                         </TableBody>
                     </Table>
-                    </TableContainer>                    
+                    </TableContainer>
+                    {currentTab === 1 && <div>
                     <Row style={{ paddingTop: 10 }}>
-                        <Col style={{ textAlign: "left" }}><h5>Resource Availability</h5></Col>
-                    </Row>
-                    <Row style={{ paddingTop: 10 }}>
-                        <Col style={{ textAlign: "left" }}><h6>Hospital Beds</h6></Col>
+                        <Col style={{ textAlign: "left" }}><h5>Hospital Beds</h5></Col>
                     </Row>
                     <TableContainer>
                     <Table>
@@ -137,8 +136,10 @@ export default class Params extends Component {
                         </TableBody>
                     </Table>
                     </TableContainer>
+                    </div>}
+                    {currentTab === 2 && <div>
                     <Row style={{ paddingTop: 10 }}>
-                        <Col style={{ textAlign: "left" }}><h6>ICU Beds</h6></Col>
+                        <Col style={{ textAlign: "left" }}><h5>ICU Beds</h5></Col>
                     </Row>
                     <TableContainer>
                     <Table>
@@ -167,8 +168,10 @@ export default class Params extends Component {
                         </TableBody>
                     </Table>
                     </TableContainer>
+                    </div>}
+                    {currentTab === 3 && <div>
                     <Row style={{ paddingTop: 10 }}>
-                        <Col style={{ textAlign: "left" }}><h6>Ventilators</h6></Col>
+                        <Col style={{ textAlign: "left" }}><h5>Ventilators</h5></Col>
                     </Row>
                     <TableContainer>
                     <Table>
@@ -197,6 +200,7 @@ export default class Params extends Component {
                         </TableBody>
                     </Table>
                     </TableContainer>
+                    </div>}
                 </Container>
             </div>
         );

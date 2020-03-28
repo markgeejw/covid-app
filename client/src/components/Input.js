@@ -27,14 +27,16 @@ export default class Input extends Component {
 
     render() {
         const { measureWeeks, modelParams, r0_params, hospBeds, ICUBeds, ventilators } = this.props.params;
-        const { updateMeasureWeeks, updateModelParams, updateR0Params, updateHospBeds, updateICUBeds, updateVentilators } = this.props.eventHandlers;
+        const { updateData, updateMeasureWeeks, updateModelParams, updateR0Params, updateHospBeds, updateICUBeds, updateVentilators } = this.props.eventHandlers;
         const { modelParamMode, showInstructions } = this.state;
         return(
             <div>
-            {/* Left Input */}
                 {!modelParamMode && !showInstructions && <Measures
                     measureWeeks={measureWeeks}
-                    eventHandlers={{updateMeasureWeeks}}
+                    eventHandlers={{
+                        updateData: updateData,
+                        updateMeasureWeeks: updateMeasureWeeks
+                    }}
                 />}
                 {!modelParamMode && !showInstructions && <div>
                     <Row style={{ marginTop: 30, margin: 20 }}>
@@ -44,7 +46,6 @@ export default class Input extends Component {
                         <Button onClick={this.toggleHowToUse} style={{ width: "100%" }}><FontAwesomeIcon icon={faQuestionCircle}/> How to Use</Button>
                     </Row>
                 </div>}
-            {/* Right Input */}
                 {modelParamMode && !showInstructions && <Params
                     params={{
                         modelParams: modelParams, 
@@ -53,6 +54,7 @@ export default class Input extends Component {
                         ICUBeds: ICUBeds, 
                         ventilators: ventilators
                     }}
+                    currentTab={this.props.currentTab}
                     eventHandlers={{
                         updateModelParams: updateModelParams,
                         updateR0Params: updateR0Params,
