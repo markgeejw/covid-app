@@ -39,8 +39,8 @@ export default class Output extends Component {
     }
 
     render() {
-        const { results, resources, newly_infected, measureWeeks, dates, region, currentTab, barHeight } = this.props;
-        console.log(currentTab);
+        const { results, resources, newly_infected, measureWeeks, dates, region, 
+            currentTab, hbeds_required, icubeds_required, vents_required, barHeight } = this.props;
         const outputData = {
             summary: [{
                 title: 'Did the pandemic end in 6 months?',
@@ -143,9 +143,13 @@ export default class Output extends Component {
                         <Row className="Measures"><h4>Model {region.country !== "" ? ("(" + (region.state === "" ? region.country : region.country + ", " + region.state) + ")") : ""}</h4></Row>
                         <Row style={{ justifyContent: "center", height: "100%" }} className="align-items-center">
                             <Chart 
+                            currentTab={currentTab}
                             resources={resources} 
                             measureWeeks={measureWeeks} 
                             newly_infected={newly_infected} 
+                            hbeds_required={hbeds_required}
+                            icubeds_required={icubeds_required}
+                            vents_required={vents_required}
                             dates={dates}
                             ref={this.chartComponent}/>
                         </Row>

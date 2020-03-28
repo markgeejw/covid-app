@@ -16,9 +16,9 @@ export default class Home extends Component {
             </div>
             <div style={{ marginTop: 20, marginBottom: 20 }}>
             <h4>List of supported countries and states:</h4>
-            {Object.keys(supported_regions).map(country => {
+            {Object.keys(supported_regions).map((country, index) => {
                 return(
-                    <ul>
+                    <ul key={index}>
                         <li>
                             {supported_regions[country].length === 0 ?
                                 <Link
@@ -29,9 +29,9 @@ export default class Home extends Component {
                             }
                         </li>
                         <ul>
-                            {supported_regions[country].map(state => {
+                            {supported_regions[country].map((state, index) => {
                                 return(
-                                    <li>
+                                    <li key={index}>
                                         <Link
                                         to="/"
                                         onClick={() => {this.props.eventHandlers.updateRegion(false, country, state)}}>

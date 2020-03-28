@@ -94,9 +94,9 @@ export default class Model extends Component {
                 this.setState({ 
                     model_results: json.results, 
                     newly_infected: json.data.newly_infected,
-                    hbeds_required: json.data.newly_infected,
-                    icubeds_required: json.data.newly_infected,
-                    vents_required: json.data.newly_infected,
+                    hbeds_required: json.data.hbeds_required,
+                    icubeds_required: json.data.icubeds_required,
+                    vents_required: json.data.vents_required,
                     dates: json.data.dates
                 });
                 var axis = this.output.current.chartComponent.current.chartComponent.current.chart.axes[1];

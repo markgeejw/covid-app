@@ -81,7 +81,6 @@ class Model(Resource):
 
             if 'state_cases' in request.args:
                 state_cases = np.array(list(map(int, request.args['state_cases'].split(","))))
-                print(state_cases)
                 if state_cases.size != 13:
                     return "Number of cases should be size 13. First value should be total cases from before 12 days ago. Remaining values are the daily cases since.", 400
             else:

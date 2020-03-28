@@ -3,9 +3,6 @@ import { Row, Col, Container } from 'react-bootstrap';
 import { Input, InputAdornment, Table, TableBody, TableCell, TableContainer, TableRow } from '@material-ui/core';
 
 export default class Params extends Component {
-    constructor(props) {
-        super(props);
-    }
     formatAsPercent = (num) => {
         return num + '%';
     }
