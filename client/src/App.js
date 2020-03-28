@@ -36,7 +36,7 @@ class App extends Component {
             <div className="App">
                 <Router>
                 <Navbar ref={this.navbar} fixed="top" bg="dark" variant="dark" expand="lg" style={{ paddingLeft: 20, paddingRight: 20 }}>
-                <Navbar.Brand href="#home">COVID-19 App</Navbar.Brand>
+                <Navbar.Brand href="#home">COVID-19 Model</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ml-auto">
