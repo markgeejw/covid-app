@@ -46,7 +46,6 @@ export default class Model extends Component {
 
     updateMeasureWeeks = (measureWeeks) => {
         this.setState({ measureWeeks: measureWeeks });
-        this.updateData();
     }
 
     updateModelParams = (modelParams) => {
@@ -224,6 +223,7 @@ export default class Model extends Component {
                         }}
                         currentTab={currentTab}
                         eventHandlers={{
+                            updateData: this.updateData,
                             updateMeasureWeeks: this.updateMeasureWeeks,
                             updateModelParams: this.updateModelParams,
                             updateR0Params: this.updateR0Params,
