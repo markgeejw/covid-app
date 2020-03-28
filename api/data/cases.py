@@ -77,13 +77,7 @@ class Crawler():
     for file in self.files:
       df = self.get_file(self.raw_url,file_list, file)
       df = self.pivot_data(df,file)
-
-      if state:
-        df = self.filter_dataset(df,country,state)
-      else:
-        df = self.filter_dataset(df,country,state)
-        # exclude state column
-        df = df[df.columns[1:]]
+      df = self.filter_dataset(df,country,state)
 
       # merge datasets together
       if type(output) == type(None):
@@ -115,7 +109,8 @@ class Crawler():
       df_subset=df[(df[self.country_col] == country) & (df[self.state_col] == state)]
     else:
       df_subset=df[(df[self.country_col] == country)]
-
+      df_subset = df_subset.groupby([self.country_col, 'date']).agg('sum')
+      df_subset.reset_index(drop=False, inplace=True)
     df_subset.reset_index(drop=True, inplace=True)
 
     return df_subset
@@ -164,6 +159,15 @@ class Crawler():
                 'cases':cases
                 }
     return output
+
+  def aggregate_countries(self, df):
+    df_subset = df[pd.isnull(df[self.state_col]) == False]
+    df_subset = df_subset.groupby([self.country_col, 'date']).agg('sum')
+    df_subset.reset_index(drop=False, inplace=True)
+    df_subset[self.state_col]=None
+
+    return pd.concat([df_subset, df], ignore_index=True, sort=False)
+
 
   def query_entire(self):
     soup = self.scrapePage(self.url)
@@ -226,8 +230,8 @@ if __name__ == '__main__':
   pd.set_option('display.max_columns', 10)
 
   # single dataset
-  country = 'Australia'
-  state = 'Canberra'
+  country = 'Singapore'
+  state = None
   start_date = '2020-03-10'
 
   start = time.time()
@@ -245,7 +249,9 @@ if __name__ == '__main__':
   #full dataset
   crawler = Crawler()
   regions_df = crawler.query_regions()
+
   entire_dataset = crawler.query_entire()
+  entire_dataset = crawler.aggregate_countries(entire_dataset)
 
   print('\n---- saving entire data to json ----')
   output = entire_dataset.to_dict(orient='records')
@@ -256,11 +262,11 @@ if __name__ == '__main__':
 
   start = time.time()
   print('\n---- query cases from json load ----')
-  country = 'Australia'
-  state = 'Canberra'
+  country = 'Singapore'
+  state = None
   df = crawler.import_json('cases.json', import_type='dataframe')
   df = crawler.filter_dataset(df,country, state)
   filtered_df = crawler.periodic_dataset(df,start_date, interval=1)
-
+  
   end = time.time()
   print('load and query flat dataset end time:{:.2f}'.format(end-start))
