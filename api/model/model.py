@@ -193,7 +193,6 @@ class CovidModel(object):
 		data['icubeds_required'] = icubeds_required.tolist()
 		data['vents_required'] = vents_required.tolist()
 		data['dates'] = np.datetime_as_string(dates).tolist()
-		data['R0'] = R0.tolist()
 
 		# update results 
 		results['pandemic_end'] = bool((newly_infected[-1] == 0))
