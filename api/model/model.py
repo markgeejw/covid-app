@@ -168,7 +168,7 @@ class CovidModel(object):
 				newly_passed[i], overload_passed[i] = self.mortality(0, 0, 0, newly_infected[i], results, model_params, resource_params)
 			newly_recovered[i] = newly_infected[i] - newly_passed[i]
 			
-		# cumulative measures (does not account for cases in past -> only examines future)
+		# cumulative measures (accounts for past cases as well)
 		cumulative_infected = np.sum(newly_infected)
 		cumulative_hospitalised = np.sum(newly_hospitalised)
 		cumulative_needed_icu = np.sum(newly_icu)
