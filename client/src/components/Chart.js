@@ -27,8 +27,8 @@ export default class Chart extends Component {
         const currentTabData = possibleData[currentTab];
         const currentTabName = dataNames[currentTab];
         
-        const possiblePlotLines = [ null, numHospBeds, numICUBeds, numVents ];
-        const plotLineNames = ["", "Number of Hospital Beds", "Number of ICU Beds", "Number of Ventilators"]
+        const possiblePlotLines = [ 1000000, numHospBeds, numICUBeds, numVents ];
+        const plotLineNames = ["1 million infected", "Number of Hospital Beds", "Number of ICU Beds", "Number of Ventilators"]
         const currentTabPlotLine = possiblePlotLines[currentTab];
         const currentTabPlotLineName = plotLineNames[currentTab]
         
