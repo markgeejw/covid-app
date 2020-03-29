@@ -1,4 +1,4 @@
-This is the repository for the frontend client of the COVID-19 webapp. The backend can be found [here](https://github.com/markgeejw/covid-app).
+This is the repository for the frontend client of the COVID-19 webapp. The backend can be found [here](https://github.com/markgeejw/covid-api).
 
 # About the app
 The web client in developed using React.
