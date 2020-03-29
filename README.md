@@ -4,7 +4,8 @@ The web client uses React. The backend uses Express. For now the backend does no
 ## How to run the Client
 1. In your terminal, navigate to the `client` directory.
 2. Run `npm install` to install all dependencies.
-3. Run `npm start` to start the app
+3. Run `npm start` to start the app 
+(If you run the API locally, run with `REACT_APP_DEBUG=1 npm start` instead)
 4. Navigate to http://localhost:3000/.
 
 ## How to run the API

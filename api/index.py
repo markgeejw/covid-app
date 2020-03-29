@@ -14,7 +14,7 @@ import logging
 import sys
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 
 if logging.root.handlers == []:
     ch = logging.StreamHandler(sys.stdout)
@@ -164,4 +164,4 @@ api.add_resource(StateCases, '/api/case')
 
 if __name__ == '__main__':
     app.config.from_object('config.default')
-    app.run()
+    app.run(host='0.0.0.0', port=app.config['PORT'])
