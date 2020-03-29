@@ -158,10 +158,10 @@ class StateCases(Resource):
             logger.debug(e)
             return 'Error', 400
 
-api.add_resource(Model, '/')
-api.add_resource(StateInfo, '/info')
-api.add_resource(StateCases, '/case')
+api.add_resource(Model, '/api/model')
+api.add_resource(StateInfo, '/api/info')
+api.add_resource(StateCases, '/api/case')
 
 if __name__ == '__main__':
     app.config.from_object('config.default')
-    app.run(host='0.0.0.0', port=app.config['PORT'])
+    app.run()

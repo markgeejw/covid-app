@@ -6,6 +6,7 @@ import Tab from "@material-ui/core/Tab";
 
 import Input from './Input';
 import Output from './Output';
+const config = require('../config.json');
 
 export default class Model extends Component {
     constructor(props) {
@@ -79,13 +80,15 @@ export default class Model extends Component {
 
     updateData = () => {
         const { measureWeeks, modelParams, r0_params, hospBeds, ICUBeds, ventilators, population, weeklyHosp, cases } = this.state;
-        var url = "http://localhost:9000";
-        url += "?int_len=" + measureWeeks;
-        url += "&model_vals=" + modelParams;
-        url += "&r0=" + r0_params;
-        url += "&resource_vals=" + hospBeds + "," + ICUBeds + "," + ventilators;
-        url += "&state_info=" + population + "," + weeklyHosp;
-        url += "&state_cases=" + cases;
+        const rootUrl = config["api_url"];
+        const endPoint = "model"
+        var queryParamStr = "?int_len=" + measureWeeks;
+        queryParamStr += "&model_vals=" + modelParams;
+        queryParamStr += "&r0=" + r0_params;
+        queryParamStr += "&resource_vals=" + hospBeds + "," + ICUBeds + "," + ventilators;
+        queryParamStr += "&state_info=" + population + "," + weeklyHosp;
+        queryParamStr += "&state_cases=" + cases;
+        const url = rootUrl + endPoint + queryParamStr;
         fetch(url)
             .then(res => res.json())
             .then(json => {
@@ -116,7 +119,7 @@ export default class Model extends Component {
         var { country, state } = this.props.region;
         country = country.replace(/ /g, "_");
         state = state.replace(/ /g, "_");
-        const rootUrl = "http://localhost:9000/";
+        const rootUrl = config["api_url"];
         const infoEndpoint = "info";
         const caseEndpoint = "case";
         var queryParamStr = "?country=" + country;
@@ -128,8 +131,6 @@ export default class Model extends Component {
             .then(res => !res.ok ? res.text().then(text => {throw Error(text)}) : res.json())
             .then(json => {
                 json = JSON.parse(json);
-                console.log("Info API returned:");
-                console.log(json);
                 const hbeds = json["public hospital beds"] + json["private hospital beds"];
                 const icu_beds = json["icu beds"];
                 const weekly_hosp = json["weekly hospital"];
@@ -155,14 +156,11 @@ export default class Model extends Component {
                     .then(res => !res.ok ? res.text().then(text => {throw Error(text)}) : res.json())
                     .then(json => {
                         json = JSON.parse(json);
-                        console.log("Case API returned:")
-                        console.log(json);
                         const cases = json["cases"];
                         while (cases.length !== 13){
                             const first = cases.shift();
                             cases[0] += first;
                         }
-                        console.log(cases);
                         this.setState({ cases: cases });
                         this.updateData();
                     })
@@ -183,7 +181,7 @@ export default class Model extends Component {
                 ref={this.appbar}
                 className="border-bottom border-gray" 
                 style={{ paddingBottom: 5, position: "fixed", top: navbarHeight }} 
-                color="white" 
+                color="inherit" 
                 elevation={0}>
                 <Tabs
                 value={currentTab}
@@ -211,7 +209,7 @@ export default class Model extends Component {
                 </Tabs>
             </AppBar>
             <Col xs={3} style={{ paddingRight: 0 }}>
-                <div className="Fixed border-right border-gray" style={{ paddingTop: 20 + appbarHeight + navbarHeight }}>
+                <div className="Fixed border-right border-gray" style={{ paddingTop: appbarHeight+navbarHeight ? 20 + appbarHeight + navbarHeight : 0 }}>
                     <Input
                         params={{
                             measureWeeks: measureWeeks, 
@@ -234,7 +232,7 @@ export default class Model extends Component {
                 </div>
             </Col>
             <Col xs={9} style={{ backgroundColor: '#fefefa', paddingLeft: 0 }}>
-                <div style={{ paddingTop: 20 + appbarHeight + navbarHeight }}>
+                <div style={{ paddingTop: appbarHeight+navbarHeight ? 20 + appbarHeight + navbarHeight : 0 }}>
                 <Output 
                     barHeight={appbarHeight + navbarHeight}
                     results={model_results}

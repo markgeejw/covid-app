@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-const config = require('../default.json');
+const config = require('../config.json');
 
 export default class Home extends Component {
 
@@ -20,13 +20,11 @@ export default class Home extends Component {
                 return(
                     <ul key={index}>
                         <li>
-                            {supported_regions[country].length === 0 ?
-                                <Link
-                                onClick={() => {this.props.eventHandlers.updateRegion(false, country, "")}}
-                                to="/">
-                                {country}
-                                </Link> : <span>{country}</span>
-                            }
+                            <Link
+                            onClick={() => {this.props.eventHandlers.updateRegion(false, country, "")}}
+                            to="/">
+                            {country}
+                            </Link>
                         </li>
                         <ul>
                             {supported_regions[country].map((state, index) => {
