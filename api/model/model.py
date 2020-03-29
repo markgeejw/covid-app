@@ -14,7 +14,7 @@ def round_js(value):
 def round_down(num, multiple):
     return num - (num % multiple)
 
-model_keys = ['cfr_normal', 'cfr_overload']
+model_keys = ['comm_transmission', 'imported_cases', 'cfr_normal', 'cfr_overload']
 resource_keys = ['hbed', 'hosp_admit', 'hbed_util', 'surge_hbed_util', 'icubed', 'icu_admit', 'icubed_util', 'surge_icubed_util', 
 				'mort_icublocked', 'vent', 'vent_rates', 'vent_util', 'surge_vent_util', 'surge_vent_capac', 'mort_ventblocked']
 
@@ -144,20 +144,20 @@ class CovidModel(object):
 			# susceptible and infected
 			last_infected = newly_infected[2 + i]
 			susceptible_start[i] = susceptible_end[i - 1]
-			new_infections = int(last_infected * R0[i] * susceptible_start[i] / state_info.pop)
+			new_infections = int((last_infected * R0[i] * susceptible_start[i] * model_params['comm_transmission']) / state_info.pop + model_params['imported_cases'])
 			newly_infected[3 + i] = max(new_infections, 0)
 			susceptible_end[i] = susceptible_start[i] - newly_infected[3 + i]
 			currently_infected[i] = np.sum(newly_infected[i:i+3])
 			# hospital beds
 			newly_hospitalised[i] = resource_params['hosp_admit'] * newly_infected[3 + i]
-			hbeds_required[i] = newly_hospitalised[i - 1] + newly_hospitalised[i]
+			hbeds_required[i] = int(newly_hospitalised[i - 1] + newly_hospitalised[i])
 			# ICU beds
 			newly_icu[i] = resource_params['icu_admit'] * newly_infected[3 + i]
-			icubeds_required[i] = newly_icu[i - 1] + newly_icu[i]
+			icubeds_required[i] = int(newly_icu[i - 1] + newly_icu[i])
 			true_icubeds[i] = min(results['icubed_surge'], icubeds_required[i])
 			# ventilators 
 			newly_vent[i] = resource_params['vent_rates'] * newly_infected[3 + i]
-			vents_required[i] = newly_vent[i - 1] + newly_vent[i]
+			vents_required[i] = int(newly_vent[i - 1] + newly_vent[i])
 			true_vents[i] = min(results['vent_surge'], vents_required[i])
 			# deaths - raised level if any surge required - depends on 3 epochs back
 			if (i >= 3):

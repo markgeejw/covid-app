@@ -17,9 +17,11 @@ export default class Params extends Component {
             'Significant Lockdown', 
             'Critical Lockdown' 
         ];
-        const modelParamTitles = [  
-            'Normal Hospital CFR', 
-            'Overloaded Hospital CFR',
+        const modelParamTitles = [
+            'Community Transmission Levels',
+            'Imported Cases per Day',  
+            'Normal Case Fatality Rate', 
+            'Overloaded Case Fatality Rate'
         ];
         const hospTitles = [
             'Number of Hospital Beds', 
@@ -77,12 +79,13 @@ export default class Params extends Component {
                     </Table>
                     </TableContainer>
                     <Row style={{ paddingTop: 20 }}>
-                        <Col style={{ textAlign: "left" }}><h6>Case Fatality Rates</h6></Col>
+                        <Col style={{ textAlign: "left" }}><h6>Infection Parameters</h6></Col>
                     </Row>
                     <TableContainer>
                     <Table>
                         <TableBody>
                         {modelParams.map((entry, index) => {
+                            const isInt = index === 1;
                             return (
                             <TableRow key={index}>
                                 <TableCell style={{ paddingLeft: 0, paddingRight: 0 }}>{modelParamTitles[index]}</TableCell>
@@ -92,11 +95,11 @@ export default class Params extends Component {
                                 value={entry} 
                                 margin="dense"
                                 onChange={event => {
-                                    const value = Number(event.target.value) > 100 ? "100" : event.target.value;
+                                    const value = (Number(event.target.value) > 100 && !isInt) ? "100" : event.target.value;
                                     modelParams[index] = value;
                                     updateModelParams(modelParams);
                                 }}
-                                endAdornment={<InputAdornment position="end">%</InputAdornment>}
+                                endAdornment={!isInt && <InputAdornment position="end">%</InputAdornment>}
                                 />
                                 </TableCell>
                             </TableRow>

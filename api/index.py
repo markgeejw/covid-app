@@ -44,8 +44,8 @@ class Model(Resource):
             # print(r0_params)
             if 'model_vals' in request.args:
                 model_vals = list(map(lambda x : float(x) / 100, request.args['model_vals'].split(",")))
-                if len(model_vals) != 2:
-                    return "Model parameters array has to be of size 2, with the following values: 'cfr_normal', 'cfr_overload'", 400
+                if len(model_vals) != 4:
+                    return "Model parameters array has to be of size 2, with the following values: 'cfr_normal', 'cfr_overload', 'comm_transmission', 'imported_cases'", 400
             else:
                 return 'Need model parameters.', 400
             # print(model_vals)

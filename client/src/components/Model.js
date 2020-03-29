@@ -20,7 +20,7 @@ export default class Model extends Component {
             r0_params:                  ['2.67', '1.68', '1.40', '1.05', '0.32'],
             
             // Model Parameters
-            modelParams:                ['0.97', '1.66'],
+            modelParams:                ['80', '30', '0.97', '1.66'],
 
             // Resource Availability
             // Hospital Beds
