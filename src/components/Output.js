@@ -149,7 +149,7 @@ export default class Output extends Component {
                         </Row>
                     </div>
                 </Col>
-                {Object.keys(results).length && <Col className="stats" style={{ textAlign: "left" }} lg={4}>
+                {Boolean(Object.keys(results).length) && <Col className="stats" style={{ textAlign: "left" }} lg={4}>
                     <h4>Key Statistics</h4>
                     <h5 className="Stats-Category">What happened?</h5>
                     <TableContainer component={Paper}>
