@@ -225,7 +225,7 @@ export default class Model extends Component {
             </Col>
             <Col xs={9} style={{ backgroundColor: '#fefefa', paddingLeft: 0 }}>
                 <div style={{ paddingTop: appbarHeight+navbarHeight ? 20 + appbarHeight + navbarHeight : 0, minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                {!loaded && <img alt="loading" src={loading_img} style={{ width: "20%" }}/>}
+                {!loaded && <img alt="loading" src={loading_img} style={{ width: "10%" }}/>}
                 {loaded && <Output 
                     barHeight={appbarHeight + navbarHeight}
                     results={model_results}
