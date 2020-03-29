@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import "./App.css";
 import { Navbar, Nav } from 'react-bootstrap';
 import Model from './components/Model';
-import About from './components/About';
 import Home from './components/Home';
 import {
     BrowserRouter as Router,
@@ -36,7 +35,12 @@ class App extends Component {
             <div className="App">
                 <Router>
                 <Navbar ref={this.navbar} fixed="top" bg="dark" variant="dark" expand="lg" style={{ paddingLeft: 20, paddingRight: 20 }}>
-                <Navbar.Brand href="#home">COVID-19 Model</Navbar.Brand>
+                <Navbar.Brand 
+                    as={Link}
+                    to="/"
+                    onClick={() => this.updateRegion(true, "", "")}>
+                    COVID-19 Model
+                </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ml-auto">
@@ -46,7 +50,6 @@ class App extends Component {
                         onClick={() => this.updateRegion(true, "", "")}>
                         Home
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/about">About</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
                 </Navbar>
@@ -66,9 +69,6 @@ class App extends Component {
                         state: state
                     }}
                     />}
-                </Route>
-                <Route exact path="/about">
-                    <About/>
                 </Route>
                 </Switch>
                 </Router>
