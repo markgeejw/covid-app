@@ -80,7 +80,7 @@ export default class Model extends Component {
     updateData = () => {
         const { measureWeeks, modelParams, r0_params, hospBeds, ICUBeds, ventilators, population, weeklyHosp, cases } = this.state;
         const rootUrl = process.env.REACT_APP_DEBUG ? config["local_url"] : config["api_url"];
-        const endPoint = "api/model"
+        const endPoint = "model"
         var queryParamStr = "?int_len=" + measureWeeks;
         queryParamStr += "&model_vals=" + modelParams;
         queryParamStr += "&r0=" + r0_params;
@@ -110,8 +110,8 @@ export default class Model extends Component {
         country = country.replace(/ /g, "_");
         state = state.replace(/ /g, "_");
         const rootUrl = process.env.REACT_APP_DEBUG ? config["local_url"] : config["api_url"];
-        const infoEndpoint = "api/info";
-        const caseEndpoint = "api/case";
+        const infoEndpoint = "info";
+        const caseEndpoint = "case";
         var queryParamStr = "?country=" + country;
         if (state !== ""){
             queryParamStr += "&state=" + state;

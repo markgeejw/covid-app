@@ -3,6 +3,6 @@
         "Australia": ["New South Wales", "Victoria", "Queensland", "Western Australia", "South Australia", "Tasmania", "Australian Capital Territory", "Northern Territory"],
         "Singapore": []
     },
-    "api_url": "http://covidmodelling.com/",
-    "local_url": "http://localhost:9000/"
+    "api_url": "https://api.covidmodelling.com/",
+    "local_url": "https://localhost:9000/"
 }

@@ -33,10 +33,6 @@ function formatDate(dateString) {
 }
 
 export default class Output extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const { results, resources, newly_infected, measureWeeks, dates, region, 
             currentTab, hbeds_required, icubeds_required, vents_required, barHeight } = this.props;
