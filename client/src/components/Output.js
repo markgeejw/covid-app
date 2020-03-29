@@ -35,7 +35,6 @@ function formatDate(dateString) {
 export default class Output extends Component {
     constructor(props) {
         super(props);
-        this.chartComponent = React.createRef();
     }
 
     render() {
@@ -150,8 +149,7 @@ export default class Output extends Component {
                             hbeds_required={hbeds_required}
                             icubeds_required={icubeds_required}
                             vents_required={vents_required}
-                            dates={dates}
-                            ref={this.chartComponent}/>
+                            dates={dates}/>
                         </Row>
                     </div>
                 </Col>

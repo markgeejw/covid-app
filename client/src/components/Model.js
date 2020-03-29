@@ -41,7 +41,6 @@ export default class Model extends Component {
             dates:                      [],
             currentTab:                 0
         };
-        this.output = React.createRef();
         this.appbar = React.createRef();
     }
 
@@ -100,15 +99,6 @@ export default class Model extends Component {
                     icubeds_required: json.data.icubeds_required,
                     vents_required: json.data.vents_required,
                     dates: json.data.dates
-                });
-                var axis = this.output.current.chartComponent.current.chartComponent.current.chart.axes[1];
-                axis.plotLinesAndBands.forEach(function(lineOrBand) {
-                    for (var prop in axis.ticks) {
-                        var tick = axis.ticks[prop];
-                        if (Number(lineOrBand.options.value) === tick.pos) {
-                            tick.gridLine.element.style.display = 'none';
-                        }
-                    }
                 });
             })
             .catch(err => err);
@@ -251,8 +241,7 @@ export default class Model extends Component {
                     newly_infected={newly_infected}
                     hbeds_required={hbeds_required}
                     icubeds_required={icubeds_required}
-                    vents_required={vents_required}
-                    ref={this.output}/>
+                    vents_required={vents_required}/>
                 </div>
             </Col>
         </Row>

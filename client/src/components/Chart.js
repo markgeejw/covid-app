@@ -120,7 +120,8 @@ export default class Chart extends Component {
                     color: 'red', // Color value
                     //   dashStyle: 'longdashdot', // Style of the plot line. Default to solid
                     value: currentTabPlotLine, // Value of where the line will appear
-                    width: 1, // Width of the line    
+                    width: 2, // Width of the line    
+                    zIndex: 2,
                     label: { 
                         text: currentTabPlotLineName, // Content of the label. 
                         align: 'left', // Positioning of the label. 
