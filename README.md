@@ -9,7 +9,7 @@ The web client uses React. The backend uses Express. For now the backend does no
 4. Navigate to http://localhost:3000/.
 
 ## How to run the API
-The API is currently deployed to `http://covidmodelling.jwziggee.now.sh` but you can run a local version for testing.
+The API is currently deployed to `http://covidmodelling.com/api` but you can run a local version for testing.
 1. In another terminal, navigate to the `service.model` directory.
 2. (Requires pipenv) Run `pipenv install` to install all dependencies. Alternatively, use pip to install from requirements.txt file using `pip install -r requirements.txt`
 3. Run `pipenv run python index.py` to start the api (or whatever virtualenv manager you're using).
@@ -27,7 +27,7 @@ Update `api/data/hospital.json` accordingly.
 
 
 # API usage
-The API is currently deployed using [Now](http://now.sh) with the URL `http://covidmodelling.jwziggee.now.sh`.
+The API is currently deployed using [Now](http://now.sh) with the URL `http://covidmodelling.com/api`.
 
 The API has three endpoints, `/model`, `/info`, `/case`.
 ### Model Endpoint
