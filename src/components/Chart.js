@@ -19,8 +19,18 @@ export default class Chart extends Component {
     }
 
     render() {
-        const { newly_infected, resources, measureWeeks, dates } = this.props;
+        const { newly_infected, resources, measureWeeks, dates, hbeds_required, icubeds_required, vents_required, currentTab } = this.props;
         const { numHospBeds, numICUBeds, numVents } = resources;
+
+        const possibleData = [newly_infected, hbeds_required, icubeds_required, vents_required];
+        const dataNames = ["Infected", "Hospital Beds Required", "ICU Beds Required", "Ventilators Required"];
+        const currentTabData = possibleData[currentTab];
+        const currentTabName = dataNames[currentTab];
+        
+        const possiblePlotLines = [ 1000000, numHospBeds, numICUBeds, numVents ];
+        const plotLineNames = ["1 million infected", "Number of Hospital Beds", "Number of ICU Beds", "Number of Ventilators"]
+        const currentTabPlotLine = possiblePlotLines[currentTab];
+        const currentTabPlotLineName = plotLineNames[currentTab]
         
         // Compute weeks
         const [ doNothing, socDist, relaxedLD, sigLD, critLD ] = measureWeeks;
@@ -29,7 +39,7 @@ export default class Chart extends Component {
             var dateArray = dateString.split("-").map(Number);
             dateArray[1] -= 1;
             const date = Date.UTC(dateArray[0], dateArray[1], dateArray[2]);
-            return [date, newly_infected[index]];
+            return [date, currentTabData[index]];
         });
 
         var indx = 0;
@@ -52,7 +62,7 @@ export default class Chart extends Component {
                 type: 'line'
             },
             title: {
-                text: 'Newly Infected Over Time'
+                text: currentTabName + ' Over Time'
             },
             // data: {
             //     googleSpreadsheetKey: '12Ldo5cwQMCu1Aka2p0nCCvajjYlXQ_ags1OtwHOyKeM'
@@ -104,36 +114,17 @@ export default class Chart extends Component {
             },
             yAxis: {
                 title: {
-                    text: 'Newly Infected'
+                    text: currentTabName
                 },
                 plotLines: [{
-                    color: 'black', // Color value
-                    //   dashStyle: 'longdashdot', // Style of the plot line. Default to solid
-                    value: numHospBeds, // Value of where the line will appear
-                    width: 1, // Width of the line    
-                    label: { 
-                        text: 'Number of Hospital Beds', // Content of the label. 
-                        align: 'left', // Positioning of the label. 
-                    // Default to center. x: +10 // Amount of pixels the label will be repositioned according to the alignment. 
-                    }
-                }, {
                     color: 'red', // Color value
                     //   dashStyle: 'longdashdot', // Style of the plot line. Default to solid
-                    value: numICUBeds, // Value of where the line will appear
-                    width: 1, // Width of the line    
+                    value: currentTabPlotLine, // Value of where the line will appear
+                    width: 2, // Width of the line    
+                    zIndex: 2,
                     label: { 
-                        text: 'Number of ICU Beds', // Content of the label. 
+                        text: currentTabPlotLineName, // Content of the label. 
                         align: 'left', // Positioning of the label. 
-                    // Default to center. x: +10 // Amount of pixels the label will be repositioned according to the alignment. 
-                    }
-                }, {
-                    color: 'blue', // Color value
-                    //   dashStyle: 'longdashdot', // Style of the plot line. Default to solid
-                    value: numVents, // Value of where the line will appear
-                    width: 1, // Width of the line    
-                    label: { 
-                        text: 'Number of Ventilators', // Content of the label. 
-                        align: 'right', // Positioning of the label. 
                     // Default to center. x: +10 // Amount of pixels the label will be repositioned according to the alignment. 
                     }
                 }]
@@ -146,7 +137,7 @@ export default class Chart extends Component {
                 }
             },
             series: [{
-                name: "Newly Infected",
+                name: currentTabName,
                 data: data
             }]
         };

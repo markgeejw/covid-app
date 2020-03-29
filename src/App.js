@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 // import logo from "./logo.svg";
 import "./App.css";
-import { Navbar, Nav, Row, Col } from 'react-bootstrap';
-import Model from './components/Model'
-import About from './components/About'
-import Map from './components/Map'
-import Home from './components/Home'
+import { Navbar, Nav } from 'react-bootstrap';
+import Model from './components/Model';
+import Home from './components/Home';
 import {
     BrowserRouter as Router,
     Switch,
@@ -20,20 +18,29 @@ class App extends Component {
             country: '',
             state: '',
         }
+        this.navbar = React.createRef();
     }
 
-    updateRegion= (select, country, state) => {
+    updateRegion = (select, country, state) => {
         this.setState({ selectMode: select, country: country, state: state });
     }
 
+    componentDidMount() {
+        this.setState({ navbarHeight: this.navbar.current.clientHeight });
+    }
+
     render() {
-        const { selectMode, country, state } = this.state;
+        const { selectMode, country, state, navbarHeight } = this.state;
         return (
             <div className="App">
-                <Router>                    
-                <div>
-                <Navbar fixed="top" bg="dark" variant="dark" expand="lg" style={{ paddingLeft: 20, paddingRight: 20 }}>
-                <Navbar.Brand href="#home">COVID-19 App</Navbar.Brand>
+                <Router>
+                <Navbar ref={this.navbar} fixed="top" bg="dark" variant="dark" expand="lg" style={{ paddingLeft: 20, paddingRight: 20 }}>
+                <Navbar.Brand 
+                    as={Link}
+                    to="/"
+                    onClick={() => this.updateRegion(true, "", "")}>
+                    COVID-19 Model
+                </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ml-auto">
@@ -43,31 +50,25 @@ class App extends Component {
                         onClick={() => this.updateRegion(true, "", "")}>
                         Home
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/map">Map</Nav.Link>
-                    <Nav.Link as={Link} to="/about">About</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
                 </Navbar>
-                </div>
                 <Switch>
                 <Route exact path="/">
-                    {selectMode && <Home
+                    {selectMode && 
+                    <Home
                     eventHandlers={{
                         updateRegion: this.updateRegion
                     }}
-                    />}
+                    />
+                    }
                     {!selectMode && <Model
+                    navbarHeight={navbarHeight}
                     region={{
                         country: country,
                         state: state
                     }}
                     />}
-                </Route>
-                <Route exact path="/about">
-                    <About/>
-                </Route>
-                <Route exact path="/map">
-                    <Map/>
                 </Route>
                 </Switch>
                 </Router>

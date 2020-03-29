@@ -1,16 +1,26 @@
-## About the app
-The web client uses React. The backend uses Express. For now the backend does nothing, but can be used to compute and transmit more complex data. Right now there is just a connection saying "API is working properly" to show the connection.
+This is the repository for the frontend client of the COVID-19 webapp. The backend can be found [here](https://github.com/markgeejw/covid-app).
 
-## How to run the API
-1. In your terminal, navigate to the `service.model` directory.
-2. (Requires pipenv) Run `pipenv install` to install all dependencies. Alternatively, use pip to install from requirements.txt file.
-3. Run `pipenv run python main.py` to start the api (or whatever virtualenv manager you're using).
+# About the app
+The web client in developed using React.
 
 ## How to run the Client
-1. In another terminal, navigate to the `client` directory.
+1. In your terminal, navigate to the `client` directory.
 2. Run `npm install` to install all dependencies.
-3. Run `npm start` to start the app
+3. Run `npm start` to start the app 
+(If you run the API locally, run with `REACT_APP_DEBUG=1 npm start` instead)
 4. Navigate to http://localhost:3000/.
+
+
+## Updating countries supported
+For future development, in order to add to the number of countries supported, make the following changes.
+
+### Client
+Navigate to `client/src/config.json` and add the countries in the following format:
+`country-name: [state-name-1, state-name-2, ...]`
+
+### API
+Update `api/data/hospital.json` accordingly.
+
 
 ## To do:
 - [x] Create client
@@ -19,4 +29,7 @@ The web client uses React. The backend uses Express. For now the backend does no
 - [x] Implement proper UI controls for model input
 - [x] Implement model data
 - [x] Optional: Use backend for handling, depending on complexity
-- [ ] Deploy
+- [x] Deploy backend
+- [ ] Deploy frontend
+- [ ] Add more countries
+- [ ] Optimize for mobile viewports
