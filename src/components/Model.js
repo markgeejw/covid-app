@@ -3,6 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import loading_img from '../assets/loading_img.gif';
 
 import Input from './Input';
 import Output from './Output';
@@ -165,6 +166,7 @@ export default class Model extends Component {
             model_results, newly_infected, hbeds_required, icubeds_required, vents_required,
             dates, appbarHeight } = this.state;
         const navbarHeight = this.props.navbarHeight;
+        const loaded = Boolean(Object.keys(model_results).length);
         return (
         <Row style={{ margin: 0 }}>
             <AppBar 
@@ -222,8 +224,9 @@ export default class Model extends Component {
                 </div>
             </Col>
             <Col xs={9} style={{ backgroundColor: '#fefefa', paddingLeft: 0 }}>
-                <div style={{ paddingTop: appbarHeight+navbarHeight ? 20 + appbarHeight + navbarHeight : 0 }}>
-                <Output 
+                <div style={{ paddingTop: appbarHeight+navbarHeight ? 20 + appbarHeight + navbarHeight : 0, minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                {!loaded && <img alt="loading" src={loading_img} style={{ width: "20%" }}/>}
+                {loaded && <Output 
                     barHeight={appbarHeight + navbarHeight}
                     results={model_results}
                     measureWeeks={measureWeeks}
@@ -241,7 +244,7 @@ export default class Model extends Component {
                     newly_infected={newly_infected}
                     hbeds_required={hbeds_required}
                     icubeds_required={icubeds_required}
-                    vents_required={vents_required}/>
+                    vents_required={vents_required}/>}
                 </div>
             </Col>
         </Row>

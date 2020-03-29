@@ -131,8 +131,8 @@ export default class Output extends Component {
             }]
         }
         return(
-            <Container fluid style={{ paddingLeft: 20, paddingRight: 20, paddingBottom: 20 }}>
-                <Row>
+            <Container fluid style={{ paddingLeft: 20, paddingRight: 20, paddingBottom: 20, height: "100%" }}>
+                <Row> 
                 <Col lg={8}>
                     <div className="Chart" style={{ position: "sticky", top: barHeight ? 20 + barHeight : 0 }}>
                         <Row className="Measures"><h4>Model {region.country !== "" ? ("(" + (region.state === "" ? region.country : region.country + ", " + region.state) + ")") : ""}</h4></Row>
@@ -149,7 +149,7 @@ export default class Output extends Component {
                         </Row>
                     </div>
                 </Col>
-                {Boolean(Object.keys(results).length) && <Col className="stats" style={{ textAlign: "left" }} lg={4}>
+                <Col className="stats" style={{ textAlign: "left" }}>
                     <h4>Key Statistics</h4>
                     <h5 className="Stats-Category">What happened?</h5>
                     <TableContainer component={Paper}>
@@ -222,7 +222,7 @@ export default class Output extends Component {
                     </Table>
                     </TableContainer>
                     </div>}
-                </Col>}
+                </Col>
                 </Row>
             </Container>
         )
