@@ -1,4 +1,4 @@
 [submodule "covid-api"]
 	path = covid-api
-	url = git@github.com:markgeejw/covid-api.git
+	url = https://github.com/markgeejw/covid-api.git
 	branch = master
