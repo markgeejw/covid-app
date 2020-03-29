@@ -1,6 +1,6 @@
 {
     "supported_regions": {
-        "Australia": ["New South Wales", "Queensland", "Western Australia", "South Australia", "Tasmania", "Australian Capital Territory", "Victoria"],
+        "Australia": ["New South Wales", "Victoria", "Queensland", "Western Australia", "South Australia", "Tasmania", "Australian Capital Territory", "Northern Territory"],
         "Singapore": []
     },
     "api_url": "http://covidmodelling.com/",

@@ -61,5 +61,12 @@
     "private hospital beds":8367,
     "icu beds":476,
     "weekly hospital":54173
+  },
+  "Australia:Northern Territory":{
+    "population":245600,
+    "public hospital beds":358,
+    "private hospital beds":156,
+    "icu beds":22,
+    "weekly hospital":3038
   }
 }
