@@ -77,7 +77,7 @@ class CovidModel(object):
 		results['vent_surge'] = state_info.vents * resource_params['surge_vent_util'] * resource_params['surge_vent_capac']
 
 
-	def mortality(self, hbeds_req, icubeds_req, vents_req, infected, results, model_params):
+	def mortality(self, hbeds_req, icubeds_req, vents_req, infected, results, model_params, resource_params):
 		case_fatality_rate = model_params['cfr_normal']
 		deaths = 0
 		overload_deaths = 0
@@ -136,7 +136,7 @@ class CovidModel(object):
 		newly_vent[0] = resource_params['vent_rates'] * newly_infected[3]
 		vents_required[0] = newly_vent[0]
 		true_vents[0] = min(results['vent_surge'], vents_required[0])
-		newly_passed[0], overload_passed[0] = self.mortality(0, 0, 0, newly_infected[0], results, model_params)
+		newly_passed[0], overload_passed[0] = self.mortality(0, 0, 0, newly_infected[0], results, model_params, resource_params)
 		newly_recovered[0] = newly_infected[0] - newly_passed[0]
 
 		# simulation
@@ -163,9 +163,9 @@ class CovidModel(object):
 			if (i >= 3):
 				newly_passed[i], overload_passed[i] = self.mortality(hbeds_required[i], icubeds_required[i], 
 													vents_required[i], newly_infected[i], 
-													results, model_params)
+													results, model_params, resource_params)
 			else:
-				newly_passed[i], overload_passed[i] = self.mortality(0, 0, 0, newly_infected[i], results, model_params)
+				newly_passed[i], overload_passed[i] = self.mortality(0, 0, 0, newly_infected[i], results, model_params, resource_params)
 			newly_recovered[i] = newly_infected[i] - newly_passed[i]
 			
 		# cumulative measures (does not account for cases in past -> only examines future)
