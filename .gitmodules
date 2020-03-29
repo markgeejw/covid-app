@@ -1,3 +1,0 @@
-[submodule "covid-api"]
-	path = covid-api
-	url = git@github.com:markgeejw/covid-api.git
