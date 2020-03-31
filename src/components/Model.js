@@ -141,7 +141,7 @@ export default class Model extends Component {
                 startDate.setDate(startDate.getDate() - 15);
                 const startDateString = startDate.toISOString().split("T")[0];
                 queryParamStr += "&start_date=" + startDateString;
-                queryParamStr += "&app=" + 1;
+                // queryParamStr += "&app=" + 1;
                 const caseUrl = rootUrl + caseEndpoint + queryParamStr;
                 fetch(caseUrl)
                     .then(res => !res.ok ? res.text().then(text => {throw Error(text)}) : res.json())
