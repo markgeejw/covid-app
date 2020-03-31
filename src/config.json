@@ -4,5 +4,5 @@
         "Singapore": []
     },
     "api_url": "https://api.covidmodelling.com/",
-    "local_url": "https://localhost:9000/"
+    "local_url": "http://127.0.0.1:5000/"
 }

@@ -12,14 +12,14 @@ const config = require('../config.json');
 export default class Model extends Component {
     constructor(props) {
         super(props);
-        this.state = { 
+        this.state = {
             // Model inputs
             // Intervention lengths
             measureWeeks:               [0, 26, 0, 0, 0],
-            
+
             // Intervention Parameters
             r0_params:                  ['2.67', '1.68', '1.40', '1.05', '0.32'],
-            
+
             // Model Parameters
             modelParams:                ['80', '30', '0.97', '1.66'],
 
@@ -58,7 +58,7 @@ export default class Model extends Component {
         this.setState({ r0_params: r0_params });
         this.updateData();
     }
-    
+
     updateHospBeds = (hospBeds) => {
         this.setState({ hospBeds: hospBeds });
         this.updateData();
@@ -73,7 +73,7 @@ export default class Model extends Component {
         this.setState({ ventilators: ventilators });
         this.updateData();
     }
-    
+
     updateTab = (tabIndx) => {
         this.setState({ currentTab: tabIndx });
     }
@@ -93,8 +93,8 @@ export default class Model extends Component {
             .then(res => res.json())
             .then(json => {
                 json = JSON.parse(json);
-                this.setState({ 
-                    model_results: json.results, 
+                this.setState({
+                    model_results: json.results,
                     newly_infected: json.data.newly_infected,
                     hbeds_required: json.data.hbeds_required,
                     icubeds_required: json.data.icubeds_required,
@@ -141,7 +141,7 @@ export default class Model extends Component {
                 startDate.setDate(startDate.getDate() - 15);
                 const startDateString = startDate.toISOString().split("T")[0];
                 queryParamStr += "&start_date=" + startDateString;
-                // queryParamStr += "&app=" + 1;
+                queryParamStr += "&app=" + 1;
                 const caseUrl = rootUrl + caseEndpoint + queryParamStr;
                 fetch(caseUrl)
                     .then(res => !res.ok ? res.text().then(text => {throw Error(text)}) : res.json())
@@ -161,19 +161,19 @@ export default class Model extends Component {
     }
 
     render() {
-        const { currentTab, measureWeeks, modelParams, r0_params, 
-            hospBeds, ICUBeds, ventilators, 
+        const { currentTab, measureWeeks, modelParams, r0_params,
+            hospBeds, ICUBeds, ventilators,
             model_results, newly_infected, hbeds_required, icubeds_required, vents_required,
             dates, appbarHeight } = this.state;
         const navbarHeight = this.props.navbarHeight;
         const loaded = Boolean(Object.keys(model_results).length);
         return (
         <Row style={{ margin: 0 }}>
-            <AppBar 
+            <AppBar
                 ref={this.appbar}
-                className="border-bottom border-gray" 
-                style={{ paddingBottom: 5, position: "fixed", top: navbarHeight }} 
-                color="inherit" 
+                className="border-bottom border-gray"
+                style={{ paddingBottom: 5, position: "fixed", top: navbarHeight }}
+                color="inherit"
                 elevation={0}>
                 <Tabs
                 value={currentTab}
@@ -204,11 +204,11 @@ export default class Model extends Component {
                 <div className="Fixed border-right border-gray" style={{ paddingTop: appbarHeight+navbarHeight ? 20 + appbarHeight + navbarHeight : 0 }}>
                     <Input
                         params={{
-                            measureWeeks: measureWeeks, 
-                            modelParams: modelParams, 
-                            r0_params: r0_params, 
-                            hospBeds: hospBeds, 
-                            ICUBeds: ICUBeds, 
+                            measureWeeks: measureWeeks,
+                            modelParams: modelParams,
+                            r0_params: r0_params,
+                            hospBeds: hospBeds,
+                            ICUBeds: ICUBeds,
                             ventilators: ventilators
                         }}
                         currentTab={currentTab}
@@ -226,7 +226,7 @@ export default class Model extends Component {
             <Col xs={9} style={{ backgroundColor: '#fefefa', paddingLeft: 0 }}>
                 <div style={{ paddingTop: appbarHeight+navbarHeight ? 20 + appbarHeight + navbarHeight : 0, minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 {!loaded && <img alt="loading" src={loading_img} style={{ width: "10%" }}/>}
-                {loaded && <Output 
+                {loaded && <Output
                     barHeight={appbarHeight + navbarHeight}
                     results={model_results}
                     measureWeeks={measureWeeks}
@@ -235,7 +235,7 @@ export default class Model extends Component {
                         numICUBeds:  ICUBeds[0],
                         numVents:    ventilators[0]
                     }}
-                    region = {{ 
+                    region = {{
                         country: this.props.region.country,
                         state: this.props.region.state
                     }}
