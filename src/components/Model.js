@@ -3,7 +3,6 @@ import { Row, Col } from 'react-bootstrap';
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import loading_img from '../assets/loading_img.gif';
 
 import Input from './Input';
 import Output from './Output';
@@ -30,8 +29,6 @@ export default class Model extends Component {
             ICUBeds:                    ['476', '2.0', '40', '80', '100'],
             // Ventilators
             ventilators:                ['358', '1.0', '40', '80', '300', '100'],
-
-            weeklyHosp:                 54173,
 
             // Model outputs
             model_results:              {},
@@ -79,14 +76,14 @@ export default class Model extends Component {
     }
 
     updateData = () => {
-        const { measureWeeks, modelParams, r0_params, hospBeds, ICUBeds, ventilators, population, weeklyHosp, cases } = this.state;
+        const { measureWeeks, modelParams, r0_params, hospBeds, ICUBeds, ventilators, population, cases } = this.state;
         const rootUrl = process.env.REACT_APP_DEBUG ? config["local_url"] : config["api_url"];
         const endPoint = "model"
         var queryParamStr = "?int_len=" + measureWeeks;
         queryParamStr += "&model_vals=" + modelParams;
         queryParamStr += "&r0=" + r0_params;
         queryParamStr += "&resource_vals=" + hospBeds + "," + ICUBeds + "," + ventilators;
-        queryParamStr += "&state_info=" + population + "," + weeklyHosp;
+        queryParamStr += "&state_info=" + population;
         queryParamStr += "&state_cases=" + cases;
         const url = rootUrl + endPoint + queryParamStr;
         fetch(url)
@@ -122,9 +119,8 @@ export default class Model extends Component {
             .then(res => !res.ok ? res.text().then(text => {throw Error(text)}) : res.json())
             .then(json => {
                 json = JSON.parse(json);
-                const hbeds = json["public hospital beds"] + json["private hospital beds"];
+                const hbeds = json["hospital beds"];
                 const icu_beds = json["icu beds"];
-                const weekly_hosp = json["weekly hospital"];
                 var { hospBeds, ICUBeds } = this.state;
                 hospBeds[0] = hbeds;
                 ICUBeds[0] = icu_beds;
@@ -132,7 +128,6 @@ export default class Model extends Component {
                     population: json.population,
                     hospBeds: hospBeds,
                     ICUBeds: ICUBeds,
-                    weeklyHosp: weekly_hosp
                 });
 
                 // Get cases info from API
@@ -166,7 +161,6 @@ export default class Model extends Component {
             model_results, newly_infected, hbeds_required, icubeds_required, vents_required,
             dates, appbarHeight } = this.state;
         const navbarHeight = this.props.navbarHeight;
-        const loaded = Boolean(Object.keys(model_results).length);
         return (
         <Row style={{ margin: 0 }}>
             <AppBar
@@ -224,9 +218,8 @@ export default class Model extends Component {
                 </div>
             </Col>
             <Col xs={9} style={{ backgroundColor: '#fefefa', paddingLeft: 0 }}>
-                <div style={{ paddingTop: appbarHeight+navbarHeight ? 20 + appbarHeight + navbarHeight : 0, minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                {!loaded && <img alt="loading" src={loading_img} style={{ width: "10%" }}/>}
-                {loaded && <Output
+                <div style={{ paddingTop: appbarHeight+navbarHeight ? 20 + appbarHeight + navbarHeight : 0 }}>
+                <Output
                     barHeight={appbarHeight + navbarHeight}
                     results={model_results}
                     measureWeeks={measureWeeks}
@@ -244,7 +237,7 @@ export default class Model extends Component {
                     newly_infected={newly_infected}
                     hbeds_required={hbeds_required}
                     icubeds_required={icubeds_required}
-                    vents_required={vents_required}/>}
+                    vents_required={vents_required}/>
                 </div>
             </Col>
         </Row>
