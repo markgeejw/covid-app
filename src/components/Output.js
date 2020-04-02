@@ -130,12 +130,19 @@ export default class Output extends Component {
                 data: toDays(results.days_vents_out_surge)
             }]
         }
+        if (region.country !== ""){
+            if (region.country.includes(", ")){
+                region.country = region.country.split(", ").reverse().join(" "); // hack to flip Korea, South
+            }
+        }
         return(
             <Container fluid style={{ paddingLeft: 20, paddingRight: 20, paddingBottom: 20, height: "100%" }}>
                 <Row> 
                 <Col lg={8}>
                     <div className="Chart" style={{ position: "sticky", top: barHeight ? 20 + barHeight : 0 }}>
-                        <Row className="Measures"><h4>Model {region.country !== "" ? ("(" + (region.state === "" ? region.country : region.country + ", " + region.state) + ")") : ""}</h4></Row>
+                        <Row className="Measures"><h4>Model {region.country !== "" ? 
+                                        ("(" + (region.state === "" ? region.country : region.country + ", " + region.state) + ")") : 
+                                        ""}</h4></Row>
                         <Row style={{ justifyContent: "center", height: "100%" }} className="align-items-center">
                             <Chart 
                             currentTab={currentTab}

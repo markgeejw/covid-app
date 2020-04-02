@@ -1,7 +1,5 @@
 {
     "supported_regions": {
-        "Australia": ["New South Wales", "Victoria", "Queensland", "Western Australia", "South Australia", "Tasmania", "Australian Capital Territory", "Northern Territory"],
-        "Singapore": [],
         "Afghanistan": [],
         "Albania": [],
         "Algeria": [],
@@ -11,6 +9,7 @@
         "Argentina": [],
         "Armenia": [],
         "Austria": [],
+        "Australia": ["New South Wales", "Victoria", "Queensland", "Western Australia", "South Australia", "Tasmania", "Australian Capital Territory", "Northern Territory"],
         "Azerbaijan": [],
         "Bahamas": [],
         "Bahrain": [],
@@ -141,6 +140,7 @@
         "Senegal": [],
         "Serbia": [],
         "Seychelles": [],
+        "Singapore": [],
         "Slovakia": [],
         "Slovenia": [],
         "Somalia": [],
