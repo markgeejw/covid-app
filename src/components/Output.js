@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Row, Col, Container } from 'react-bootstrap';
+import { Row, Col, Container, Button } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLock, faLockOpen } from "@fortawesome/free-solid-svg-icons";
 import Chart from './Chart';
 
 import { Table, TableBody, TableCell, TableContainer, TableRow, Paper } from '@material-ui/core';
@@ -33,9 +35,21 @@ function formatDate(dateString) {
 }
 
 export default class Output extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { 
+            locked: false,
+            locked_newly_infected: [],
+            locked_hbeds_required: [],
+            locked_icubeds_required: [],
+            locked_vents_required: []
+        }
+    }
     render() {
         const { results, resources, newly_infected, measureWeeks, dates, region, 
-            currentTab, hbeds_required, icubeds_required, vents_required, barHeight } = this.props;
+            currentTab, hbeds_required, icubeds_required, vents_required, barHeight
+        } = this.props;
+        const { locked, locked_newly_infected, locked_hbeds_required, locked_icubeds_required, locked_vents_required } = this.state;
         const outputData = {
             summary: [{
                 title: 'Did the pandemic end in 6 months?',
@@ -140,14 +154,49 @@ export default class Output extends Component {
                 <Row> 
                 <Col lg={8}>
                     <div className="Chart" style={{ position: "sticky", top: barHeight ? 20 + barHeight : 0 }}>
-                        <Row className="Measures"><h4>Model {region.country !== "" ? 
+                        <Row className="Measures">
+                            <h4>Model {region.country !== "" ? 
                                         ("(" + (region.state === "" ? region.country : region.country + ", " + region.state) + ")") : 
-                                        ""}</h4></Row>
+                                        ""}</h4>
+                            {!locked && <Button 
+                            className="ml-auto"
+                            style={{ marginRight: 30 }}
+                            variant="warning"
+                            onClick={() => { 
+                                this.setState({ 
+                                    locked: true,
+                                    locked_newly_infected: newly_infected,
+                                    locked_hbeds_required: hbeds_required,
+                                    locked_icubeds_required: icubeds_required,
+                                    locked_vents_required: vents_required 
+                                })}}>
+                                <FontAwesomeIcon icon={faLock}/> Lock
+                            </Button>}
+                            {locked && <Button 
+                            className="ml-auto"
+                            style={{ marginRight: 30 }}
+                            variant="warning"
+                            onClick={() => { 
+                                this.setState({ 
+                                    locked: false,
+                                    locked_newly_infected: [],
+                                    locked_hbeds_required: [],
+                                    locked_icubeds_required: [],
+                                    locked_vents_required: [] 
+                                })}}>
+                                <FontAwesomeIcon icon={faLockOpen}/> Unlock
+                            </Button>}
+                        </Row>
                         <Row style={{ justifyContent: "center", height: "100%" }} className="align-items-center">
                             <Chart 
                             currentTab={currentTab}
+                            locked={locked}
                             resources={resources} 
                             measureWeeks={measureWeeks} 
+                            locked_newly_infected={locked_newly_infected} 
+                            locked_hbeds_required={locked_hbeds_required}
+                            locked_icubeds_required={locked_icubeds_required}
+                            locked_vents_required={locked_vents_required}
                             newly_infected={newly_infected} 
                             hbeds_required={hbeds_required}
                             icubeds_required={icubeds_required}

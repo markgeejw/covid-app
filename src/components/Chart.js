@@ -19,7 +19,10 @@ export default class Chart extends Component {
     }
 
     render() {
-        const { newly_infected, resources, measureWeeks, dates, hbeds_required, icubeds_required, vents_required, currentTab } = this.props;
+        const { newly_infected, resources, measureWeeks, dates, 
+            hbeds_required, icubeds_required, vents_required, currentTab,
+            locked, locked_newly_infected, locked_hbeds_required, locked_icubeds_required, locked_vents_required
+         } = this.props;
         const { numHospBeds, numICUBeds, numVents } = resources;
 
         const possibleData = [newly_infected, hbeds_required, icubeds_required, vents_required];
@@ -35,11 +38,19 @@ export default class Chart extends Component {
         // Compute weeks
         const [ doNothing, socDist, relaxedLD, sigLD, critLD ] = measureWeeks;
         
-        const data = dates.map((dateString, index) => {
+        const data = [];
+        const possibleLockedData = [locked_newly_infected, locked_hbeds_required, locked_icubeds_required, locked_vents_required];
+        const currentTabLockedData = possibleLockedData[currentTab];
+        const lockedData = [];
+
+        dates.map((dateString, index) => {
             var dateArray = dateString.split("-").map(Number);
             dateArray[1] -= 1;
             const date = Date.UTC(dateArray[0], dateArray[1], dateArray[2]);
-            return [date, currentTabData[index]];
+            data.push([date, currentTabData[index]]);
+            if (locked){
+                lockedData.push([date, currentTabLockedData[index]]);
+            }
         });
 
         var indx = 0;
@@ -141,6 +152,15 @@ export default class Chart extends Component {
                 data: data
             }]
         };
+        if (locked) {
+            options.series.push({
+                name: currentTabName + " (Locked)",
+                data: lockedData,
+                showInLegend: false,
+                color: 'lightgrey',
+                dashStyle: 'dash'
+            })
+        }
 
         return (
             <div style={{ width: "100%", height: "100%" }}>

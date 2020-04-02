@@ -4,6 +4,7 @@ import "./App.css";
 import { Navbar, Nav } from 'react-bootstrap';
 import Model from './components/Model';
 import Home from './components/Home';
+import About from './components/About';
 import {
     BrowserRouter as Router,
     Switch,
@@ -41,6 +42,7 @@ class App extends Component {
                     onClick={() => this.updateRegion(true, "", "")}>
                     COVID-19 Model
                 </Navbar.Brand>
+                <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ml-auto">
                     <Nav.Link 
                         as={Link} 
@@ -48,7 +50,9 @@ class App extends Component {
                         onClick={() => this.updateRegion(true, "", "")}>
                         Home
                     </Nav.Link>
+                    <Nav.Link as={Link} to="/about">About</Nav.Link>
                     </Nav>
+                </Navbar.Collapse>
                 </Navbar>
                 <Switch>
                 <Route exact path="/">
@@ -66,6 +70,9 @@ class App extends Component {
                         state: state
                     }}
                     />}
+                </Route>
+                <Route expact path="/about">
+                    <About/>
                 </Route>
                 </Switch>
                 </Router>
