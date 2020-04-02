@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Row, Col, Container, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLock, faLockOpen } from "@fortawesome/free-solid-svg-icons";
+import { faLock, faLockOpen, faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+import { Tooltip, IconButton } from '@material-ui/core';
 import Chart from './Chart';
 
 import { Table, TableBody, TableCell, TableContainer, TableRow, Paper } from '@material-ui/core';
@@ -158,9 +159,10 @@ export default class Output extends Component {
                             <h4>Model {region.country !== "" ? 
                                         ("(" + (region.state === "" ? region.country : region.country + ", " + region.state) + ")") : 
                                         ""}</h4>
-                            {!locked && <Button 
+                            <div
                             className="ml-auto"
-                            style={{ marginRight: 30 }}
+                            style={{ marginRight: 30 }}>                                
+                            {!locked && <Button 
                             variant="warning"
                             onClick={() => { 
                                 this.setState({ 
@@ -186,6 +188,12 @@ export default class Output extends Component {
                                 })}}>
                                 <FontAwesomeIcon icon={faLockOpen}/> Unlock
                             </Button>}
+                            <Tooltip title="Locking keeps the current plot in place to compare with a different strategy.">
+                                <IconButton style={{ marginLeft: 10, padding: 0 }} size='small'>
+                                    <FontAwesomeIcon icon={faQuestionCircle}/>
+                                </IconButton>
+                            </Tooltip>
+                            </div>
                         </Row>
                         <Row style={{ justifyContent: "center", height: "100%" }} className="align-items-center">
                             <Chart 
