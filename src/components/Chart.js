@@ -20,16 +20,18 @@ export default class Chart extends Component {
 
     render() {
         const { newly_infected, resources, measureWeeks, dates, hbeds_required, icubeds_required, vents_required, currentTab } = this.props;
-        const { numHospBeds, numICUBeds, numVents } = resources;
-
+        const [ numHospBeds_N, numHospBeds_S, numICUBeds_N, numICUBeds_S, numVents_N, numVents_S ] = resources;
         const possibleData = [newly_infected, hbeds_required, icubeds_required, vents_required];
         const dataNames = ["Infected", "Hospital Beds Required", "ICU Beds Required", "Ventilators Required"];
         const currentTabData = possibleData[currentTab];
         const currentTabName = dataNames[currentTab];
         
-        const possiblePlotLines = [ 1000000, numHospBeds, numICUBeds, numVents ];
+        const possiblePlotLines = [ [1000000, -1], 
+                                    [numHospBeds_N, numHospBeds_S], 
+                                    [numICUBeds_N, numICUBeds_S], 
+                                    [numVents_N, numVents_S] ];
         const plotLineNames = ["1 million infected", "Number of Hospital Beds", "Number of ICU Beds", "Number of Ventilators"]
-        const currentTabPlotLine = possiblePlotLines[currentTab];
+        const currentTabPlotLineArray = possiblePlotLines[currentTab];
         const currentTabPlotLineName = plotLineNames[currentTab]
         
         // Compute weeks
@@ -118,14 +120,22 @@ export default class Chart extends Component {
                 },
                 plotLines: [{
                     color: 'red', // Color value
-                    //   dashStyle: 'longdashdot', // Style of the plot line. Default to solid
-                    value: currentTabPlotLine, // Value of where the line will appear
+                    value: currentTabPlotLineArray[0], // Value of where the line will appear
                     width: 2, // Width of the line    
                     zIndex: 2,
                     label: { 
-                        text: currentTabPlotLineName, // Content of the label. 
+                        text: currentTab === 0 ? currentTabPlotLineName : currentTabPlotLineName + " (Normal)", // Content of the label. 
                         align: 'left', // Positioning of the label. 
                     // Default to center. x: +10 // Amount of pixels the label will be repositioned according to the alignment. 
+                    }
+                }, {
+                    color: 'red',
+                    value: currentTabPlotLineArray[1],
+                    width: currentTab === 0 ? 0 : 2,
+                    zIndex: 2,
+                    label: {
+                        text: currentTab === 0 ? "" : currentTabPlotLineName + " (Surge)", // Content of the label. 
+                        align: 'left'
                     }
                 }]
             },

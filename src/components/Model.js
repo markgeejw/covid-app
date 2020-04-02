@@ -30,6 +30,7 @@ export default class Model extends Component {
             ICUBeds:                    ['476', '2.0', '40', '80', '100'],
             // Ventilators
             ventilators:                ['358', '1.0', '40', '80', '300', '100'],
+            actual_resources:           [],
 
             weeklyHosp:                 54173,
 
@@ -99,6 +100,14 @@ export default class Model extends Component {
                     hbeds_required: json.data.hbeds_required,
                     icubeds_required: json.data.icubeds_required,
                     vents_required: json.data.vents_required,
+                    actual_resources: [
+                        json.data.hbed_normal,
+                        json.data.hbed_surge,
+                        json.data.icubed_normal,
+                        json.data.icubed_surge,
+                        json.data.vent_normal,
+                        json.data.vent_surge
+                    ],
                     dates: json.data.dates
                 });
             })
@@ -125,13 +134,15 @@ export default class Model extends Component {
                 const hbeds = json["public hospital beds"] + json["private hospital beds"];
                 const icu_beds = json["icu beds"];
                 const weekly_hosp = json["weekly hospital"];
-                var { hospBeds, ICUBeds } = this.state;
+                var { hospBeds, ICUBeds, ventilators } = this.state;
                 hospBeds[0] = hbeds;
                 ICUBeds[0] = icu_beds;
+                ventilators[0] = Math.round(5.4 / 100000 * json.population);
                 this.setState({
                     population: json.population,
                     hospBeds: hospBeds,
                     ICUBeds: ICUBeds,
+                    ventilators: ventilators,
                     weeklyHosp: weekly_hosp
                 });
 
@@ -161,9 +172,9 @@ export default class Model extends Component {
     }
 
     render() {
-        const { currentTab, measureWeeks, modelParams, r0_params, 
-            hospBeds, ICUBeds, ventilators, 
-            model_results, newly_infected, hbeds_required, icubeds_required, vents_required,
+        const { currentTab, measureWeeks, modelParams, r0_params,
+            hospBeds, ICUBeds, ventilators,
+            model_results, newly_infected, hbeds_required, icubeds_required, vents_required, actual_resources,
             dates, appbarHeight } = this.state;
         const navbarHeight = this.props.navbarHeight;
         const loaded = Boolean(Object.keys(model_results).length);
@@ -230,12 +241,7 @@ export default class Model extends Component {
                     barHeight={appbarHeight + navbarHeight}
                     results={model_results}
                     measureWeeks={measureWeeks}
-                    resources={{
-                        numHospBeds: hospBeds[0],
-                        numICUBeds:  ICUBeds[0],
-                        numVents:    ventilators[0]
-                    }}
-                    region = {{ 
+                    region = {{
                         country: this.props.region.country,
                         state: this.props.region.state
                     }}
@@ -244,7 +250,9 @@ export default class Model extends Component {
                     newly_infected={newly_infected}
                     hbeds_required={hbeds_required}
                     icubeds_required={icubeds_required}
-                    vents_required={vents_required}/>}
+                    vents_required={vents_required}
+                    resources={actual_resources}
+                    />}
                 </div>
             </Col>
         </Row>
