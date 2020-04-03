@@ -71,7 +71,7 @@ class App extends Component {
                     }}
                     />}
                 </Route>
-                <Route expact path="/about">
+                <Route exact path="/about">
                     <About/>
                 </Route>
                 </Switch>
