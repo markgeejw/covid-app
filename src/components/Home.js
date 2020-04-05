@@ -114,7 +114,8 @@ export default class Home extends Component {
                     To use the model, select a country, followed by a state if
                     available. Not all states are available. If no state is
                     selected, the model aggregates data for the selected
-                    country.
+                    country. Due to the complexity of the model, please run this 
+                    website on a desktop/laptop computer or an iPad (not a phone).
                 </p>
                 <div style={{ marginTop: 20, marginBottom: 20 }}>
                     <h4>Country</h4>
