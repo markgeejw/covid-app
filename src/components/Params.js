@@ -158,7 +158,6 @@ export default class Params extends Component {
                                 onChange={event => {
                                     const value = (Number(event.target.value) > 100 && !isInt) ? "100" : event.target.value;
                                     ICUBeds[index] = value;
-                                    console.log(ICUBeds[index]);
                                     updateICUBeds(ICUBeds);
                                 }}
                                 fullWidth

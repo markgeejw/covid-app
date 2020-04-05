@@ -18,7 +18,6 @@ export default class Input extends Component {
 
     toggleInputState = () => {
         this.setState({ modelParamMode: !this.state.modelParamMode });
-        console.log(this.state.modelParamMode)
     }
 
     toggleHowToUse = () => {

@@ -182,7 +182,6 @@ export default class Model extends Component {
                     .then((json) => {
                         json = JSON.parse(json);
                         const cases = json["cases"];
-                        console.log(cases.length);
                         while (cases.length !== 13) {
                             const first = cases.shift();
                             cases[0] += first;
