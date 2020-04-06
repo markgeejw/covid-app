@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Container } from 'react-bootstrap';
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 import { withStyles } from '@material-ui/core/styles';
-import { Slider, Input, Tooltip, IconButton } from '@material-ui/core';
+import { Slider, Tooltip, IconButton } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 
@@ -98,8 +98,7 @@ export default class Measures extends Component {
                             </Row>
                         </Col>
                     </Row>
-                    <Row style={{ paddingLeft: 10, paddingRight: 10 }}>
-                        <Col xs={9}>
+                    <Row style={{ paddingLeft: 15, paddingRight: 15 }}>
                             <Slider1
                             step={1}
                             marks={[{
@@ -120,24 +119,6 @@ export default class Measures extends Component {
                             }}
                             valueLabelDisplay="auto"
                             aria-labelledby="doNothing" />
-                        </Col>
-                        <Col>
-                        <Input
-                            value={measureWeeks[0]}
-                            margin="dense"
-                            onChange={(event) => {
-                                measureWeeks[0] = event.target.value;
-                                this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
-                            }} 
-                            inputProps={{
-                            step: 1,
-                            min: 0,
-                            max: max1,
-                            type: 'number',
-                            'aria-labelledby': 'doNothing',
-                            }}
-                        />
-                        </Col>
                     </Row>
                     <Row>
                         <Col>
@@ -152,8 +133,7 @@ export default class Measures extends Component {
                             </Row>
                         </Col>
                     </Row>
-                    <Row style={{ paddingLeft: 10, paddingRight: 10 }}>
-                        <Col xs={9}>
+                    <Row style={{ paddingLeft: 15, paddingRight: 15 }}>
                             <Slider2
                             step={1}
                             marks={[{
@@ -174,24 +154,6 @@ export default class Measures extends Component {
                             }}
                             valueLabelDisplay="auto"
                             aria-labelledby="socDist" />
-                        </Col>
-                        <Col>
-                            <Input
-                                value={measureWeeks[1]}
-                                margin="dense"
-                                onChange={(event) => {
-                                    measureWeeks[1] = event.target.value;
-                                    this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
-                                }} 
-                                inputProps={{
-                                step: 1,
-                                min: 0,
-                                max: max2,
-                                type: 'number',
-                                'aria-labelledby': 'socDist',
-                                }}
-                            />
-                        </Col>
                     </Row>
                     <Row>
                         <Col>
@@ -206,8 +168,7 @@ export default class Measures extends Component {
                             </Row>
                         </Col>
                     </Row>
-                    <Row style={{ paddingLeft: 10, paddingRight: 10 }}>
-                        <Col xs={9}>
+                    <Row style={{ paddingLeft: 15, paddingRight: 15 }}>
                             <Slider3
                             step={1}
                             marks={[{
@@ -228,24 +189,6 @@ export default class Measures extends Component {
                             }}
                             valueLabelDisplay="auto"
                             aria-labelledby="relaxedLD" />
-                        </Col>
-                        <Col>
-                        <Input
-                            value={measureWeeks[2]}
-                            margin="dense"
-                            onChange={(event) => {
-                                measureWeeks[2] = event.target.value;
-                                this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
-                            }} 
-                            inputProps={{
-                            step: 1,
-                            min: 0,
-                            max: max3,
-                            type: 'number',
-                            'aria-labelledby': 'relaxedLD',
-                            }}
-                        />
-                        </Col>
                     </Row>
                     <Row>
                         <Col>
@@ -260,8 +203,7 @@ export default class Measures extends Component {
                             </Row>
                         </Col>
                     </Row>
-                    <Row style={{ paddingLeft: 10, paddingRight: 10 }}>
-                        <Col xs={9}>
+                    <Row style={{ paddingLeft: 15, paddingRight: 15 }}>
                             <Slider4
                             step={1}
                             marks={[{
@@ -282,24 +224,6 @@ export default class Measures extends Component {
                             }}
                             valueLabelDisplay="auto"
                             aria-labelledby="sigLD" />
-                        </Col>
-                        <Col>
-                        <Input
-                            value={measureWeeks[3]}
-                            margin="dense"
-                            onChange={(event) => {
-                                measureWeeks[3] = event.target.value;
-                                this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
-                            }} 
-                            inputProps={{
-                            step: 1,
-                            min: 0,
-                            max: max4,
-                            type: 'number',
-                            'aria-labelledby': 'sigLD',
-                            }}
-                        />
-                        </Col>
                     </Row>
                     <Row>
                         <Col>
@@ -314,8 +238,7 @@ export default class Measures extends Component {
                             </Row>
                         </Col>
                     </Row>
-                    <Row style={{ paddingLeft: 10, paddingRight: 10 }}>
-                        <Col xs={9}>
+                    <Row style={{ paddingLeft: 15, paddingRight: 15 }}>
                             <Slider5
                             step={1}
                             marks={[{
@@ -336,24 +259,6 @@ export default class Measures extends Component {
                             }}
                             valueLabelDisplay="auto"
                             aria-labelledby="critLD" />
-                        </Col>
-                        <Col>
-                        <Input
-                            value={measureWeeks[4]}
-                            margin="dense"
-                            onChange={(event) => {
-                                measureWeeks[4] = event.target.value;
-                                this.props.eventHandlers.updateMeasureWeeks(measureWeeks);
-                            }} 
-                            inputProps={{
-                            step: 1,
-                            min: 0,
-                            max: max5,
-                            type: 'number',
-                            'aria-labelledby': 'critLD',
-                            }}
-                        />
-                        </Col>
                     </Row>
                 </Container>
             </div>
