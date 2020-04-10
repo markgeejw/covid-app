@@ -98,7 +98,7 @@ export default class Measures extends Component {
                             </Row>
                         </Col>
                     </Row>
-                    <Row style={{ paddingLeft: 15, paddingRight: 15 }}>
+                    <Row style={{ paddingLeft: 15, paddingRight: 20 }}>
                             <Slider1
                             step={1}
                             marks={[{
@@ -133,7 +133,7 @@ export default class Measures extends Component {
                             </Row>
                         </Col>
                     </Row>
-                    <Row style={{ paddingLeft: 15, paddingRight: 15 }}>
+                    <Row style={{ paddingLeft: 15, paddingRight: 20 }}>
                             <Slider2
                             step={1}
                             marks={[{
@@ -168,7 +168,7 @@ export default class Measures extends Component {
                             </Row>
                         </Col>
                     </Row>
-                    <Row style={{ paddingLeft: 15, paddingRight: 15 }}>
+                    <Row style={{ paddingLeft: 15, paddingRight: 20 }}>
                             <Slider3
                             step={1}
                             marks={[{
@@ -203,7 +203,7 @@ export default class Measures extends Component {
                             </Row>
                         </Col>
                     </Row>
-                    <Row style={{ paddingLeft: 15, paddingRight: 15 }}>
+                    <Row style={{ paddingLeft: 15, paddingRight: 20 }}>
                             <Slider4
                             step={1}
                             marks={[{
@@ -238,7 +238,7 @@ export default class Measures extends Component {
                             </Row>
                         </Col>
                     </Row>
-                    <Row style={{ paddingLeft: 15, paddingRight: 15 }}>
+                    <Row style={{ paddingLeft: 15, paddingRight: 20 }}>
                             <Slider5
                             step={1}
                             marks={[{

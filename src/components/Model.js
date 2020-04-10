@@ -38,9 +38,10 @@ export default class Model extends Component {
             icubeds_required: [],
             vents_required: [],
             dates: [],
-            currentTab: 0,
+            currentTab: 0
         };
         this.appbar = React.createRef();
+        this.resize = this.resize.bind(this);
     }
 
     updateMeasureWeeks = (measureWeeks) => {
@@ -122,8 +123,17 @@ export default class Model extends Component {
             })
             .catch((err) => err);
     };
+    
+    resize() {
+        let isMobile = (window.innerWidth <= 1199);
+        if (isMobile !== this.state.isMobile) {
+            this.setState({isMobile: isMobile});
+        }
+    }
 
     componentDidMount() {
+        window.addEventListener("resize", this.resize);
+        this.resize();
         this.setState({ appbarHeight: this.appbar.current.clientHeight });
         var { country, state } = this.props.region;
         country = country.replace(/ /g, "_");
@@ -194,6 +204,10 @@ export default class Model extends Component {
             .catch((err) => console.log(err));
     }
 
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.resize);
+    }
+
     render() {
         const {
             currentTab,
@@ -211,6 +225,7 @@ export default class Model extends Component {
             actual_resources,
             dates,
             appbarHeight,
+            isMobile
         } = this.state;
         const navbarHeight = this.props.navbarHeight;
         return (
@@ -259,7 +274,7 @@ export default class Model extends Component {
                         />
                     </Tabs>
                 </AppBar>
-                <Col xs={3} style={{ paddingRight: 0 }}>
+                <Col md={3} style={{ paddingRight: 0 }}>
                     <div
                         className="Fixed border-right border-gray"
                         style={{
@@ -292,13 +307,13 @@ export default class Model extends Component {
                     </div>
                 </Col>
                 <Col
-                    xs={9}
+                    md={9}
                     style={{ backgroundColor: "#fefefa", paddingLeft: 0 }}
                 >
                     <div
                         style={{
                             paddingTop:
-                                appbarHeight + navbarHeight
+                                appbarHeight + navbarHeight && !isMobile
                                     ? 20 + appbarHeight + navbarHeight
                                     : 0,
                         }}
@@ -319,7 +334,6 @@ export default class Model extends Component {
                             vents_required={vents_required}
                             resources={actual_resources}
                         />
-                        }
                     </div>
                 </Col>
             </Row>

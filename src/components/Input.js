@@ -67,7 +67,6 @@ export default class Input extends Component {
                         <Button onClick={this.toggleInputState} style={{ width: "100%" }}><FontAwesomeIcon icon={faChevronCircleLeft}/> Done</Button>
                     </Row>
                 </div>}
-            {/* Instructions */}
                 {showInstructions && <Instructions/>}
                 {showInstructions && <div>
                     <Row style={{ marginTop: 30, margin: 20 }}>
