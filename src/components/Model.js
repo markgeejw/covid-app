@@ -3,6 +3,7 @@ import { Row, Col } from "react-bootstrap";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import loading_img from '../assets/loading_img.gif';
 
 import Input from "./Input";
 import Output from "./Output";
@@ -123,7 +124,7 @@ export default class Model extends Component {
             })
             .catch((err) => err);
     };
-    
+
     resize() {
         let isMobile = (window.innerWidth <= 1199);
         if (isMobile !== this.state.isMobile) {
@@ -228,6 +229,7 @@ export default class Model extends Component {
             isMobile
         } = this.state;
         const navbarHeight = this.props.navbarHeight;
+        const loaded = Boolean(Object.keys(model_results).length);
         return (
             <Row style={{ margin: 0 }}>
                 <AppBar
@@ -310,15 +312,19 @@ export default class Model extends Component {
                     md={9}
                     style={{ backgroundColor: "#fefefa", paddingLeft: 0 }}
                 >
-                    <div
-                        style={{
+                    <div style={{ 
                             paddingTop:
                                 appbarHeight + navbarHeight && !isMobile
                                     ? 20 + appbarHeight + navbarHeight
-                                    : 0,
+                                    : 10, 
+                            minHeight: "100vh", 
+                            display: "flex", 
+                            alignItems: "center", 
+                            justifyContent: "center" 
                         }}
                     >
-                        <Output
+                    {!loaded && <img alt="loading" src={loading_img} style={{ width: "15%" }}/>}
+                    {loaded && <Output
                             barHeight={appbarHeight + navbarHeight}
                             results={model_results}
                             measureWeeks={measureWeeks}
@@ -333,7 +339,7 @@ export default class Model extends Component {
                             icubeds_required={icubeds_required}
                             vents_required={vents_required}
                             resources={actual_resources}
-                        />
+                        />}
                     </div>
                 </Col>
             </Row>
